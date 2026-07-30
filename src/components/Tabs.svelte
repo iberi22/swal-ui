@@ -1,22 +1,56 @@
 <script>
-  export let tabs = []; // [{id, label}]
-  export let active = '';
+  // tabs: [{ id, label }]
+  let {
+    tabs = [],
+    active = $bindable(''),
+    children,
+  } = $props();
 </script>
 
-<div class="flex border-b border-[var(--swal-border)]">
+<div class="swal-tabs" role="tablist">
   {#each tabs as tab}
     <button
-      class="px-4 py-2 text-sm font-medium transition-colors relative"
-      class:text-[var(--swal-accent)]={tab.id === active}
-      class:text-[var(--swal-text-muted)]={tab.id !== active}
-      on:click={() => active = tab.id}
+      role="tab"
+      aria-selected={tab.id === active}
+      class="tab"
+      class:active={tab.id === active}
+      onclick={() => (active = tab.id)}
     >
       {tab.label}
       {#if tab.id === active}
-        <span class="absolute bottom-0 left-0 right-0 h-0.5 bg-[var(--swal-accent)]" />
+        <span class="indicator" aria-hidden="true"></span>
       {/if}
     </button>
   {/each}
 </div>
 
-<slot />
+{@render children?.()}
+
+<style>
+  .swal-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--swal-border);
+    font-family: var(--swal-font);
+  }
+  .tab {
+    position: relative;
+    padding: var(--swal-space-2) var(--swal-space-4);
+    font-size: var(--swal-font-size-sm);
+    font-weight: 500;
+    color: var(--swal-text-muted);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: color var(--swal-transition-fast);
+  }
+  .tab:hover { color: var(--swal-text-secondary); }
+  .tab.active { color: var(--swal-accent); }
+  .indicator {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--swal-accent);
+  }
+</style>

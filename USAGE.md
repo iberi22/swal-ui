@@ -1,442 +1,298 @@
-# @swal/ui — SWAL Design System Usage Guide
+# @swal/ui — Guía de uso
 
-> Design system unificado para todas las aplicaciones del ecosistema SWAL.
-> Tema: **Edge-Hive** — dark slate con acentos cyan/orange.
+> Design system unificado del ecosistema SWAL.
+> Tema: **Edge-Hive** — portado fielmente desde `edge-hive-admin`.
+> **Svelte 5 (runes) · Cero dependencias · CSS scoped** — no requiere Tailwind.
 
 ---
 
-## Installation
+## Instalación
 
 ```bash
-# En un workspace npm/pnpm
+# Workspace npm/pnpm
 npm install @swal/ui
-
-# Importar tokens de diseño (una vez en entry point)
-import '@swal/ui/tokens';
 ```
 
-O desde un `package.json` local:
-
 ```json
-{
-  "dependencies": {
-    "@swal/ui": "workspace:*"
-  }
-}
+{ "dependencies": { "@swal/ui": "workspace:*" } }
+```
+
+Importar tokens **una sola vez** en el entry point (`main.ts`, `layout.astro`, `+layout.svelte`):
+
+```css
+@import '@swal/ui/tokens'; /* theme.css (incluye colors.css) */
 ```
 
 ---
 
 ## Design Tokens
 
-Importar en el entry point de la app:
+Variables CSS en `:root`:
 
-```css
-@import '@swal/ui/tokens';
-```
-
-Esto expone variables CSS en `:root`:
-
-| Token | Default | Description |
+| Token | Default | Descripción |
 |-------|---------|-------------|
 | `--swal-bg` | `#020617` | Fondo principal (slate-950) |
-| `--swal-surface` | `rgba(15, 23, 42, 0.8)` | Superficie de tarjetas |
-| `--swal-surface-hover` | `rgba(30, 41, 59, 0.6)` | Hover de superficies |
-| `--swal-elevated` | `#0f172a` | Elementos elevados (modals, dropdowns) |
-| `--swal-overlay` | `rgba(2, 6, 23, 0.8)` | Overlay de modales |
+| `--swal-surface` | `rgba(15,23,42,0.8)` | Superficie de tarjetas |
+| `--swal-surface-hover` | `rgba(30,41,59,0.6)` | Hover de superficies |
+| `--swal-surface-active` | `rgba(51,65,85,0.4)` | Estado activo / skeletons |
+| `--swal-elevated` | `#0f172a` | Elementos elevados (modals) |
+| `--swal-elevated-850` | `#151e2e` | slate-850 del origen |
+| `--swal-overlay` | `rgba(2,6,23,0.8)` | Overlay de modales |
+| `--swal-void` | `#000` | Negro terminal (hive-void) |
 | `--swal-border` | `rgba(255,255,255,0.08)` | Borde estándar |
-| `--swal-accent` | `#06b6d4` | Color de acento (cyan) |
+| `--swal-border-light` | `rgba(255,255,255,0.12)` | Borde marcado |
+| `--swal-accent` | `#06b6d4` | Acento cyan (hive-cyan, datos) |
 | `--swal-accent-hover` | `#22d3ee` | Hover del acento |
-| `--swal-success` | `#10b981` | Verde éxito |
-| `--swal-warning` | `#f59e0b` | Ámbar advertencia |
-| `--swal-danger` | `#ef4444` | Rojo error |
+| `--swal-accent-muted` | `rgba(6,182,212,0.12)` | Fondo sutil cyan |
+| `--swal-accent-orange` | `#f97316` | Acento orange (hive-orange, sistema/nav) |
+| `--swal-accent-orange-muted` | `rgba(249,115,22,0.12)` | Fondo sutil orange |
+| `--swal-success` / `--swal-warning` / `--swal-danger` / `--swal-info` | `#10b981` / `#f59e0b` / `#ef4444` / `#06b6d4` | Semánticos |
 | `--swal-text` | `#f1f5f9` | Texto primario |
 | `--swal-text-secondary` | `#94a3b8` | Texto secundario |
 | `--swal-text-muted` | `#64748b` | Texto muted |
-| `--swal-font` | `Inter, system-ui, sans-serif` | Font familia principal |
-| `--swal-font-mono` | `JetBrains Mono, Fira Code, monospace` | Font monospace |
-| `--swal-shadow` | `0 4px 12px rgba(0,0,0,0.4)` | Sombra estándar |
-| `--swal-shadow-lg` | `0 8px 32px rgba(0,0,0,0.6)` | Sombra grande |
-| `--swal-shadow-glow-cyan` | `0 0 20px rgba(6,182,212,0.15)` | Glow cyan |
+| `--swal-font` | `Inter, system-ui, sans-serif` | Fuente UI |
+| `--swal-font-mono` | `Fira Code, JetBrains Mono, monospace` | Fuente datos/terminal |
+| `--swal-shadow-neon-cyan` | `0 0 15px …, 0 0 30px …` | Neon cyan (valores del origen) |
+| `--swal-shadow-neon-orange` | igual en orange | Neon orange |
+| `--swal-radius` / `-sm` / `-lg` | `8px` / `4px` / `12px` | Radios |
+| `--swal-transition-fast` / `-slow` | `150ms` / `300ms` | Transiciones |
+| `--swal-ease-out` | `cubic-bezier(0.16,1,0.3,1)` | Ease del `.animate-in` original |
 
-### Utility Classes
+### Clases utilitarias
 
-```css
-@import '@swal/ui/tokens'; /* incluye theme.css con utilidades */
+| Clase | Descripción |
+|-------|-------------|
+| `.swal-grid-bg` | Grid background estilo edge-hive |
+| `.swal-glass` | Glass morphism (⚠️ costoso en móvil: solo superficies pequeñas) |
+| `.swal-scrollbar` | Scrollbar industrial 4px (webkit + Firefox) |
+| `.swal-neon-cyan` / `.swal-neon-orange` | Text-shadow neon |
+| `.swal-scanline` | Efecto scanline |
+| `.swal-safe-area` | Padding `env(safe-area-inset-*)` para PWA móvil |
+| `.swal-dvh` | `min-height: 100dvh` (fix viewport móvil) |
+| `.swal-touch` | `touch-action: manipulation` + sin tap-highlight |
+| `.swal-enter` / `.swal-enter-scale` | Entrada fade / scale |
+| `.swal-animate-in` | Duración+easing base (combinar con keyframes) |
+| `.swal-marquee` / `.swal-flicker` / `.swal-glitch` | Keyframes del origen (ticker, CRT) |
+| `.swal-ping` / `.swal-pulse` / `.swal-spin` | Animaciones de estado |
+| `.swal-bg` `.swal-surface` `.swal-elevated` `.swal-text` `.swal-accent` `.swal-success` … | Colores (ver `colors.css`) |
 
-.swal-grid-bg     /* Grid background estilo edge-hive */
-.swal-glass        /* Glass morphism sutil */
-.swal-enter        /* Animación fade-in */
-.swal-enter-scale  /* Animación scale-in */
-```
-
-También clases de color en `@swal/ui/tokens` (vía `colors.css`):
-
-| Class | CSS prop |
-|-------|----------|
-| `.swal-bg` | `background: var(--swal-bg)` |
-| `.swal-surface` | `background: var(--swal-surface)` |
-| `.swal-elevated` | `background: var(--swal-elevated)` |
-| `.swal-text` | `color: var(--swal-text)` |
-| `.swal-text-secondary` | `color: var(--swal-text-secondary)` |
-| `.swal-text-muted` | `color: var(--swal-text-muted)` |
-| `.swal-border` | `border-color: var(--swal-border)` |
-| `.swal-accent` | `color: var(--swal-accent)` |
-| `.swal-accent-bg` | `background: var(--swal-accent)` |
-| `.swal-success` | `color: var(--swal-success)` |
-| `.swal-warning` | `color: var(--swal-warning)` |
-| `.swal-danger` | `color: var(--swal-danger)` |
-| `.swal-info` | `color: var(--swal-info)` |
+Todas las animaciones respetan `prefers-reduced-motion`.
 
 ---
 
-## Components
-
-Import named:
+## Componentes
 
 ```svelte
-import { Button, Card, Badge, Modal, Table, Tabs, Input, Skeleton } from '@swal/ui';
+import { Button, Card, Badge, Modal, Table, Tabs, Input, Skeleton,
+         StatusBadge, LoadingState, Terminal, CommandPalette, Toaster } from '@swal/ui';
 ```
 
-O import directo:
-
-```svelte
-import Button from '@swal/ui/components/Button.svelte';
-```
-
----
+API **Svelte 5**: eventos como props (`onclick`, `onclose`), contenido como snippet (`children`), y `bind:` en props `$bindable`.
 
 ### `<Button>`
 
-Botones con variantes de color y tamaño.
-
-**Props:**
-
-| Prop | Type | Default | Description |
+| Prop | Tipo | Default | Descripción |
 |------|------|---------|-------------|
-| `variant` | `'primary' \| 'secondary' \| 'ghost' \| 'danger'` | `'primary'` | Estilo visual |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Tamaño |
-| `disabled` | `boolean` | `false` | Deshabilitado |
-| `loading` | `boolean` | `false` | Estado de carga (spinner) |
-| `fullWidth` | `boolean` | `false` | Ancho completo |
-
-**Uso:**
+| `variant` | `'primary'\|'orange'\|'secondary'\|'ghost'\|'danger'` | `'primary'` | Estilo |
+| `size` | `'sm'\|'md'\|'lg'` | `'md'` | Tamaño |
+| `disabled` / `loading` / `fullWidth` | `boolean` | `false` | Estados |
+| `onclick` | `function` | — | Click handler |
 
 ```svelte
-<Button variant="primary" size="md" on:click={handleClick}>
-  Click me
-</Button>
-
-<Button variant="secondary" loading={true}>
-  Processing...
-</Button>
-
-<Button variant="danger" size="sm">
-  Delete
-</Button>
+<Button variant="primary" onclick={save}>Guardar</Button>
+<Button variant="orange" loading={deploying}>Deploy</Button>
+<Button variant="danger" size="sm">Eliminar</Button>
 ```
-
----
 
 ### `<Card>`
 
-Contenedor tipo tarjeta con múltiples variantes visuales.
-
-**Props:**
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'default' \| 'surface' \| 'elevated' \| 'glass'` | `'default'` | Estilo visual |
-| `padding` | `'none' \| 'sm' \| 'md' \| 'lg'` | `'md'` | Padding interno |
-| `hoverable` | `boolean` | `false` | Efecto hover + cursor pointer |
-
-**Uso:**
-
-```svelte
-<Card variant="elevated">
-  <h2>Contenido</h2>
-  <p>Este es un card elevado con sombra.</p>
-</Card>
-
-<Card variant="glass" hoverable={true} on:click={handleSelect}>
-  <span>Clickable card</span>
-</Card>
-```
-
----
+| Prop | Tipo | Default |
+|------|------|---------|
+| `variant` | `'default'\|'surface'\|'elevated'\|'glass'` | `'default'` |
+| `padding` | `'none'\|'sm'\|'md'\|'lg'` | `'md'` |
+| `hoverable` | `boolean` | `false` |
+| `onclick` | `function` | — (si se pasa, renderiza `<button>` accesible) |
 
 ### `<Badge>`
 
-Etiqueta pequeña para estados, categorías o notificaciones.
+| Prop | Tipo | Default |
+|------|------|---------|
+| `variant` | `'success'\|'warning'\|'danger'\|'info'\|'orange'\|'neutral'` | `'neutral'` |
+| `size` | `'sm'\|'md'` | `'sm'` |
+| `pulse` | `boolean` | `false` |
+| `dot` | `boolean` | `true` salvo neutral |
 
-**Props:**
+### `<StatusBadge>` *(portado de edge-hive-admin)*
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'success' \| 'warning' \| 'danger' \| 'info' \| 'neutral'` | `'neutral'` | Color semántico |
-| `size` | `'sm' \| 'md'` | `'sm'` | Tamaño |
-| `pulse` | `boolean` | `false` | Animación pulse (para live indicators) |
+Dot de estado con anillo ping expansivo.
 
-**Uso:**
+| Prop | Tipo | Default |
+|------|------|---------|
+| `status` | `'healthy'\|'warning'\|'error'\|'offline'` | `'offline'` |
+| `pulse` | `boolean` | `true` (anillo ping; no aplica a `offline`) |
 
 ```svelte
-<Badge variant="success">Active</Badge>
-<Badge variant="danger" pulse={true}>Live</Badge>
-<Badge variant="warning">Pending</Badge>
-<Badge variant="info">Info</Badge>
-<Badge variant="neutral" size="md">Default</Badge>
+<StatusBadge status="healthy" />
 ```
 
----
+### `<Modal>` *(portado fiel: scroll-lock, blur, gradientes)*
 
-### `<Modal>`
+| Prop | Tipo | Default |
+|------|------|---------|
+| `open` | `boolean` (`bind:open`) | `false` |
+| `title` | `string` | `''` |
+| `size` | `'sm'\|'md'\|'lg'` | `'md'` |
+| `icon` | `snippet` | — |
+| `onclose` | `function` | — |
 
-Modal dialog con backdrop, título configurable, y cierre por Escape/click fuera.
-
-**Props:**
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `open` | `boolean` | `false` | Controla visibilidad |
-| `title` | `string` | `''` | Título del modal |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Ancho máximo |
-
-**Events:**
-
-| Event | Detail | Description |
-|-------|--------|-------------|
-| `close` | — | Se dispara al cerrar (Escape, backdrop click, botón X) |
-
-**Uso:**
+Cierra con Escape, backdrop o botón X. Bloquea el scroll del body mientras está abierto. Body scrolleable (`max-height: 80vh`) con `.swal-scrollbar`.
 
 ```svelte
-<script>
-  import { Modal } from '@swal/ui';
-  let showModal = false;
-</script>
-
-<Button on:click={() => showModal = true}>Open Modal</Button>
-
-<Modal bind:open={showModal} title="Confirm Action" size="sm" on:close={() => showModal = false}>
-  <p>Are you sure?</p>
-  <div class="flex gap-2 mt-4">
-    <Button variant="secondary" on:click={() => showModal = false}>Cancel</Button>
-    <Button variant="danger" on:click={confirmAction}>Confirm</Button>
-  </div>
+<Modal bind:open={show} title="Confirmar" size="sm">
+  <p>¿Seguro?</p>
+  <Button variant="danger" onclick={confirm}>Confirmar</Button>
 </Modal>
 ```
 
----
+### Toasts: `<Toaster>` + `toast` *(portado de ToastContext)*
+
+```svelte
+<script>
+  import { Toaster } from '@swal/ui';
+  import { toast } from '@swal/ui/toast';
+</script>
+
+<!-- Una sola vez, en el layout raíz -->
+<Toaster />
+```
+
+```js
+toast.success('Guardado', 'OK');            // auto-dismiss 5s
+toast.error('Falló la conexión');
+toast.warning('Uso de disco al 90%');
+toast.info('Sincronizando…');
+const id = toast.loading('Desplegando…');   // sin auto-dismiss
+toast.dismiss(id);                          // cierre manual
+```
+
+Incluye iconos por tipo, scanline decorativa y barra de progreso de auto-dismiss (como el original).
+
+### `<CommandPalette>` *(portado, generalizado)*
+
+| Prop | Tipo | Default |
+|------|------|---------|
+| `open` | `boolean` (`bind:open`) | `false` |
+| `items` | `[{ id, label, hint?, action() }]` | `[]` |
+| `placeholder` | `string` | `'Type a command or search...'` |
+| `footer` | `string` | `'SWAL Command'` |
+
+Navegación con ↑↓ / Enter / Escape, filtro en vivo, foco automático. El atajo ⌘K lo implementa la app:
+
+```svelte
+<script>
+  let paletteOpen = $state(false);
+  const items = [
+    { id: 'dash', label: 'Go to Dashboard', action: () => goto('/') },
+    { id: 'deploy', label: 'Deploy', hint: '⌘D', action: deploy },
+  ];
+</script>
+
+<svelte:window onkeydown={(e) => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); paletteOpen = !paletteOpen; }
+}} />
+
+<CommandPalette bind:open={paletteOpen} {items} />
+```
+
+### `<Terminal>` *(portado)*
+
+| Prop | Tipo | Default |
+|------|------|---------|
+| `logs` | `[{ id, timestamp, level, service, message }]` | `[]` |
+| `title` | `string` | `'STD_OUT >> SWAL_RUNTIME'` |
+| `prompt` | `string` | `'root@swal:~$'` |
+| `height` | `string` | `'24rem'` |
+
+Colores por nivel (`ERROR/WARN/DEBUG/INFO`), auto-scroll suave al fondo, cursor parpadeante.
+
+### `<LoadingState>` *(portado)*
+
+| Prop | Tipo | Default |
+|------|------|---------|
+| `message` | `string` | `'Loading...'` |
+| `height` | `string` | `'16rem'` |
 
 ### `<Table>`
 
-Tabla responsive con columnas configurables.
-
-**Props:**
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `columns` | `[{key, label, width?}]` | `[]` | Definición de columnas |
-| `rows` | `[{key: value}]` | `[]` | Datos de filas |
-| `variant` | `'default' \| 'compact'` | `'default'` | Densidad visual |
-
-**Uso:**
-
-```svelte
-<script>
-  const columns = [
-    { key: 'name', label: 'Strategy' },
-    { key: 'pnl', label: 'PnL' },
-    { key: 'trades', label: 'Trades' },
-  ];
-  const rows = [
-    { name: 'ScalperV2', pnl: '+$1,250', trades: 142 },
-    { name: 'GridBotX', pnl: '-$320', trades: 89 },
-  ];
-</script>
-
-<Table {columns} {rows} />
-```
-
----
+`columns: [{ key, label, width? }]`, `rows: [{ key: value }]`, `variant: 'default'|'compact'`.
 
 ### `<Tabs>`
 
-Navegación por tabs con indicador animado.
-
-**Props:**
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `tabs` | `[{id, label}]` | `[]` | Array de tabs |
-| `active` | `string` | `''` | Tab activa (bind:active) |
-
-**Uso:**
-
-```svelte
-<script>
-  import { Tabs } from '@swal/ui';
-  const tabItems = [
-    { id: 'overview', label: 'Overview' },
-    { id: 'trades', label: 'Trades' },
-    { id: 'risk', label: 'Risk' },
-  ];
-  let activeTab = 'overview';
-</script>
-
-<Tabs tabs={tabItems} bind:active={activeTab} />
-
-{#if activeTab === 'overview'}
-  <div class="p-4">Overview content</div>
-{:else if activeTab === 'trades'}
-  <div class="p-4">Trades content</div>
-{:else if activeTab === 'risk'}
-  <div class="p-4">Risk content</div>
-{/if}
-```
-
----
+`tabs: [{ id, label }]`, `bind:active`. Roles ARIA `tablist`/`tab` incluidos.
 
 ### `<Input>`
 
-Input de texto con label, placeholder y estado de error.
-
-**Props:**
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `string` | `''` | Valor (bind:value) |
-| `placeholder` | `string` | `''` | Placeholder |
-| `type` | `string` | `'text'` | Tipo de input |
-| `label` | `string` | `''` | Label sobre el input |
-| `error` | `string` | `''` | Mensaje de error |
-
-**Uso:**
-
-```svelte
-<script>
-  import { Input } from '@swal/ui';
-  let email = '';
-  let errorMsg = '';
-</script>
-
-<Input
-  bind:value={email}
-  label="Email"
-  type="email"
-  placeholder="user@example.com"
-  error={errorMsg}
-/>
-
-<Input bind:value={search} placeholder="Search..." />
-```
-
----
+`bind:value`, `label`, `type`, `placeholder`, `error`. Label/error asociados con `for`/`aria-describedby`.
 
 ### `<Skeleton>`
 
-Placeholder de carga con animación pulse.
-
-**Props:**
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `width` | `string` | `'100%'` | Ancho (cualquier valor CSS) |
-| `height` | `string` | `'20px'` | Alto |
-| `variant` | `'text' \| 'card' \| 'circle'` | `'text'` | Forma del skeleton |
-
-**Uso:**
-
-```svelte
-<Skeleton width="200px" height="16px" />
-<Skeleton variant="circle" width="40px" height="40px" />
-<Skeleton variant="card" width="100%" />
-```
+`variant: 'text'|'card'|'circle'`, `width`, `height`.
 
 ---
 
-## Motion Utilities
-
-Import desde `@swal/ui/motion`:
+## Motion (transiciones Svelte)
 
 ```svelte
 <script>
   import { swalFade, swalSlide } from '@swal/ui/motion';
 </script>
 
-<div use:swalFade={{ duration: 200 }}>
-  Fade in content
-</div>
-
-<div use:swalSlide={{ direction: 'up', distance: 8, duration: 300 }}>
-  Slide in content
-</div>
+<div transition:swalFade={{ duration: 200 }}>…</div>
+<div transition:swalSlide={{ direction: 'up', distance: 8 }}>…</div>
 ```
 
-### `swalFade(node, opts)`
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `duration` | `number` | `200` | Duración en ms |
-| `delay` | `number` | `0` | Delay en ms |
-
-### `swalSlide(node, opts)`
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `duration` | `number` | `200` | Duración en ms |
-| `delay` | `number` | `0` | Delay en ms |
-| `distance` | `number` | `8` | Distancia en px |
-| `direction` | `'up' \| 'down' \| 'left' \| 'right'` | `'up'` | Dirección |
+> En Astro, las transiciones solo corren en islas hidratadas (`client:*`).
+> Para HTML estático usa las clases CSS `.swal-enter` / `.swal-enter-scale`.
 
 ---
+
+## Uso con Astro (PWA móvil)
+
+```astro
+---
+// layout.astro
+import '@swal/ui/tokens';
+---
+<body class="swal-dvh swal-safe-area swal-touch">
+  <slot />
+</body>
+```
+
+- Hidrata solo lo interactivo: `<Button client:visible />`, `<Terminal client:idle />`.
+- Card/Badge/Table sin interactividad: déjalos estáticos (HTML puro, cero JS).
+- Evita `.swal-glass` en superficies grandes (costo de GPU en móvil).
+- Aplica `.swal-safe-area` al contenedor raíz para notch/status bar.
 
 ## Theming
 
-### Edge-Hive (default)
-
-El tema por defecto es Edge-Hive: fondo slate-950 oscuro con bordes sutiles `rgba(255,255,255,0.08)`, acento cyan (`#06b6d4`) y grid background opcional.
-
-```css
-/* Activar grid background en cualquier contenedor */
-<div class="swal-grid-bg">...</div>
-```
-
-### Custom Accent
-
-Para cambiar el color de acento, sobreescribe las variables en tu CSS:
-
 ```css
 :root {
-  --swal-accent: #10b981;         /* emerald */
+  --swal-accent: #10b981;        /* emerald */
   --swal-accent-hover: #34d399;
-  --swal-accent-muted: rgba(16, 185, 129, 0.12);
-  --swal-shadow-glow-cyan: 0 0 20px rgba(16, 185, 129, 0.15); /* rename if needed */
+  --swal-accent-muted: rgba(16,185,129,0.12);
 }
 ```
 
----
-
-## Best Practices
-
-1. **Import tokens una sola vez** en tu entry point (`main.ts`, `layout.astro`, `+layout.svelte`).
-2. **Named imports** son más legibles: `import { Button, Card } from '@swal/ui'`.
-3. **Motion utilities** son opcionales — solo importa si usas animaciones.
-4. **CSS variables** están disponibles globalmente tras importar tokens.
-5. **Svelte 5 compatible** — todos los componentes funcionan con Svelte 4 y 5.
-
----
-
 ## Package Exports
 
-| Export path | Content |
-|-------------|---------|
-| `@swal/ui/tokens` | Design tokens CSS (theme.css + colors.css) |
-| `@swal/ui/components/*` | Componentes Svelte individuales |
-| `@swal/ui/motion` | Utilidades de animación (swalFade, swalSlide) |
-
----
+| Export | Contenido |
+|--------|-----------|
+| `@swal/ui` | Todos los componentes |
+| `@swal/ui/components/*.svelte` | Componente individual |
+| `@swal/ui/tokens` | theme.css + colors.css |
+| `@swal/ui/motion` | swalFade, swalSlide |
+| `@swal/ui/toast` | store `toast` + `toasts` |
 
 ## License
 
-SWAL Ecosystem — Internal use only.
+SWAL Ecosystem — AGPL-3.0.

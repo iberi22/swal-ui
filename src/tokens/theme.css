@@ -1,6 +1,7 @@
 /* ═══════════════════════════════════════════════
    SWAL Design Tokens
-   Tema: Edge-Hive Inspired — Dark slate con acentos sutiles
+   Tema: Edge-Hive — portado fielmente desde edge-hive-admin
+   Dark slate con acentos cyan/orange, estética industrial.
    ═══════════════════════════════════════════════ */
 
 :root {
@@ -10,7 +11,9 @@
   --swal-surface-hover: rgba(30, 41, 59, 0.6); /* slate-800/60 */
   --swal-surface-active: rgba(51, 65, 85, 0.4); /* slate-700/40 */
   --swal-elevated: #0f172a;       /* slate-900 */
+  --swal-elevated-850: #151e2e;   /* slate-850 (custom del origen) */
   --swal-overlay: rgba(2, 6, 23, 0.8); /* slate-950/80 */
+  --swal-void: #000000;           /* hive-void — terminal black */
 
   /* ─── Bordes (edge-hive usa white/10) ─── */
   --swal-border: rgba(255, 255, 255, 0.08);
@@ -26,26 +29,32 @@
   --swal-text-inverse: #020617;
 
   /* ─── Acentos (Edge-Hive palette) ─── */
-  --swal-accent: #06b6d4;         /* cyan-500 — hive-cyan */
+  --swal-accent: #06b6d4;         /* cyan-500 — hive-cyan (data/stable) */
   --swal-accent-hover: #22d3ee;   /* cyan-400 */
   --swal-accent-muted: rgba(6, 182, 212, 0.12);
-  --swal-accent-orange: #f97316;  /* orange-500 — hive-orange */
+  --swal-accent-orange: #f97316;  /* orange-500 — hive-orange (system/nav) */
+  --swal-accent-orange-muted: rgba(249, 115, 22, 0.12);
   --swal-success: #10b981;        /* emerald-500 */
   --swal-warning: #f59e0b;
   --swal-danger: #ef4444;
   --swal-info: #06b6d4;
 
-  /* ─── Sombras (edge-hive style) ─── */
+  /* ─── Sombras ─── */
   --swal-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
   --swal-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   --swal-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
-  --swal-shadow-glow-cyan: 0 0 20px rgba(6, 182, 212, 0.15);
-  --swal-shadow-glow-orange: 0 0 20px rgba(249, 115, 22, 0.15);
-  --swal-shadow-glow-emerald: 0 0 20px rgba(16, 185, 129, 0.15);
+  /* Neon (valores exactos del origen: shadow-neon-cyan/orange) */
+  --swal-shadow-neon-cyan: 0 0 15px rgba(6, 182, 212, 0.3), 0 0 30px rgba(6, 182, 212, 0.1);
+  --swal-shadow-neon-orange: 0 0 15px rgba(249, 115, 22, 0.3), 0 0 30px rgba(249, 115, 22, 0.1);
+  --swal-shadow-neon-emerald: 0 0 15px rgba(16, 185, 129, 0.3), 0 0 30px rgba(16, 185, 129, 0.1);
+  /* Aliases legacy (mantener compat con 0.1.0) */
+  --swal-shadow-glow-cyan: var(--swal-shadow-neon-cyan);
+  --swal-shadow-glow-orange: var(--swal-shadow-neon-orange);
+  --swal-shadow-glow-emerald: var(--swal-shadow-neon-emerald);
 
-  /* ─── Tipografía ─── */
+  /* ─── Tipografía (Inter UI + Fira Code data, como el origen) ─── */
   --swal-font: 'Inter', system-ui, -apple-system, sans-serif;
-  --swal-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --swal-font-mono: 'Fira Code', 'JetBrains Mono', monospace;
   --swal-font-size-xs: 0.75rem;
   --swal-font-size-sm: 0.875rem;
   --swal-font-size: 1rem;
@@ -67,7 +76,7 @@
   --swal-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --swal-transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
   --swal-transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
-  --swal-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --swal-ease-out: cubic-bezier(0.16, 1, 0.3, 1); /* ease del .animate-in original */
   --swal-ease-in: cubic-bezier(0.4, 0, 1, 1);
 }
 
@@ -79,15 +88,69 @@
   background-size: 40px 40px;
 }
 
-/* ─── Glass morphism sutil ─── */
+/* ─── Glass morphism sutil ───
+   Nota: backdrop-filter es costoso en GPUs móviles débiles.
+   Úsalo en superficies pequeñas (modals, toasts), no en pantallas completas. */
 .swal-glass {
-  background: rgba(17, 21, 24, 0.8);
+  background: rgba(15, 23, 42, 0.8);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--swal-border);
 }
 
-/* ─── Animaciones 120Hz ─── */
+/* ─── Scrollbar industrial (custom-scrollbar del origen) ─── */
+.swal-scrollbar::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+.swal-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+.swal-scrollbar::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+.swal-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+/* Firefox */
+.swal-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #1e293b rgba(0, 0, 0, 0.1);
+}
+
+/* ─── Texto neon (text-neon-* del origen) ─── */
+.swal-neon-cyan {
+  text-shadow: 0 0 5px rgba(6, 182, 212, 0.5), 0 0 10px rgba(6, 182, 212, 0.3);
+}
+.swal-neon-orange {
+  text-shadow: 0 0 5px rgba(249, 115, 22, 0.5), 0 0 10px rgba(249, 115, 22, 0.3);
+}
+
+/* ─── Scanline (bg-scanline del origen) ─── */
+.swal-scanline {
+  background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.3) 51%);
+  background-size: 100% 4px;
+}
+
+/* ─── Safe area / mobile helpers (del index.html original) ───
+   Aplicar en el contenedor raíz de la app PWA. */
+.swal-safe-area {
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+.swal-dvh {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+.swal-touch {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* ─── Animaciones de entrada ─── */
 @keyframes swal-fade-in {
   from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
@@ -103,6 +166,42 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Keyframes del origen: marquee (ticker), flicker, glitch */
+@keyframes swal-marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-100%); }
+}
+
+@keyframes swal-flicker {
+  0% { opacity: 0.97; }
+  100% { opacity: 1; }
+}
+
+@keyframes swal-glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+/* Ping (anillo expansivo — StatusBadge del origen usa animate-ping) */
+@keyframes swal-ping {
+  75%, 100% { transform: scale(2); opacity: 0; }
+}
+
+/* Pulse (opacidad — Tailwind animate-pulse equivalent) */
+@keyframes swal-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes swal-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ─── Clases de animación listas para usar ─── */
 .swal-enter {
   animation: swal-fade-in var(--swal-transition) var(--swal-ease-out);
   will-change: transform, opacity;
@@ -112,3 +211,35 @@
   animation: swal-scale-in var(--swal-transition) var(--swal-ease-out);
   will-change: transform, opacity;
 }
+
+/* .animate-in del origen: solo duración/easing/fill, combinar con keyframe */
+.swal-animate-in {
+  animation-duration: 0.5s;
+  animation-timing-function: var(--swal-ease-out);
+  animation-fill-mode: both;
+}
+
+.swal-marquee { animation: swal-marquee 30s linear infinite; }
+.swal-flicker { animation: swal-flicker 0.1s infinite alternate; }
+.swal-glitch  { animation: swal-glitch 0.4s cubic-bezier(.25,.46,.45,.94) both infinite; }
+.swal-ping    { animation: swal-ping 1s cubic-bezier(0, 0, 0.2, 1) infinite; }
+.swal-pulse   { animation: swal-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+.swal-spin    { animation: swal-spin 0.6s linear infinite; }
+
+/* ─── Accesibilidad: respetar reduced-motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  .swal-enter,
+  .swal-enter-scale,
+  .swal-animate-in,
+  .swal-marquee,
+  .swal-flicker,
+  .swal-glitch,
+  .swal-ping,
+  .swal-pulse,
+  .swal-spin {
+    animation: none;
+  }
+}
+
+/* Clases utilitarias de color */
+@import './colors.css';

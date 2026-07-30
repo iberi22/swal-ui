@@ -1,26 +1,68 @@
 <script>
-  export let columns = []; // [{key, label, width}]
-  export let rows = []; // [{key: value}]
-  export let variant = 'default'; // default | compact
+  // columns: [{ key, label, width? }]
+  // rows: [{ key: value }]
+  let {
+    columns = [],
+    rows = [],
+    variant = 'default', // 'default' | 'compact'
+  } = $props();
 </script>
 
-<div class="overflow-x-auto rounded-lg border border-[var(--swal-border)]">
-  <table class="w-full text-sm">
+<div class="swal-table-wrap swal-scrollbar">
+  <table class={variant}>
     <thead>
-      <tr class="bg-[var(--swal-surface)] text-[var(--swal-text-secondary)] text-xs uppercase tracking-wider">
+      <tr>
         {#each columns as col}
-          <th class="px-4 py-3 text-left font-medium">{col.label}</th>
+          <th scope="col" style={col.width ? `width: ${col.width};` : undefined}>{col.label}</th>
         {/each}
       </tr>
     </thead>
     <tbody>
       {#each rows as row}
-        <tr class="border-t border-[var(--swal-border)] hover:bg-[var(--swal-surface-hover)] transition-colors">
+        <tr>
           {#each columns as col}
-            <td class="px-4 py-3 text-[var(--swal-text)]">{row[col.key]}</td>
+            <td>{row[col.key]}</td>
           {/each}
         </tr>
       {/each}
     </tbody>
   </table>
 </div>
+
+<style>
+  .swal-table-wrap {
+    overflow-x: auto;
+    border-radius: var(--swal-radius);
+    border: 1px solid var(--swal-border);
+    font-family: var(--swal-font);
+  }
+  table {
+    width: 100%;
+    font-size: var(--swal-font-size-sm);
+    border-collapse: collapse;
+  }
+  thead tr {
+    background: var(--swal-surface);
+    color: var(--swal-text-secondary);
+  }
+  th {
+    padding: var(--swal-space-3) var(--swal-space-4);
+    text-align: left;
+    font-weight: 500;
+    font-size: var(--swal-font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  td {
+    padding: var(--swal-space-3) var(--swal-space-4);
+    color: var(--swal-text);
+  }
+  .compact td { padding: var(--swal-space-2) var(--swal-space-4); }
+  tbody tr {
+    border-top: 1px solid var(--swal-border);
+    transition: background var(--swal-transition-fast);
+  }
+  tbody tr:hover {
+    background: var(--swal-surface-hover);
+  }
+</style>

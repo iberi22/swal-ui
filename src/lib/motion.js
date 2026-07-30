@@ -1,33 +1,41 @@
 /**
- * SWAL Motion — Utilidades de animación 120Hz
- * 
- * Enfoque: CSS-first, GPU composited, sin dependencias pesadas.
- * Para animaciones complejas: Motion One (framework agnostic, ~14KB).
- * Para transiciones Svelte: built-in svelte/transition (nativo, GPU).
+ * SWAL Motion — Utilidades de animación
  *
- * Uso:
- *   <div use:swalFade={{ duration: 200 }}>
- *   <div use:swalSlide={{ direction: 'up', distance: 8 }}>
+ * Enfoque: CSS-first, GPU composited, sin dependencias.
+ * Son transition functions de Svelte (para transition:/in:/out:),
+ * no actions. Uso:
+ *
+ *   <div transition:swalFade={{ duration: 200 }}>
+ *   <div transition:swalSlide={{ direction: 'up', distance: 8 }}>
+ *
+ * NOTA: en Astro, las transiciones solo corren en islas hidratadas.
+ * Para HTML estático usa las clases CSS (.swal-enter, etc.).
  */
 
 export function swalFade(node, { duration = 200, delay = 0 } = {}) {
+  const o = +getComputedStyle(node).opacity;
   return {
     duration,
     delay,
-    css: (t) => `opacity: ${t}; will-change: opacity;`
+    css: (t) => `opacity: ${t * o}`
   };
 }
 
 export function swalSlide(node, { duration = 200, delay = 0, distance = 8, direction = 'up' } = {}) {
-  const translations = { up: `0, ${distance}px`, down: `0, ${-distance}px`, left: `${distance}px, 0`, right: `${-distance}px, 0` };
-  const translate = translations[direction] || translations.up;
+  const offsets = {
+    up: [0, distance],
+    down: [0, -distance],
+    left: [distance, 0],
+    right: [-distance, 0],
+  };
+  const [x, y] = offsets[direction] || offsets.up;
   return {
     duration,
     delay,
+    // t va 0→1 al entrar: el elemento viaja de (x, y) → (0, 0)
     css: (t) => `
-      transform: translate(${t * parseInt(translate.split(',')[0]) || 0}px, ${(1 - t) * parseInt(translate.split(',')[1]) || 0}px);
+      transform: translate(${(1 - t) * x}px, ${(1 - t) * y}px);
       opacity: ${t};
-      will-change: transform, opacity;
     `
   };
 }

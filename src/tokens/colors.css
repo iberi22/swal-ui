@@ -1,6 +1,7 @@
 .swal-bg { background: var(--swal-bg); }
 .swal-surface { background: var(--swal-surface); }
 .swal-elevated { background: var(--swal-elevated); }
+.swal-void { background: var(--swal-void); }
 
 .swal-text { color: var(--swal-text); }
 .swal-text-secondary { color: var(--swal-text-secondary); }
@@ -12,6 +13,10 @@
 .swal-accent { color: var(--swal-accent); }
 .swal-accent-bg { background: var(--swal-accent); }
 .swal-accent-muted { background: var(--swal-accent-muted); }
+
+.swal-accent-orange { color: var(--swal-accent-orange); }
+.swal-accent-orange-bg { background: var(--swal-accent-orange); }
+.swal-accent-orange-muted { background: var(--swal-accent-orange-muted); }
 
 .swal-success { color: var(--swal-success); }
 .swal-warning { color: var(--swal-warning); }
