@@ -1,0 +1,19 @@
+.swal-bg { background: var(--swal-bg); }
+.swal-surface { background: var(--swal-surface); }
+.swal-elevated { background: var(--swal-elevated); }
+
+.swal-text { color: var(--swal-text); }
+.swal-text-secondary { color: var(--swal-text-secondary); }
+.swal-text-muted { color: var(--swal-text-muted); }
+
+.swal-border { border-color: var(--swal-border); }
+.swal-border-light { border-color: var(--swal-border-light); }
+
+.swal-accent { color: var(--swal-accent); }
+.swal-accent-bg { background: var(--swal-accent); }
+.swal-accent-muted { background: var(--swal-accent-muted); }
+
+.swal-success { color: var(--swal-success); }
+.swal-warning { color: var(--swal-warning); }
+.swal-danger { color: var(--swal-danger); }
+.swal-info { color: var(--swal-info); }

@@ -1,0 +1,114 @@
+/* ═══════════════════════════════════════════════
+   SWAL Design Tokens
+   Tema: Edge-Hive Inspired — Dark slate con acentos sutiles
+   ═══════════════════════════════════════════════ */
+
+:root {
+  /* ─── Superficies (Edge-Hive style) ─── */
+  --swal-bg: #020617;             /* slate-950 — fondo edge-hive */
+  --swal-surface: rgba(15, 23, 42, 0.8); /* slate-900/80 */
+  --swal-surface-hover: rgba(30, 41, 59, 0.6); /* slate-800/60 */
+  --swal-surface-active: rgba(51, 65, 85, 0.4); /* slate-700/40 */
+  --swal-elevated: #0f172a;       /* slate-900 */
+  --swal-overlay: rgba(2, 6, 23, 0.8); /* slate-950/80 */
+
+  /* ─── Bordes (edge-hive usa white/10) ─── */
+  --swal-border: rgba(255, 255, 255, 0.08);
+  --swal-border-light: rgba(255, 255, 255, 0.12);
+  --swal-radius: 8px;
+  --swal-radius-sm: 4px;
+  --swal-radius-lg: 12px;
+
+  /* ─── Texto ─── */
+  --swal-text: #f1f5f9;           /* slate-100 */
+  --swal-text-secondary: #94a3b8; /* slate-400 */
+  --swal-text-muted: #64748b;     /* slate-500 */
+  --swal-text-inverse: #020617;
+
+  /* ─── Acentos (Edge-Hive palette) ─── */
+  --swal-accent: #06b6d4;         /* cyan-500 — hive-cyan */
+  --swal-accent-hover: #22d3ee;   /* cyan-400 */
+  --swal-accent-muted: rgba(6, 182, 212, 0.12);
+  --swal-accent-orange: #f97316;  /* orange-500 — hive-orange */
+  --swal-success: #10b981;        /* emerald-500 */
+  --swal-warning: #f59e0b;
+  --swal-danger: #ef4444;
+  --swal-info: #06b6d4;
+
+  /* ─── Sombras (edge-hive style) ─── */
+  --swal-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --swal-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --swal-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
+  --swal-shadow-glow-cyan: 0 0 20px rgba(6, 182, 212, 0.15);
+  --swal-shadow-glow-orange: 0 0 20px rgba(249, 115, 22, 0.15);
+  --swal-shadow-glow-emerald: 0 0 20px rgba(16, 185, 129, 0.15);
+
+  /* ─── Tipografía ─── */
+  --swal-font: 'Inter', system-ui, -apple-system, sans-serif;
+  --swal-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --swal-font-size-xs: 0.75rem;
+  --swal-font-size-sm: 0.875rem;
+  --swal-font-size: 1rem;
+  --swal-font-size-lg: 1.125rem;
+  --swal-font-size-xl: 1.25rem;
+  --swal-font-size-2xl: 1.5rem;
+
+  /* ─── Espaciado ─── */
+  --swal-space-1: 4px;
+  --swal-space-2: 8px;
+  --swal-space-3: 12px;
+  --swal-space-4: 16px;
+  --swal-space-5: 20px;
+  --swal-space-6: 24px;
+  --swal-space-8: 32px;
+  --swal-space-10: 40px;
+
+  /* ─── Animaciones ─── */
+  --swal-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --swal-transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --swal-transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --swal-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --swal-ease-in: cubic-bezier(0.4, 0, 1, 1);
+}
+
+/* ─── Edge-Hive Grid Background ─── */
+.swal-grid-bg {
+  background-image:
+    linear-gradient(rgba(71, 85, 105, 0.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(71, 85, 105, 0.3) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ─── Glass morphism sutil ─── */
+.swal-glass {
+  background: rgba(17, 21, 24, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--swal-border);
+}
+
+/* ─── Animaciones 120Hz ─── */
+@keyframes swal-fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes swal-scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes swal-slide-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.swal-enter {
+  animation: swal-fade-in var(--swal-transition) var(--swal-ease-out);
+  will-change: transform, opacity;
+}
+
+.swal-enter-scale {
+  animation: swal-scale-in var(--swal-transition) var(--swal-ease-out);
+  will-change: transform, opacity;
+}

@@ -1,0 +1,26 @@
+{
+  "name": "@swal/ui",
+  "version": "0.1.0",
+  "private": false,
+  "description": "SWAL Design System — edge-hive theme, reusable Svelte components",
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite dev",
+    "preview": "vite preview"
+  },
+  "svelte": "./src/components/index.js",
+  "exports": {
+    ".": {
+      "svelte": "./src/components/index.js"
+    },
+    "./tokens": "./src/tokens/theme.css",
+    "./motion": "./src/lib/motion.js",
+    "./components/*": "./src/components/*.svelte"
+  },
+  "keywords": ["swal", "design-system", "svelte", "ui"],
+  "license": "AGPL-3.0",
+  "peerDependencies": {
+    "svelte": "^5.0.0"
+  }
+}
