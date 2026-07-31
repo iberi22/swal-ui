@@ -65,11 +65,14 @@
     overflow: hidden;
     box-shadow: var(--swal-shadow-lg);
     font-family: var(--swal-font-mono);
+    min-width: 0;
+    max-width: 100%;
   }
   .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: var(--swal-space-2);
     padding: var(--swal-space-2) var(--swal-space-4);
     background: var(--swal-elevated);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -78,6 +81,7 @@
     display: flex;
     align-items: center;
     gap: var(--swal-space-2);
+    min-width: 0;
   }
   .dot {
     width: 12px;
@@ -97,10 +101,17 @@
   .meta {
     font-size: 10px;
     color: #475569;
+    flex-shrink: 0;
+  }
+  .title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .body {
     padding: var(--swal-space-4);
     overflow-y: auto;
+    overflow-x: hidden;
     font-size: var(--swal-font-size-xs);
     display: flex;
     flex-direction: column;
@@ -124,7 +135,14 @@
   .level.DEBUG { color: #c084fc; }
   .level.INFO { color: var(--swal-accent); }
   .service { color: var(--swal-text-muted); flex-shrink: 0; width: 6rem; }
-  .message { color: #cbd5e1; word-break: break-all; }
+  .message { color: #cbd5e1; word-break: break-all; min-width: 0; }
+
+  /* Móvil: soltar anchos fijos y ocultar la columna service */
+  @media (max-width: 640px) {
+    .ts { width: auto; }
+    .level { width: auto; }
+    .service { display: none; }
+  }
 
   .cursor-line {
     display: flex;
