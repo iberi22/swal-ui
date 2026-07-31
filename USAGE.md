@@ -211,6 +211,8 @@ Navegación con ↑↓ / Enter / Escape, filtro en vivo, foco automático. El at
 | `logs` | `[{ id, timestamp, level, service, message }]` | `[]` |
 | `title` | `string` | `'STD_OUT >> SWAL_RUNTIME'` |
 | `prompt` | `string` | `'root@swal:~$'` |
+| `height` | `string` | `'24rem'` |
+| `autoScroll` | `boolean` | `true` |
 | `maxHeight` | `string \| null` | `null` |
 
 ### `<LogViewer>` *(portado de edge-hive-admin)*
