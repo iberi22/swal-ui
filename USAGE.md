@@ -212,8 +212,11 @@ Navegación con ↑↓ / Enter / Escape, filtro en vivo, foco automático. El at
 | `title` | `string` | `'STD_OUT >> SWAL_RUNTIME'` |
 | `prompt` | `string` | `'root@swal:~$'` |
 | `height` | `string` | `'24rem'` |
+| `autoScroll` | `boolean` | `true` |
+| `maxHeight` | `string \| null` | `null` |
 
-Colores por nivel (`ERROR/WARN/DEBUG/INFO`), auto-scroll suave al fondo, cursor parpadeante.
+Colores por nivel (`ERROR/WARN/DEBUG/INFO`), auto-scroll suave al fondo (`autoScroll=false` lo desactiva), cursor parpadeante.
+Con `maxHeight` (p. ej. `'60vh'`) el body crece con el contenido hasta ese tope (anula `height`).
 
 ### `<LoadingState>` *(portado)*
 
@@ -221,10 +224,33 @@ Colores por nivel (`ERROR/WARN/DEBUG/INFO`), auto-scroll suave al fondo, cursor 
 |------|------|---------|
 | `message` | `string` | `'Loading...'` |
 | `height` | `string` | `'16rem'` |
+| `error` | `string \| null` | `null` |
+| `onretry` | `(() => void) \| null` | `null` |
+
+Con `error` muestra icono ✗ + mensaje en rojo en vez del spinner; `onretry` añade un botón "↻ Retry".
 
 ### `<Table>`
 
-`columns: [{ key, label, width? }]`, `rows: [{ key: value }]`, `variant: 'default'|'compact'`.
+`columns: [{ key, label, width?, align? }]`, `rows: [{ key: value }]`, `variant: 'default'|'compact'`.
+
+Snippets opcionales para contenido custom:
+- `{#snippet cell(row, col)}` — render por celda (badges, valores coloreados, etc.)
+- `{#snippet header(col)}` — render por header (botones sortable, tooltips, etc.)
+
+```svelte
+<Table {columns} {rows}>
+  {#snippet header(col)}
+    <button onclick={() => sort(col.key)}>{col.label} ▲</button>
+  {/snippet}
+  {#snippet cell(row, col)}
+    {#if col.key === 'status'}
+      <Badge variant="success">{row.status}</Badge>
+    {:else}
+      {row[col.key]}
+    {/if}
+  {/snippet}
+</Table>
+```
 
 ### `<Tabs>`
 

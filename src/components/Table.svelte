@@ -1,11 +1,22 @@
 <script>
-  // columns: [{ key, label, width? }]
+  // columns: [{ key, label, width?, align? }]
   // rows: [{ key: value }]
+  // cell: snippet opcional — {@render cell(row, col)} para celdas custom (badges, colores, etc.)
+  // header: snippet opcional — {@render header(col)} para headers custom (sortable, etc.)
   let {
     columns = [],
     rows = [],
     variant = 'default', // 'default' | 'compact'
+    cell,
+    header,
   } = $props();
+
+  function cellStyle(col) {
+    const parts = [];
+    if (col.width) parts.push(`width: ${col.width}`);
+    if (col.align) parts.push(`text-align: ${col.align}`);
+    return parts.length ? parts.join(';') : undefined;
+  }
 </script>
 
 <div class="swal-table-wrap swal-scrollbar">
@@ -13,7 +24,13 @@
     <thead>
       <tr>
         {#each columns as col}
-          <th scope="col" style={col.width ? `width: ${col.width};` : undefined}>{col.label}</th>
+          <th scope="col" style={cellStyle(col)}>
+            {#if header}
+              {@render header(col)}
+            {:else}
+              {col.label}
+            {/if}
+          </th>
         {/each}
       </tr>
     </thead>
@@ -21,7 +38,13 @@
       {#each rows as row}
         <tr>
           {#each columns as col}
-            <td>{row[col.key]}</td>
+            <td style={col.align ? `text-align: ${col.align}` : undefined}>
+              {#if cell}
+                {@render cell(row, col)}
+              {:else}
+                {row[col.key]}
+              {/if}
+            </td>
           {/each}
         </tr>
       {/each}

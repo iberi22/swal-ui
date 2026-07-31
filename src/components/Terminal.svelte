@@ -7,12 +7,15 @@
     title = 'STD_OUT >> SWAL_RUNTIME',
     prompt = 'root@swal:~$',
     height = '24rem',
+    autoScroll = true,
+    maxHeight = null, // string | null — p. ej. '60vh'; anula `height` y deja crecer el body hasta ese tope
   } = $props();
 
   let bodyEl = $state(null);
 
   // Auto-scroll al fondo cuando llegan logs nuevos
   $effect(() => {
+    if (!autoScroll) return;
     logs.length;
     bodyEl?.scrollTo({ top: bodyEl.scrollHeight, behavior: 'smooth' });
   });
@@ -37,7 +40,7 @@
     <div class="meta">BASH - 80x24</div>
   </div>
 
-  <div class="body swal-scrollbar" style="height: {height};" bind:this={bodyEl}>
+  <div class="body swal-scrollbar" style="height: {maxHeight ? 'auto' : height}; max-height: {maxHeight || 'none'};" bind:this={bodyEl}>
     {#each logs as log (log.id)}
       <div class="line">
         <span class="ts">[{formatTime(log.timestamp)}]</span>
