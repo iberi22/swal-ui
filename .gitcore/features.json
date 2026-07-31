@@ -5,63 +5,63 @@
   "features": [
     {
       "id": "UI-TOKENS-01",
-      "name": "Design Tokens — Hive Dark Palette",
+      "name": "Design Tokens — Hive Dark Palette (CSS variables)",
       "status": "completed",
       "progress_pct": 100,
       "passes": true,
       "last_tested": "2026-07-30",
-      "implemented_in": "src/tokens/index.ts",
-      "notes": "Paleta extraída de edge-hive-admin: slate-850/900/950, hive.orange #f97316, hive.cyan #06b6d4, glow neon, tipografía Inter+Fira Code. Build verificado."
-    },
-    {
-      "id": "UI-PRESET-01",
-      "name": "Tailwind Preset",
-      "status": "completed",
-      "progress_pct": 100,
-      "passes": true,
-      "last_tested": "2026-07-30",
-      "implemented_in": "src/tokens/tailwind.ts",
-      "notes": "Preset exportable con colores, shadows neon, animaciones marquee/flicker/glitch."
+      "implemented_in": "src/tokens/theme.css, src/tokens/colors.css",
+      "notes": "Paleta portada de edge-hive-admin: --swal-bg #020617, --swal-elevated-850 #151e2e, --swal-accent #06b6d4 (cyan), --swal-accent-orange #f97316, glows neon, Inter+Fira Code. CSS custom properties framework-agnostic."
     },
     {
       "id": "UI-CORE-01",
-      "name": "Core Components — Button, Card, StatusBadge",
+      "name": "Core Components — Button, Card, Badge, Input, StatusBadge",
       "status": "completed",
       "progress_pct": 100,
       "passes": true,
       "last_tested": "2026-07-30",
-      "implemented_in": "src/components/ui/Button.tsx, Card.tsx, StatusBadge.tsx",
-      "notes": "Button 5 variantes + glow, Card completo (Header/Title/Description/Content/Footer), StatusBadge 4 estados con pulso. Build ESM + dts OK."
-    },
-    {
-      "id": "UI-STYLES-01",
-      "name": "Global Styles — CRT, scrollbar, swal-card",
-      "status": "completed",
-      "progress_pct": 100,
-      "passes": true,
-      "last_tested": "2026-07-30",
-      "implemented_in": "src/styles/global.css",
-      "notes": "Efecto CRT scanline + vignette (.swal-crt), scrollbar industrial, utilidades text-neon, swal-card."
-    },
-    {
-      "id": "UI-LAYOUT-01",
-      "name": "DashboardLayout — Sidebar Navegación",
-      "status": "pending",
-      "progress_pct": 0,
-      "passes": false,
-      "last_tested": "",
-      "implemented_in": "",
-      "notes": "Port del DashboardLayout de edge-hive-admin con GlobalTicker + CommandPalette (Ctrl+K)."
+      "implemented_in": "src/components/Button.svelte, Card.svelte, Badge.svelte, Input.svelte, StatusBadge.svelte",
+      "notes": "Svelte 5 runes, zero-dependency, CSS scoped. Port fiel de edge-hive-admin."
     },
     {
       "id": "UI-ADV-01",
-      "name": "Advanced Components — Modal, Terminal, MetricsChart",
+      "name": "Advanced Components — Modal, Tabs, Table, Skeleton, Toaster, Terminal, LogViewer, CommandPalette, ConfigEditor, LoadingState",
+      "status": "completed",
+      "progress_pct": 100,
+      "passes": true,
+      "last_tested": "2026-07-30",
+      "implemented_in": "src/components/*.svelte",
+      "notes": "15 componentes totales. CommandPalette (Ctrl+K), Terminal con responsive, Toaster, ConfigEditor con sync JSON. Build verificado (dist/ui.css 23.8KB + ui.js 37.4KB)."
+    },
+    {
+      "id": "UI-STYLES-01",
+      "name": "Global Styles + Motion Library",
+      "status": "completed",
+      "progress_pct": 100,
+      "passes": true,
+      "last_tested": "2026-07-30",
+      "implemented_in": "src/styles/global.css, src/lib/motion.js, src/lib/toast.svelte.js",
+      "notes": "Efecto CRT scanline (.swal-crt), scrollbar industrial, animaciones marquee/flicker/glitch, toast store."
+    },
+    {
+      "id": "UI-ASTRO-01",
+      "name": "Astro Islands Compatibility",
       "status": "pending",
       "progress_pct": 0,
       "passes": false,
       "last_tested": "",
       "implemented_in": "",
-      "notes": "Modal, CommandPalette, MetricsChart (recharts), Terminal, LogViewer portados de edge-hive-admin."
+      "notes": "Verificar que componentes funcionan como islands en .astro (client:load/client:visible). Añadir ejemplo en demo/."
+    },
+    {
+      "id": "UI-DASH-01",
+      "name": "DashboardLayout + Landing Template",
+      "status": "pending",
+      "progress_pct": 0,
+      "passes": false,
+      "last_tested": "",
+      "implemented_in": "",
+      "notes": "Layout de dashboard (sidebar + GlobalTicker) y landing page template para apps SWAL en Astro."
     }
   ]
 }

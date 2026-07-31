@@ -211,9 +211,52 @@ Navegación con ↑↓ / Enter / Escape, filtro en vivo, foco automático. El at
 | `logs` | `[{ id, timestamp, level, service, message }]` | `[]` |
 | `title` | `string` | `'STD_OUT >> SWAL_RUNTIME'` |
 | `prompt` | `string` | `'root@swal:~$'` |
-| `height` | `string` | `'24rem'` |
-| `autoScroll` | `boolean` | `true` |
 | `maxHeight` | `string \| null` | `null` |
+
+### `<LogViewer>` *(portado de edge-hive-admin)*
+
+| Prop | Tipo | Default |
+|------|------|---------|
+| `lines` | `string[] \| [{ level, timestamp, message }]` | `[]` |
+| `filterLevel` | `'debug'\|'info'\|'warn'\|'error'` | `'debug'` |
+| `autoScroll` | `boolean` | `true` |
+| `maxHeight` | `string` (CSS) | `'300px'` |
+| `title` | `string` | `'Real-Time Log Stream'` |
+
+Acepta líneas crudas (`'[INFO] msg'` — detecta el nivel por contenido) o entradas
+estructuradas (`{ level, timestamp, message }`). Filtra por nivel mínimo, colores
+edge-hive (`error`→danger, `warn`→warning, `info`→success, `debug`→muted), fuente
+mono y scrollbar industrial.
+
+```svelte
+<LogViewer lines={logs} filterLevel="warn" maxHeight="400px" />
+```
+
+### `<ConfigEditor>` *(portado de edge-hive-admin, generalizado)*
+
+| Prop | Tipo | Default |
+|------|------|---------|
+| `config` | `Record<string, any>` | `{}` |
+| `schema` | `[{ key, label, type, options? }]` | `[]` (infiere tipos) |
+| `title` | `string` | `'Configuration'` |
+| `onchange` | `(config) => void` | — (emite en cada edición) |
+| `onsave` | `(config) => void` | — (botón Save; fallback: `onchange`) |
+
+`type`: `'string' | 'number' | 'boolean' | 'select'` (con `options: string[] | {value,label}[]`).
+Si `schema` está vacío, el tipo se infiere del valor actual de cada clave.
+El borrador interno solo se re-sincroniza cuando el padre cambia `config` de verdad
+(comparación JSON), sin pisar ediciones en curso.
+
+```svelte
+<ConfigEditor
+  config={cfg}
+  schema={[
+    { key: 'port', label: 'Port', type: 'number' },
+    { key: 'mode', label: 'Mode', type: 'select', options: ['live', 'paper'] },
+  ]}
+  onchange={(next) => (cfg = next)}
+/>
+```
 
 Colores por nivel (`ERROR/WARN/DEBUG/INFO`), auto-scroll suave al fondo (`autoScroll=false` lo desactiva), cursor parpadeante.
 Con `maxHeight` (p. ej. `'60vh'`) el body crece con el contenido hasta ese tope (anula `height`).

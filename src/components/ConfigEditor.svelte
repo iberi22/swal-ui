@@ -16,8 +16,11 @@
     onsave,
   } = $props();
 
+  // Borrador inicializado UNA vez desde config; la re-sincronización la
+  // maneja el $effect de abajo (comparación JSON, sin pisar ediciones).
+  // svelte-ignore state_referenced_locally
   let draft = $state({ ...config });
-  let syncedJson = JSON.stringify(config);
+  let syncedJson = '';
 
   // Solo re-sincroniza el borrador cuando el padre cambia config de verdad
   // (comparación JSON), sin pisar ediciones en curso del usuario.
