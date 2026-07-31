@@ -1,0 +1,67 @@
+{
+  "protocolVersion": "3.9.0",
+  "projectId": "swal-ui",
+  "name": "SWAL Design System",
+  "features": [
+    {
+      "id": "UI-TOKENS-01",
+      "name": "Design Tokens — Hive Dark Palette",
+      "status": "completed",
+      "progress_pct": 100,
+      "passes": true,
+      "last_tested": "2026-07-30",
+      "implemented_in": "src/tokens/index.ts",
+      "notes": "Paleta extraída de edge-hive-admin: slate-850/900/950, hive.orange #f97316, hive.cyan #06b6d4, glow neon, tipografía Inter+Fira Code. Build verificado."
+    },
+    {
+      "id": "UI-PRESET-01",
+      "name": "Tailwind Preset",
+      "status": "completed",
+      "progress_pct": 100,
+      "passes": true,
+      "last_tested": "2026-07-30",
+      "implemented_in": "src/tokens/tailwind.ts",
+      "notes": "Preset exportable con colores, shadows neon, animaciones marquee/flicker/glitch."
+    },
+    {
+      "id": "UI-CORE-01",
+      "name": "Core Components — Button, Card, StatusBadge",
+      "status": "completed",
+      "progress_pct": 100,
+      "passes": true,
+      "last_tested": "2026-07-30",
+      "implemented_in": "src/components/ui/Button.tsx, Card.tsx, StatusBadge.tsx",
+      "notes": "Button 5 variantes + glow, Card completo (Header/Title/Description/Content/Footer), StatusBadge 4 estados con pulso. Build ESM + dts OK."
+    },
+    {
+      "id": "UI-STYLES-01",
+      "name": "Global Styles — CRT, scrollbar, swal-card",
+      "status": "completed",
+      "progress_pct": 100,
+      "passes": true,
+      "last_tested": "2026-07-30",
+      "implemented_in": "src/styles/global.css",
+      "notes": "Efecto CRT scanline + vignette (.swal-crt), scrollbar industrial, utilidades text-neon, swal-card."
+    },
+    {
+      "id": "UI-LAYOUT-01",
+      "name": "DashboardLayout — Sidebar Navegación",
+      "status": "pending",
+      "progress_pct": 0,
+      "passes": false,
+      "last_tested": "",
+      "implemented_in": "",
+      "notes": "Port del DashboardLayout de edge-hive-admin con GlobalTicker + CommandPalette (Ctrl+K)."
+    },
+    {
+      "id": "UI-ADV-01",
+      "name": "Advanced Components — Modal, Terminal, MetricsChart",
+      "status": "pending",
+      "progress_pct": 0,
+      "passes": false,
+      "last_tested": "",
+      "implemented_in": "",
+      "notes": "Modal, CommandPalette, MetricsChart (recharts), Terminal, LogViewer portados de edge-hive-admin."
+    }
+  ]
+}

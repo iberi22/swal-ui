@@ -1,0 +1,108 @@
+/* ============================================================
+   SWAL Design System — Global Styles
+   Identidad "Hive Dark" — SouthWest AI Labs
+   ============================================================ */
+
+/* ——— Fuentes (fallback a system si no se cargan) ——— */
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ——— Base ——— */
+@layer base {
+  body {
+    background-color: #020617; /* slate-950 */
+    color: #e2e8f0;            /* slate-200 */
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+    min-height: 100vh;
+    min-height: 100dvh;
+    /* Safe areas (notches, status bars) */
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+    /* Touch optimization */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  #root {
+    min-height: calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    min-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  }
+
+  /* ——— CRT Scanline overlay (activar con .swal-crt en body) ——— */
+  .swal-crt::after {
+    content: ' ';
+    display: block;
+    position: fixed;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background:
+      linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
+      linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+    background-size: 100% 4px, 3px 100%;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.4;
+  }
+
+  /* ——— Vignette (activar con .swal-crt en body) ——— */
+  .swal-crt::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle, transparent 60%, rgba(0, 0, 0, 0.4) 100%);
+    pointer-events: none;
+    z-index: 9998;
+  }
+}
+
+/* ——— Custom scrollbar industrial ——— */
+@layer utilities {
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #1e293b;
+    border-radius: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #334155;
+  }
+
+  /* ——— Texto neon ——— */
+  .text-neon-orange {
+    text-shadow: 0 0 5px rgba(249, 115, 22, 0.5), 0 0 10px rgba(249, 115, 22, 0.3);
+  }
+  .text-neon-cyan {
+    text-shadow: 0 0 5px rgba(6, 182, 212, 0.5), 0 0 10px rgba(6, 182, 212, 0.3);
+  }
+
+  /* ——— Scanline background ——— */
+  .bg-scanline {
+    background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.3) 51%);
+    background-size: 100% 4px;
+  }
+
+  /* ——— Animación de entrada ——— */
+  .animate-in {
+    animation-duration: 0.5s;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    animation-fill-mode: both;
+  }
+
+  /* ——— Card estándar SWAL ——— */
+  .swal-card {
+    @apply rounded-lg border border-white/10 bg-slate-950/50 shadow-sm;
+  }
+  .swal-card-hover {
+    @apply transition-colors hover:border-white/20 hover:bg-slate-900/60;
+  }
+}

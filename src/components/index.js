@@ -14,3 +14,5 @@ export { default as LoadingState } from './LoadingState.svelte';
 export { default as Terminal } from './Terminal.svelte';
 export { default as CommandPalette } from './CommandPalette.svelte';
 export { default as Toaster } from './Toaster.svelte';
+export { default as LogViewer } from './LogViewer.svelte';
+export { default as ConfigEditor } from './ConfigEditor.svelte';
