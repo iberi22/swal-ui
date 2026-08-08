@@ -16,3 +16,8 @@ export { default as CommandPalette } from './CommandPalette.svelte';
 export { default as Toaster } from './Toaster.svelte';
 export { default as LogViewer } from './LogViewer.svelte';
 export { default as ConfigEditor } from './ConfigEditor.svelte';
+
+// New Components
+export { default as DashboardLayout } from './DashboardLayout.svelte';
+export { default as GlobalTicker } from './GlobalTicker.svelte';
+export { default as Landing } from './Landing.svelte';

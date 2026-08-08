@@ -3,7 +3,7 @@ import * as components from '../src/components/index.js';
 import { colors, typography, effects, spacing, borderRadius } from '../src/tokens/index.ts';
 
 describe('SWAL UI Integration Test', () => {
-  it('should export all 15 components correctly', () => {
+  it('should export all 18 components correctly', () => {
     const expectedComponents = [
       'Button',
       'Card',
@@ -19,7 +19,10 @@ describe('SWAL UI Integration Test', () => {
       'CommandPalette',
       'Toaster',
       'LogViewer',
-      'ConfigEditor'
+      'ConfigEditor',
+      'DashboardLayout',
+      'GlobalTicker',
+      'Landing'
     ];
 
     expectedComponents.forEach((componentName) => {
