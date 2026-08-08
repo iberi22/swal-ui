@@ -7,7 +7,8 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite dev",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest run -c vite.config.js"
   },
   "svelte": "./src/components/index.js",
   "exports": {
@@ -30,7 +31,14 @@
   "sideEffects": [
     "*.css"
   ],
-  "keywords": ["swal", "edge-hive", "design-system", "svelte", "svelte5", "ui"],
+  "keywords": [
+    "swal",
+    "edge-hive",
+    "design-system",
+    "svelte",
+    "svelte5",
+    "ui"
+  ],
   "license": "AGPL-3.0",
   "peerDependencies": {
     "svelte": "^5.0.0"
@@ -38,6 +46,7 @@
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^5.0.0",
     "svelte": "^5.0.0",
-    "vite": "^6.0.0"
+    "vite": "^6.0.0",
+    "vitest": "^4.1.10"
   }
 }
