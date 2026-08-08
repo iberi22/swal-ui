@@ -327,22 +327,100 @@ Snippets opcionales para contenido custom:
 
 ---
 
-## Uso con Astro (PWA móvil)
+## Uso con Astro (Astro Islands)
+
+Todos los componentes de `@swal/ui` son 100% compatibles con **Astro Islands** y seguros para Renderizado en el Servidor (SSR). Dado que **ninguno de los componentes utiliza objetos específicos del navegador (como `window` o `document`) en el nivel superior (top-level) de los módulos**, se pueden importar y renderizar sin problemas tanto en el lado del servidor como en el cliente.
+
+### Directivas de Hidratación (`client:*`)
+
+Puedes decidir cuándo y cómo hidratar cada componente dependiendo del nivel de interactividad requerido:
+
+1. **Hidratación Inmediata (`client:load`):** Úsala para elementos interactivos cruciales que deben responder de inmediato.
+2. **Hidratación al Entrar en Pantalla (`client:visible`):** Ideal para componentes pesados o secundarios que están fuera del viewport inicial.
+3. **Renderizado Estático (Sin Directiva):** Si el componente solo muestra datos estáticos (por ejemplo, un `<Badge>` o un `<Card>` simple), no le agregues directivas. Se renderizará como HTML estático puro, lo que significa **cero JavaScript cargado en el cliente** para ese componente.
+
+### Ejemplo Completo de Uso de Islas
+
+En un archivo `.astro` (por ejemplo, `src/pages/index.astro`):
 
 ```astro
 ---
-// layout.astro
+// Importar los estilos/tokens de SWAL una sola vez en el layout o página raíz
 import '@swal/ui/tokens';
+
+// Importar los componentes svelte deseados
+import {
+  Badge,
+  Button,
+  Card,
+  StatusBadge,
+  Terminal,
+  Toaster
+} from '@swal/ui';
+
+const logs = [
+  { id: '1', timestamp: '12:00:00', level: 'info', service: 'system', message: 'Node online.' }
+];
 ---
-<body class="swal-dvh swal-safe-area swal-touch">
-  <slot />
-</body>
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>SWAL + Astro Islands</title>
+  </head>
+  <body class="swal-dvh swal-safe-area swal-touch">
+    <!-- El Toaster maneja estados globales, se hidrata de inmediato -->
+    <Toaster client:load />
+
+    <main style="padding: 2rem;">
+      <!-- Card sin interactividad: Renderizado como HTML estático (0 KB JS) -->
+      <Card variant="elevated">
+        <h2>Servidores Activos</h2>
+
+        <!-- StatusBadge es reactivo (anillo de ping), se hidrata al ser visible -->
+        <StatusBadge status="healthy" client:visible />
+
+        <!-- Badge sin interactividad: Renderizado estático -->
+        <Badge variant="success">ONLINE</Badge>
+      </Card>
+
+      <div style="margin-top: 2rem;">
+        <!-- Terminal interactiva: Hidratada cuando sea visible -->
+        <Terminal logs={logs} title="Consola Edge Node" client:visible />
+      </div>
+
+      <!-- Button con interacción: Hidratado al cargar -->
+      <Button variant="orange" client:load onclick={() => alert('¡Hola desde la Isla Svelte 5!')}>
+        Acción Rápida
+      </Button>
+    </main>
+  </body>
+</html>
 ```
 
-- Hidrata solo lo interactivo: `<Button client:visible />`, `<Terminal client:idle />`.
-- Card/Badge/Table sin interactividad: déjalos estáticos (HTML puro, cero JS).
-- Evita `.swal-glass` en superficies grandes (costo de GPU en móvil).
-- Aplica `.swal-safe-area` al contenedor raíz para notch/status bar.
+### Tabla de Compatibilidad de Islas
+
+Todos los 15 componentes son totalmente compatibles como islas en Astro:
+
+| Componente | SSR-Safe | ¿Requiere Hidratación? | Directiva sugerida |
+|------------|----------|------------------------|--------------------|
+| `Badge` | Sí | No (estático por defecto) | Ninguna |
+| `Button` | Sí | Opcional (si tiene `onclick`) | `client:load` / `client:visible` |
+| `Card` | Sí | No (estático por defecto) | Ninguna |
+| `CommandPalette` | Sí | Sí | `client:load` |
+| `ConfigEditor` | Sí | Sí | `client:load` / `client:visible` |
+| `Input` | Sí | Sí | `client:load` / `client:visible` |
+| `LoadingState` | Sí | No (estático por defecto) | Ninguna |
+| `LogViewer` | Sí | Sí | `client:load` / `client:visible` |
+| `Modal` | Sí | Sí | `client:load` |
+| `Skeleton` | Sí | No (estático por defecto) | Ninguna |
+| `StatusBadge` | Sí | Sí (por el efecto ping reactivo) | `client:visible` |
+| `Table` | Sí | No (salvo si usas snippets interactivos) | Ninguna / `client:load` |
+| `Tabs` | Sí | Sí | `client:load` |
+| `Terminal` | Sí | Sí | `client:load` / `client:visible` |
+| `Toaster` | Sí | Sí (gestiona notificaciones dinámicas) | `client:load` |
+
+Para ver un ejemplo completo en funcionamiento con todos los componentes descritos montados como islas de Astro, consulta la carpeta `demo/astro-islands/`.
 
 ## Theming
 
