@@ -2,9 +2,12 @@
   import {
     Button, Card, Badge, Modal, Table, Tabs, Input, Skeleton,
     StatusBadge, LoadingState, Terminal, CommandPalette, Toaster,
+    DashboardLayout, GlobalTicker, Landing
   } from '../src/components/index.js';
   import { toast } from '../src/lib/toast.svelte.js';
 
+  let activeView = $state('dashboard'); // 'dashboard' | 'landing'
+  let sidebarOpen = $state(true);
   let showModal = $state(false);
   let paletteOpen = $state(false);
   let activeTab = $state('overview');
@@ -42,23 +45,86 @@
     { id: 'backup', label: 'Trigger Manual Backup', action: () => toast.success('Backup iniciado', 'Ledger') },
     { id: 'chaos', label: 'Open Chaos Lab', action: () => toast.warning('Chaos Lab en modo seguro') },
   ];
+
+  // Ticker items
+  const tickerItems = [
+    { text: 'SYSTEM OVERVIEW: ALL NODES FUNCTIONAL', type: 'success' },
+    { text: 'LEDGER: BLOCK VERIFIED IN 12MS', type: 'info' },
+    { text: 'CHAOS: PREDICTIVE SYSTEM ANOMALY AT 1.2%', type: 'warning' },
+    { text: 'LATENCY ALERT: SGP-03 SPIKE DETECTED', type: 'error' },
+    { text: 'SWAL COIN YIELD: STAKING RUNNING', type: 'orange' }
+  ];
 </script>
 
 <svelte:window onkeydown={(e) => {
   if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); paletteOpen = !paletteOpen; }
 }} />
 
-<div class="page swal-grid-bg">
-  <header class="topbar">
-    <h1>@swal/ui <span class="swal-accent">v0.2</span> — Ensayo de afinación</h1>
-    <div class="topbar-actions">
+{#if activeView === 'landing'}
+  <Landing
+    title="Next-Generation Edge Hive"
+    subtitle="Secure decentralized edge-mesh processing orchestrating peer-to-peer WASM systems under $SWAL staking rules."
+    onHeroClick={() => { activeView = 'dashboard'; toast.success('Dashboard mode activated'); }}
+    stats={[
+      { value: '42,912', label: 'Global Nodes', trend: '+12% standard' },
+      { value: '1.2ms', label: 'Mesh Latency', trend: '-18% optimized' },
+      { value: '99.99%', label: 'Uptime Score', trend: 'Federated stable' }
+    ]}
+    features={[
+      { title: 'Secure Edge Mesh', description: 'Peer-to-peer CRDT and WebRTC dynamic channels keeping state synced safely across any VPS node.' },
+      { title: 'WASM Runtime Sandbox', description: 'Deploy serverless functions with sub-millisecond execution times in ultra-isolated edge runtimes.' },
+      { title: 'Hive Governance Console', description: 'Maloca support, forum discussions, HumanChallenge verification and active DAO voting models.' }
+    ]}
+    navLinks={[
+      { href: '#', text: 'Whitepaper' },
+      { href: '#', text: 'Ecosystem' }
+    ]}
+  >
+    {#snippet children()}
+      <div style="text-align: center; margin-top: var(--swal-space-6);">
+        <Button variant="ghost" onclick={() => activeView = 'dashboard'}>Return to Component Showcase</Button>
+      </div>
+    {/snippet}
+  </Landing>
+{:else}
+  <GlobalTicker items={tickerItems} speed="normal" />
+
+  <DashboardLayout bind:sidebarOpen={sidebarOpen}>
+    {#snippet brand()}
+      <div class="showcase-brand">
+        <span class="swal-neon-cyan">SWAL</span>
+        <span class="brand-ver">V0.2</span>
+      </div>
+    {/snippet}
+
+    {#snippet sidebarNav()}
+      <div class="showcase-nav">
+        <button class="nav-btn active" onclick={() => activeView = 'dashboard'}>Component Showcase</button>
+        <button class="nav-btn" onclick={() => activeView = 'landing'}>View Landing Template</button>
+      </div>
+    {/snippet}
+
+    {#snippet sidebarFooter()}
+      <div class="showcase-side-footer">
+        <span class="status-indicator"></span> Secure connection
+      </div>
+    {/snippet}
+
+    {#snippet headerActions()}
       <Button variant="ghost" size="sm" onclick={() => (paletteOpen = true)}>⌘K Palette</Button>
       <Button variant="orange" size="sm" onclick={() => (showModal = true)}>Abrir Modal</Button>
-    </div>
-  </header>
+    {/snippet}
 
-  <!-- Fila 1: Botones + Badges + Status -->
-  <section class="row">
+    <div class="page-content">
+      <header class="topbar">
+        <h1>@swal/ui <span class="swal-accent">v0.2</span> — Ensayo de afinación</h1>
+        <div class="topbar-actions">
+          <Button variant="ghost" size="sm" onclick={() => activeView = 'landing'}>View Landing View</Button>
+        </div>
+      </header>
+
+      <!-- Fila 1: Botones + Badges + Status -->
+      <section class="row">
     <Card variant="elevated">
       <h2>Button</h2>
       <div class="stack">
@@ -186,7 +252,8 @@
 
   <CommandPalette bind:open={paletteOpen} items={paletteItems} footer="Edge Hive Command" />
   <Toaster />
-</div>
+  </DashboardLayout>
+{/if}
 
 <style>
   :global(body) {
@@ -196,15 +263,61 @@
     font-family: var(--swal-font);
     -webkit-font-smoothing: antialiased;
   }
-  .page {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: var(--swal-space-6);
+  .showcase-brand {
+    font-family: var(--swal-font-mono);
+    font-weight: 800;
+    font-size: var(--swal-font-size-lg);
+    letter-spacing: 0.05em;
+    display: flex;
+    gap: var(--swal-space-2);
+  }
+  .brand-ver {
+    color: var(--swal-accent-orange);
+  }
+  .showcase-nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--swal-space-2);
+  }
+  .nav-btn {
+    background: transparent;
+    border: none;
+    text-align: left;
+    color: var(--swal-text-secondary);
+    font-family: var(--swal-font);
+    font-size: var(--swal-font-size-sm);
+    padding: var(--swal-space-2) var(--swal-space-3);
+    cursor: pointer;
+    border-radius: var(--swal-radius-sm);
+    transition: all var(--swal-transition-fast);
+  }
+  .nav-btn:hover {
+    color: var(--swal-text);
+    background: var(--swal-surface-hover);
+  }
+  .nav-btn.active {
+    color: var(--swal-accent);
+    background: var(--swal-accent-muted);
+    font-weight: 500;
+  }
+  .showcase-side-footer {
+    display: flex;
+    align-items: center;
+    gap: var(--swal-space-2);
+    font-size: var(--swal-font-size-xs);
+    color: var(--swal-text-muted);
+  }
+  .status-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--swal-success);
+    box-shadow: 0 0 8px var(--swal-success);
+  }
+  .page-content {
     display: flex;
     flex-direction: column;
     gap: var(--swal-space-5);
-    min-height: 100vh;
-    min-height: 100dvh;
   }
   .topbar {
     display: flex;

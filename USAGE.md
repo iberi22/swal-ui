@@ -309,6 +309,73 @@ Snippets opcionales para contenido custom:
 
 `variant: 'text'|'card'|'circle'`, `width`, `height`.
 
+### `<DashboardLayout>`
+
+Sidebar template component optimized for Svelte 5.
+
+| Prop | Tipo | Default | Descripción |
+|------|------|---------|-------------|
+| `sidebarOpen` | `boolean` (`bind:sidebarOpen`) | `true` | Sidebar open/collapsed status |
+| `brand` | `snippet` | — | Snippet for custom header brand logo/text |
+| `sidebarNav` | `snippet` | — | Snippet containing navigation link elements |
+| `sidebarFooter` | `snippet` | — | Snippet for sidebar footer content |
+| `headerActions` | `snippet` | — | Snippet for header items (e.g. status bar, search bar) |
+
+```svelte
+<DashboardLayout>
+  {#snippet brand()}
+    <span class="logo">My App</span>
+  {/snippet}
+  {#snippet sidebarNav()}
+    <a href="/dashboard">Overview</a>
+  {/snippet}
+  <div class="content">Main content goes here</div>
+</DashboardLayout>
+```
+
+### `<GlobalTicker>`
+
+Token-driven status / market marquee ticker bar.
+
+| Prop | Tipo | Default | Descripción |
+|------|------|---------|-------------|
+| `items` | `Array<string \| {text, type}>` | `[]` | Items to tick across the screen. Types: `'info'\|'warning'\|'error'\|'success'\|'orange'` |
+| `speed` | `'slow'\|'normal'\|'fast'` | `'normal'` | Ticker sliding speed |
+| `paused` | `boolean` | `false` | Pause ticker |
+| `interactive` | `boolean` | `true` | Pauses on hover, has custom styling |
+| `onclick` | `function` | — | Interactive click handler |
+
+```svelte
+<GlobalTicker
+  items={[
+    { text: 'SYSTEM OK: ALL NODES LIVE', type: 'success' },
+    { text: 'ALERT: HN-05 DELAY', type: 'warning' }
+  ]}
+/>
+```
+
+### `<Landing>`
+
+Full-featured landing page template styled using SWAL design system tokens.
+
+| Prop | Tipo | Default | Descripción |
+|------|------|---------|-------------|
+| `title` | `string` | `'SWAL Ecosystem'` | Landing hero title |
+| `subtitle` | `string` | — | Hero description text |
+| `heroButtonText` | `string` | `'Initialize Node'` | Text for primary hero button |
+| `onHeroClick` | `function` | — | Actions handler for hero buttons |
+| `features` | `Array<{title, description, icon?}>` | `[]` | Feature item list |
+| `stats` | `Array<{value, label, trend?}>` | `[]` | Quick stats display list |
+| `navLinks` | `Array<{href, text}>` | `[]` | Links for landing header |
+| `footerText` | `string` | — | Footer copyrights text |
+
+```svelte
+<Landing
+  title="Decentralized Intelligence"
+  stats={[{ value: '320k', label: 'Nodes' }]}
+/>
+```
+
 ---
 
 ## Motion (transiciones Svelte)
