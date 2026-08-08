@@ -1,0 +1,230 @@
+---
+import '@swal/ui/tokens';
+import {
+  Badge,
+  Button,
+  Card,
+  CommandPalette,
+  ConfigEditor,
+  Input,
+  LoadingState,
+  LogViewer,
+  Modal,
+  Skeleton,
+  StatusBadge,
+  Table,
+  Tabs,
+  Terminal,
+  Toaster
+} from '@swal/ui';
+
+// Mock/Example data for components
+const tableColumns = [
+  { key: 'id', label: 'ID', width: '80px' },
+  { key: 'name', label: 'Name' },
+  { key: 'status', label: 'Status' }
+];
+
+const tableRows = [
+  { id: '1', name: 'Main Server', status: 'Healthy' },
+  { id: '2', name: 'Backup node', status: 'Warning' }
+];
+
+const tabsList = [
+  { id: 'system', label: 'System' },
+  { id: 'network', label: 'Network' },
+  { id: 'storage', label: 'Storage' }
+];
+
+const commandItems = [
+  { id: 'home', label: 'Go to home page', hint: 'G H' },
+  { id: 'settings', label: 'Open server settings', hint: 'G S' },
+  { id: 'terminal', label: 'Launch remote terminal', hint: 'T' }
+];
+
+const logs = [
+  { id: '1', timestamp: '10:00:01', level: 'info', service: 'init', message: 'System boot sequence completed.' },
+  { id: '2', timestamp: '10:00:05', level: 'warn', service: 'network', message: 'Latency high on swal-mesh node-3.' },
+  { id: '3', timestamp: '10:00:12', level: 'error', service: 'db', message: 'Connection timeout on DB replicate' }
+];
+
+const rawLogs = [
+  '[INFO] 10:01:00 Worker initialized.',
+  '[WARN] 10:01:15 High response times observed.',
+  '[ERROR] 10:01:30 Database transaction failed.'
+];
+
+const configData = {
+  port: 8080,
+  debug: true,
+  environment: 'production'
+};
+
+const configSchema = [
+  { key: 'port', label: 'Server Port', type: 'number' },
+  { key: 'debug', label: 'Debug Mode', type: 'boolean' },
+  { key: 'environment', label: 'Environment', type: 'select', options: ['development', 'staging', 'production'] }
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>SWAL UI - Astro Islands Demo</title>
+    <style>
+      body {
+        background-color: var(--swal-bg);
+        color: var(--swal-text);
+        font-family: var(--swal-font);
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+      }
+      header {
+        margin-bottom: 2rem;
+        border-bottom: 1px solid var(--swal-border);
+        padding-bottom: 1rem;
+      }
+      h1 {
+        font-size: 2.5rem;
+        color: var(--swal-accent-orange);
+      }
+      h2 {
+        font-size: 1.5rem;
+        color: var(--swal-accent);
+        margin-top: 0;
+        border-bottom: 1px solid var(--swal-border-light);
+        padding-bottom: 0.5rem;
+      }
+      .interactive-demo {
+        padding: 1rem;
+        background: rgba(255,255,255,0.02);
+        border: 1px dashed var(--swal-border);
+        border-radius: var(--swal-radius);
+        margin-top: 1rem;
+      }
+    </style>
+  </head>
+  <body class="swal-dvh swal-safe-area swal-touch">
+    <header>
+      <h1>SWAL UI - Astro Islands</h1>
+      <p>Demonstrating Svelte 5 components fully working as Astro client-side interactive islands.</p>
+    </header>
+
+    <!-- Toaster Island (Loaded at top-level) -->
+    <Toaster client:load />
+
+    <div class="grid">
+      <!-- 1. Badge & StatusBadge -->
+      <Card variant="elevated" client:load>
+        <h2>1. Badges & Status</h2>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
+          <Badge variant="success" size="md">Success</Badge>
+          <Badge variant="warning">Warning</Badge>
+          <Badge variant="danger" pulse>Danger Pulse</Badge>
+          <Badge variant="info">Info</Badge>
+          <Badge variant="orange">Orange</Badge>
+          <Badge variant="neutral">Neutral</Badge>
+        </div>
+        <div style="margin-top: 1.5rem; display: flex; gap: 1rem; align-items: center;">
+          <span>StatusBadge:</span>
+          <StatusBadge status="healthy" client:visible />
+          <StatusBadge status="warning" client:visible />
+          <StatusBadge status="error" client:visible />
+          <StatusBadge status="offline" client:visible />
+        </div>
+      </Card>
+
+      <!-- 2. Button & Skeleton -->
+      <Card variant="surface" client:load>
+        <h2>2. Buttons & Skeletons</h2>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+          <Button variant="primary" client:load>Primary</Button>
+          <Button variant="orange" client:load>Orange</Button>
+          <Button variant="secondary" client:load>Secondary</Button>
+          <Button variant="ghost" client:load>Ghost</Button>
+          <Button variant="danger" client:load>Danger</Button>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <Skeleton variant="text" width="100%" />
+          <Skeleton variant="circle" width="40px" height="40px" />
+          <Skeleton variant="card" width="100%" height="60px" />
+        </div>
+      </Card>
+
+      <!-- 3. Input & Interactive Form Elements -->
+      <Card variant="default" client:load>
+        <h2>3. Inputs & Forms</h2>
+        <Input label="Server Name" placeholder="swal-node-alpha" client:load />
+        <Input label="Port Number" placeholder="8080" error="Port already in use" client:load />
+      </Card>
+
+      <!-- 4. Table & LoadingState -->
+      <Card variant="glass" client:load>
+        <h2>4. Tables & Loading States</h2>
+        <Table columns={tableColumns} rows={tableRows} client:load />
+        <div style="margin-top: 1rem;">
+          <LoadingState message="Fetching system status..." client:visible />
+        </div>
+      </Card>
+
+      <!-- 5. Tabs -->
+      <Card variant="elevated" client:load>
+        <h2>5. Interactive Tabs</h2>
+        <Tabs tabs={tabsList} active="system" client:load />
+      </Card>
+
+      <!-- 6. ConfigEditor -->
+      <Card variant="surface" client:load>
+        <h2>6. Config Editor</h2>
+        <ConfigEditor config={configData} schema={configSchema} title="System Settings" client:load />
+      </Card>
+    </div>
+
+    <!-- Wide full-width panels -->
+    <div style="display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 3rem;">
+      <!-- 7. LogViewer -->
+      <Card variant="default" client:load>
+        <h2>7. Log Viewer</h2>
+        <LogViewer lines={rawLogs} filterLevel="debug" maxHeight="200px" client:load />
+      </Card>
+
+      <!-- 8. Terminal -->
+      <Card variant="glass" client:load>
+        <h2>8. Interactive Terminal</h2>
+        <Terminal logs={logs} title="swal-edge-hive @ cluster-1" client:load />
+      </Card>
+
+      <!-- 9. Modal & CommandPalette Trigger demo -->
+      <Card variant="elevated" client:load>
+        <h2>9. Overlay Components (Modal & CommandPalette)</h2>
+        <p>Both of these components operate outside normal flow but work beautifully as Astro Islands.</p>
+        <div class="interactive-demo">
+          <!-- Since Astro pages cannot share Svelte state seamlessly unless via a shared store/context/helper,
+               we can import a custom wrapper or just instantiate the island with its state managed within Svelte.
+               But we can pass reactive bind:open if we want, or just trigger it.
+               Let's render CommandPalette and Modal with client:load! -->
+          <p>Click below to test overlay islands:</p>
+          <div style="display: flex; gap: 1rem;">
+            <Button variant="orange" onclick={() => alert('Press CMD+K / CTRL+K to open CommandPalette or open it programmatically.')} client:load>
+              Command Palette Help
+            </Button>
+          </div>
+          <!-- Let's put a simple state demonstration if they click.
+               Wait, we can create a simple wrapper or just let them open! -->
+          <CommandPalette items={commandItems} open={false} client:load />
+          <Modal open={false} title="System Update" client:load>
+            <p>Are you sure you want to proceed with the firmware update?</p>
+          </Modal>
+        </div>
+      </Card>
+    </div>
+  </body>
+</html>
