@@ -5,7 +5,7 @@
   "features": [
     {
       "id": "UI-TOKENS-01",
-      "name": "Design Tokens — Hive Dark Palette (CSS variables)",
+      "name": "Design Tokens \u2014 Hive Dark Palette (CSS variables)",
       "status": "completed",
       "progress_pct": 100,
       "passes": true,
@@ -15,7 +15,7 @@
     },
     {
       "id": "UI-CORE-01",
-      "name": "Core Components — Button, Card, Badge, Input, StatusBadge",
+      "name": "Core Components \u2014 Button, Card, Badge, Input, StatusBadge",
       "status": "completed",
       "progress_pct": 100,
       "passes": true,
@@ -25,7 +25,7 @@
     },
     {
       "id": "UI-ADV-01",
-      "name": "Advanced Components — Modal, Tabs, Table, Skeleton, Toaster, Terminal, LogViewer, CommandPalette, ConfigEditor, LoadingState",
+      "name": "Advanced Components \u2014 Modal, Tabs, Table, Skeleton, Toaster, Terminal, LogViewer, CommandPalette, ConfigEditor, LoadingState",
       "status": "completed",
       "progress_pct": 100,
       "passes": true,
@@ -46,22 +46,22 @@
     {
       "id": "UI-ASTRO-01",
       "name": "Astro Islands Compatibility",
-      "status": "pending",
-      "progress_pct": 0,
-      "passes": false,
-      "last_tested": "",
-      "implemented_in": "",
-      "notes": "Verificar que componentes funcionan como islands en .astro (client:load/client:visible). Añadir ejemplo en demo/."
+      "status": "completed",
+      "progress_pct": 100,
+      "passes": true,
+      "last_tested": "2026-08-09",
+      "implemented_in": "src/components/, demo/astro-islands/src/pages/index.astro",
+      "notes": "All 18 components verified as Astro islands with SSR and client-side hydration. PR #13."
     },
     {
       "id": "UI-DASH-01",
       "name": "DashboardLayout + Landing Template",
-      "status": "pending",
-      "progress_pct": 0,
-      "passes": false,
-      "last_tested": "",
-      "implemented_in": "",
-      "notes": "Layout de dashboard (sidebar + GlobalTicker) y landing page template para apps SWAL en Astro."
+      "status": "completed",
+      "progress_pct": 100,
+      "passes": true,
+      "last_tested": "2026-08-09",
+      "implemented_in": "src/lib/components/layout/DashboardLayout.svelte, src/lib/components/widgets/GlobalTicker.svelte, src/pages/Landing.svelte",
+      "notes": "DashboardLayout, GlobalTicker, and Landing page templates. PR #12."
     }
   ]
 }
