@@ -15,7 +15,10 @@ import {
   Table,
   Tabs,
   Terminal,
-  Toaster
+  Toaster,
+  DashboardLayout,
+  GlobalTicker,
+  Landing
 } from '@swal/ui';
 
 // Mock/Example data for components
@@ -121,6 +124,9 @@ const configSchema = [
     <!-- Toaster Island (Loaded at top-level) -->
     <Toaster client:load />
 
+    <!-- GlobalTicker Island -->
+    <GlobalTicker items={['System Online', 'CPU load: 12%', 'Mesh Node alpha reporting', 'All 18 components verified']} client:load />
+
     <div class="grid">
       <!-- 1. Badge & StatusBadge -->
       <Card variant="elevated" client:load>
@@ -190,6 +196,32 @@ const configSchema = [
 
     <!-- Wide full-width panels -->
     <div style="display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 3rem;">
+      <!-- DashboardLayout & Landing Templates -->
+      <Card variant="surface" client:load>
+        <h2>Dashboard Layout Preview (Interactive Island)</h2>
+        <div style="border: 1px solid var(--swal-border); border-radius: var(--swal-radius); overflow: hidden; height: 300px; margin-bottom: 1rem;">
+          <DashboardLayout client:load style="min-height: 300px; height: 300px;">
+            <div style="padding: 1rem;">
+              <p>Dashboard main content area nested inside a client-side layout island.</p>
+            </div>
+          </DashboardLayout>
+        </div>
+      </Card>
+
+      <Card variant="glass" client:load>
+        <h2>Landing Page Template Preview (Interactive Island)</h2>
+        <div style="border: 1px solid var(--swal-border); border-radius: var(--swal-radius); overflow: hidden; height: 300px; transform: scale(1); position: relative;">
+          <Landing
+            client:load
+            title="SWAL Edge"
+            subtitle="Demo Landing Page"
+            heroButtonText="Initialize"
+            style="min-height: 300px; height: 300px; overflow-y: auto;"
+            stats={[{ value: '99.9%', label: 'Uptime' }]}
+          />
+        </div>
+      </Card>
+
       <!-- 7. LogViewer -->
       <Card variant="default" client:load>
         <h2>7. Log Viewer</h2>

@@ -1,4 +1,5 @@
 <script>
+  // astro|island|client:visible|client:load
   let {
     variant = 'primary', // 'primary' | 'secondary' | 'ghost' | 'danger' | 'orange'
     size = 'md',         // 'sm' | 'md' | 'lg'

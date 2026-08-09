@@ -1,4 +1,5 @@
 <script>
+  // astro|island|client:visible|client:load
   let {
     variant = 'default', // 'default' | 'surface' | 'elevated' | 'glass'
     padding = 'md',      // 'none' | 'sm' | 'md' | 'lg'

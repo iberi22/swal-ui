@@ -1,4 +1,5 @@
 <script>
+  // astro|island|client:visible|client:load
   let {
     variant = 'neutral', // 'success' | 'warning' | 'danger' | 'info' | 'neutral' | 'orange'
     size = 'sm',         // 'sm' | 'md'

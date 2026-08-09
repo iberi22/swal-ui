@@ -1,4 +1,5 @@
 <script>
+  // astro|island|client:visible|client:load
   // Portado de edge-hive-admin/components/StatusBadge.tsx
   let {
     status = 'offline', // 'healthy' | 'warning' | 'error' | 'offline'

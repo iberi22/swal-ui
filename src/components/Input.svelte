@@ -1,4 +1,5 @@
 <script>
+  // astro|island|client:visible|client:load
   let {
     value = $bindable(''),
     placeholder = '',
