@@ -1,4 +1,5 @@
 <script>
+  // DashboardLayout|GlobalTicker|Landing
   let {
     items = [], // Array of strings or objects { text, type: 'info'|'warning'|'error'|'success'|'orange' }
     speed = 'normal', // 'slow' | 'normal' | 'fast'

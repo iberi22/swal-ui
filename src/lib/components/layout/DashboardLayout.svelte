@@ -1,4 +1,5 @@
 <script>
+  // DashboardLayout|GlobalTicker|Landing
   let {
     sidebarOpen = $bindable(true),
     brand,

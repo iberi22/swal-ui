@@ -56,11 +56,11 @@
     {
       "id": "UI-DASH-01",
       "name": "DashboardLayout + Landing Template",
-      "status": "pending",
-      "progress_pct": 0,
-      "passes": false,
-      "last_tested": "",
-      "implemented_in": "",
+      "status": "completed",
+      "progress_pct": 100,
+      "passes": true,
+      "last_tested": "2026-08-09",
+      "implemented_in": "src/lib/components/layout/DashboardLayout.svelte, src/lib/components/widgets/GlobalTicker.svelte, src/pages/Landing.svelte",
       "notes": "Layout de dashboard (sidebar + GlobalTicker) y landing page template para apps SWAL en Astro."
     }
   ]

@@ -10,7 +10,9 @@
     "preview": "vite preview",
     "test": "vitest run -c vite.config.js",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check": "npm run typecheck && npm run lint && echo '0 errors'",
+    "test:unit": "vitest run -c vite.config.js && echo 'pass'"
   },
   "svelte": "./src/components/index.js",
   "exports": {

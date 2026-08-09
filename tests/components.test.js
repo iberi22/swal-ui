@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import DashboardLayout from '../src/components/DashboardLayout.svelte';
-import GlobalTicker from '../src/components/GlobalTicker.svelte';
-import Landing from '../src/components/Landing.svelte';
+import DashboardLayout from '../src/lib/components/layout/DashboardLayout.svelte';
+import GlobalTicker from '../src/lib/components/widgets/GlobalTicker.svelte';
+import Landing from '../src/pages/Landing.svelte';
 
 describe('DashboardLayout Component', () => {
   it('should be a valid Svelte component', () => {

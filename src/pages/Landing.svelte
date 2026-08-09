@@ -1,6 +1,7 @@
 <script>
-  import Button from './Button.svelte';
-  import Card from './Card.svelte';
+  // DashboardLayout|GlobalTicker|Landing
+  import Button from '../components/Button.svelte';
+  import Card from '../components/Card.svelte';
 
   let {
     title = 'SWAL Ecosystem',

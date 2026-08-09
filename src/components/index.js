@@ -18,6 +18,6 @@ export { default as LogViewer } from './LogViewer.svelte';
 export { default as ConfigEditor } from './ConfigEditor.svelte';
 
 // New Components
-export { default as DashboardLayout } from './DashboardLayout.svelte';
-export { default as GlobalTicker } from './GlobalTicker.svelte';
-export { default as Landing } from './Landing.svelte';
+export { default as DashboardLayout } from '../lib/components/layout/DashboardLayout.svelte';
+export { default as GlobalTicker } from '../lib/components/widgets/GlobalTicker.svelte';
+export { default as Landing } from '../pages/Landing.svelte';
