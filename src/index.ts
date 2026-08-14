@@ -5,6 +5,9 @@
  * Extraído de edge-hive/edge-hive-admin (Hive Dark theme).
  */
 
+// ——— Themes ———
+export const themes = { hive: 'hive-dark', tikpro: 'tikpro' } as const;
+
 // ——— Design Tokens ———
 export { colors, typography, effects, spacing, borderRadius } from './tokens';
 export { default as swalTailwindPreset } from './tokens/tailwind';
@@ -26,3 +29,5 @@ export { cn } from './utils/cn';
 
 // ——— Styles ———
 import './styles/global.css';
+import './tokens/tikpro.css';
+

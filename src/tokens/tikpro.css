@@ -1,0 +1,112 @@
+/* ═══════════════════════════════════════════════
+   SWAL Design Tokens — Tema: TikPro (Sci-Fi / Arwes)
+   Portado fielmente desde TikBoost / TikPro
+   Estética futurista: fondo ultra oscuro, cyan neon (#00ffff),
+   acento púrpura eléctrico, resplandores intensos y gradientes.
+   Validado: texto muted con contraste >= 7:1 sobre el fondo y
+   jerarquía de superficies 9-11% de lightness (bg 4% → elevated 9%/11%).
+   ═══════════════════════════════════════════════ */
+
+:root[data-theme="tikpro"],
+[data-theme="tikpro"] {
+  /* ─── Superficies (TikPro dark sci-fi) ─── */
+  --swal-bg: hsl(215 25% 4%);
+  --swal-surface: hsl(215 25% 6% / 0.8);
+  --swal-surface-hover: hsl(215 22% 10% / 0.8);
+  --swal-surface-active: hsl(215 20% 12% / 0.8);
+  --swal-elevated: hsl(215 22% 9%);
+  --swal-elevated-850: hsl(215 22% 11%);
+  --swal-overlay: hsl(215 25% 4% / 0.8);
+  --swal-void: hsl(215 25% 2%);
+
+  /* ─── Bordes y Radios ─── */
+  --swal-border: hsl(215 25% 15%);
+  --swal-border-light: hsl(215 25% 20%);
+  --swal-radius: 8px;
+  --swal-radius-sm: 4px;
+  --swal-radius-lg: 12px;
+  --swal-radius-xl: 16px;
+
+  /* ─── Texto ─── */
+  --swal-text: hsl(200 100% 92%);
+  --swal-text-secondary: hsl(200 22% 78%);
+  --swal-text-muted: hsl(200 25% 74%);
+  --swal-text-inverse: hsl(215 25% 4%);
+
+  /* ─── Acentos (Paleta TikPro: Neon Cyan + Electric Purple) ─── */
+  --swal-accent: hsl(190 92% 52%);
+  --swal-accent-hover: hsl(190 92% 62%);
+  --swal-accent-muted: hsl(190 92% 52% / 0.12);
+  /* ── DOCUMENTED THEME DEVIATION ─────────────────────────────
+     En Hive Dark el slot de acento secundario (--swal-accent-orange)
+     es naranja (system/nav). En TikPro se remapea a púrpura eléctrico
+     por diseño (estética creator/streaming).
+     Los componentes deben leer este slot semánticamente: por rol
+     (acento secundario), NO por tono.
+     ──────────────────────────────────────────────────────────── */
+  --swal-accent-orange: hsl(270 92% 62%);
+  --swal-accent-orange-muted: hsl(270 92% 62% / 0.12);
+  --swal-success: hsl(160 90% 45%);
+  --swal-warning: hsl(45 100% 55%);
+  --swal-danger: hsl(345 95% 55%);
+  --swal-info: hsl(190 100% 50%);
+
+  /* ─── Inputs y Enfoque ─── */
+  --swal-input: hsl(215 25% 12%);
+  --swal-ring: hsl(190 100% 50%);
+
+  /* ─── Sombras y Resplandores Neon ─── */
+  --swal-shadow-sm: 0 2px 4px -1px hsl(0 0% 0% / 0.2);
+  --swal-shadow: 0 4px 6px -1px hsl(0 0% 0% / 0.3), 0 2px 4px -1px hsl(0 0% 0% / 0.2);
+  --swal-shadow-lg: 0 10px 30px -10px hsl(190 92% 52% / 0.4);
+  --swal-shadow-neon-cyan: 0 0 20px hsl(190 92% 52% / 0.3), 0 0 40px hsl(190 92% 52% / 0.1);
+  --swal-shadow-neon-orange: 0 0 20px hsl(270 92% 62% / 0.3), 0 0 40px hsl(270 92% 62% / 0.1);
+  --swal-shadow-neon-emerald: 0 0 20px hsl(160 90% 45% / 0.3), 0 0 40px hsl(160 90% 45% / 0.1);
+
+  /* Aliases legacy */
+  --swal-shadow-glow-cyan: var(--swal-shadow-neon-cyan);
+  --swal-shadow-glow-orange: var(--swal-shadow-neon-orange);
+  --swal-shadow-glow-emerald: var(--swal-shadow-neon-emerald);
+
+  /* Resplandores TikPro directos */
+  --swal-glow-primary: 0 0 20px hsl(190 92% 52% / 0.3);
+  --swal-glow-accent: 0 0 20px hsl(270 92% 62% / 0.3);
+  --swal-shadow-card: 0 4px 6px -1px hsl(0 0% 0% / 0.3), 0 2px 4px -1px hsl(0 0% 0% / 0.2);
+  --swal-shadow-glow: 0 10px 30px -10px hsl(190 92% 52% / 0.4);
+
+  /* ─── Gradientes ─── */
+  --swal-gradient-primary: linear-gradient(135deg, hsl(190 92% 52%), hsl(190 92% 62%));
+  --swal-gradient-accent: linear-gradient(135deg, hsl(270 92% 62%), hsl(270 92% 72%));
+  --swal-gradient-hero: linear-gradient(135deg, hsl(215 25% 4%), hsl(215 25% 8%));
+}
+
+/* ─── Ajustes de utilidades para TikPro ─── */
+[data-theme="tikpro"] .swal-glass,
+.swal-glass[data-theme="tikpro"] {
+  background: hsl(215 25% 6% / 0.8);
+  border-color: var(--swal-border);
+}
+
+[data-theme="tikpro"] .swal-neon-cyan {
+  text-shadow: 0 0 5px hsl(190 92% 52% / 0.5), 0 0 10px hsl(190 92% 52% / 0.3);
+}
+
+[data-theme="tikpro"] .swal-neon-orange {
+  text-shadow: 0 0 5px hsl(270 92% 62% / 0.5), 0 0 10px hsl(270 92% 62% / 0.3);
+}
+
+[data-theme="tikpro"] .swal-scrollbar::-webkit-scrollbar-track {
+  background: hsl(215 20% 12%);
+}
+
+[data-theme="tikpro"] .swal-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(215 25% 15%);
+}
+
+[data-theme="tikpro"] .swal-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(200 20% 65%);
+}
+
+[data-theme="tikpro"] .swal-scrollbar {
+  scrollbar-color: hsl(215 25% 15%) hsl(215 20% 12%);
+}

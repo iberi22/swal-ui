@@ -13,6 +13,16 @@
   let activeTab = $state('overview');
   let email = $state('');
   let emailError = $state('Formato de email inválido');
+  let currentTheme = $state(localStorage.getItem('swal-theme') ?? 'hive');
+
+  $effect(() => {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  });
+
+  function toggleTheme() {
+    currentTheme = currentTheme === 'hive' ? 'tikpro' : 'hive';
+    localStorage.setItem('swal-theme', currentTheme);
+  }
 
   const tabItems = [
     { id: 'overview', label: 'Overview' },
@@ -112,7 +122,9 @@
 
     {#snippet headerActions()}
       <Button variant="ghost" size="sm" onclick={() => (paletteOpen = true)}>⌘K Palette</Button>
-      <Button variant="orange" size="sm" onclick={() => (showModal = true)}>Abrir Modal</Button>
+      <Button variant="orange" size="sm" onclick={toggleTheme}>
+        {currentTheme === 'hive' ? '🎨 TikPro Theme' : '🎨 Hive Theme'}
+      </Button>
     {/snippet}
 
     <div class="page-content">
