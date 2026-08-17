@@ -2,10 +2,14 @@
   "protocolVersion": "3.9.0",
   "projectId": "swal-ui",
   "name": "SWAL Design System",
+  "metadata": {
+    "overall_progress_pct": 100,
+    "last_updated": "2026-08-17"
+  },
   "features": [
     {
       "id": "UI-TOKENS-01",
-      "name": "Design Tokens \u2014 Hive Dark Palette (CSS variables)",
+      "name": "Design Tokens — Hive Dark Palette (CSS variables)",
       "status": "completed",
       "progress_pct": 100,
       "passes": true,
@@ -15,7 +19,7 @@
     },
     {
       "id": "UI-CORE-01",
-      "name": "Core Components \u2014 Button, Card, Badge, Input, StatusBadge",
+      "name": "Core Components — Button, Card, Badge, Input, StatusBadge",
       "status": "completed",
       "progress_pct": 100,
       "passes": true,
@@ -25,7 +29,7 @@
     },
     {
       "id": "UI-ADV-01",
-      "name": "Advanced Components \u2014 Modal, Tabs, Table, Skeleton, Toaster, Terminal, LogViewer, CommandPalette, ConfigEditor, LoadingState",
+      "name": "Advanced Components — Modal, Tabs, Table, Skeleton, Toaster, Terminal, LogViewer, CommandPalette, ConfigEditor, LoadingState",
       "status": "completed",
       "progress_pct": 100,
       "passes": true,
