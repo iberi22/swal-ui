@@ -1,109 +1,158 @@
-# @swal/ui — SWAL Design System
+# @swal/ui
 
-> Identidad visual unificada para todas las apps del ecosistema SouthWest AI Labs.
-> Tema **"Hive Dark"** — portado fielmente de `edge-hive/edge-hive-admin`.
-> **Svelte 5 (runes) · Zero-dependency · CSS scoped · Astro-compatible**
->
-> 📖 Guía de uso completa con ejemplos: [`USAGE.md`](./USAGE.md)
-> 🎨 Demo interactiva: `npm run dev` → demo/
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![Svelte 5](https://img.shields.io/badge/Svelte-5-orange.svg)](https://svelte.dev)
 
-## Design Tokens
+> Edge-Hive theme tokens and Svelte 5 runes-based UI components powering SouthWest AI Labs (SWAL) web applications.
 
-Variables CSS en `:root` — framework-agnostic (funcionan en Svelte, Astro, HTML puro):
+`@swal/ui` is the official design system for SouthWest AI Labs (SWAL). Built from the ground up for **Svelte 5** using modern runes (`$state`, `$derived`, `$props`, `$bindable`, `$effect`), it provides a zero-dependency, scoped-CSS component library and framework-agnostic CSS design tokens ("Hive Dark" theme).
 
-| Token | Valor | Uso |
-|-------|-------|-----|
-| `--swal-bg` | `#020617` (slate-950) | Fondo principal / terminal |
-| `--swal-elevated` | `#0f172a` (slate-900) | Sidebar / paneles |
-| `--swal-elevated-850` | `#151e2e` (slate-850) | Cards elevadas |
-| `--swal-void` | `#000000` | Terminal black |
-| `--swal-accent` | `#06b6d4` (cyan) | Datos / info — **acción primaria** |
-| `--swal-accent-orange` | `#f97316` | System / nav / warning |
-| `--swal-text` | `#f1f5f9` (slate-100) | Texto principal |
-| `--swal-text-secondary` | `#94a3b8` (slate-400) | Texto secundario |
-| `--swal-success` | `#10b981` | OK |
-| `--swal-warning` | `#f59e0b` | Advertencia |
-| `--swal-danger` | `#ef4444` | Error |
+---
 
-## Instalación
+## Features
+
+- ⚡ **Svelte 5 Runes Native**: Built using Svelte 5 reactivity runes without legacy store dependencies.
+- 🎨 **Hive Theme Tokens**: CSS custom properties for slate dark-mode UI, vibrant cyan/orange accents, and neon indicators.
+- 🚀 **Zero Dependencies**: Lightweight UI primitives styled with scoped CSS.
+- 🏝️ **Astro Islands Compatible**: Full SSR and hydration support with Astro (`client:load`, `client:visible`).
+- 🛠️ **TypeScript & Tailwind Support**: Pre-configured token exports for TypeScript definitions (`src/tokens/index.ts`) and Tailwind CSS integration (`src/tokens/tailwind.ts`).
+
+---
+
+## Install
+
+Install `@swal/ui` into your project using `pnpm` or `npm`:
 
 ```bash
-# Workspace npm/pnpm (maloca, edge-hive, apps)
+# Using pnpm (SWAL standard)
+pnpm add @swal/ui
+
+# Using npm
 npm install @swal/ui
 ```
 
-Importar tokens **una sola vez** en el entry point (`main.ts`, `layout.astro`, `+layout.svelte`):
+### Peer Dependencies
 
-```css
-@import '@swal/ui/tokens'; /* theme.css (incluye colors.css) */
+Ensure your project has Svelte 5 installed:
+
+```json
+"peerDependencies": {
+  "svelte": "^5.0.0"
+}
 ```
 
-## Uso (Svelte 5)
+---
+
+## Components
+
+The design system exports 18 reusable Svelte 5 components located under `src/components/`:
+
+| Component | File Path | Description / Purpose |
+|-----------|-----------|-----------------------|
+| `Badge` | `Badge.svelte` | Status indicator tag supporting variants (`success`, `warning`, `danger`, `info`, `neutral`, `orange`) and optional pulse effect. |
+| `Button` | `Button.svelte` | Interactive button supporting primary (cyan), orange, outline, ghost, and danger variants with optional glow effect. |
+| `Card` | `Card.svelte` | Flexible container surface with customizable elevation, translucency (`default`, `surface`, `elevated`, `glass`), and hover effects. |
+| `CommandPalette` | `CommandPalette.svelte` | Keyboard-driven `Ctrl+K` overlay for fast search, action dispatching, and application navigation. |
+| `ConfigEditor` | `ConfigEditor.svelte` | Schema-driven interactive JSON/form editor for real-time configuration mutation. |
+| `DashboardLayout` | `DashboardLayout.svelte` | Full application shell incorporating collapsible sidebar navigation, header branding, and integrated status ticker. |
+| `GlobalTicker` | `GlobalTicker.svelte` | Marquee marquee status bar for live telemetry alerts, system notifications, and announcements. |
+| `Input` | `Input.svelte` | Scoped-styled form input control with bi-directional `$bindable` value binding and focus state indicators. |
+| `Landing` | `Landing.svelte` | Hero section template with customizable badge, main title, subtitle, call-to-action buttons, and preview slots. |
+| `LoadingState` | `LoadingState.svelte` | Status loading indicator featuring an animated spinner or inline error feedback with an optional retry trigger. |
+| `LogViewer` | `LogViewer.svelte` | High-performance streaming log viewer component supporting level filtering (`debug`, `info`, `warn`, `error`) and auto-scrolling. |
+| `Modal` | `Modal.svelte` | Accessible dialog modal with backdrop blur, keydown escape handling, and smooth scale transitions. |
+| `Skeleton` | `Skeleton.svelte` | Loading placeholder skeleton animation supporting `text`, `card`, and `circle` shapes. |
+| `StatusBadge` | `StatusBadge.svelte` | Operational status indicator for node health (`healthy`, `warning`, `error`, `offline`) with neon glow pulse animations. |
+| `Table` | `Table.svelte` | Flexible data table supporting custom column alignments, sort headers, and custom cell rendering snippets. |
+| `Tabs` | `Tabs.svelte` | Tabbed interface component with smooth active state indicators and dynamic content switching. |
+| `Terminal` | `Terminal.svelte` | Interactive developer terminal interface displaying timestamped logs, severity levels, and command history. |
+| `Toaster` | `Toaster.svelte` | Global toast notification container rendering stacked feedback toasts managed by `@swal/ui/toast`. |
+
+---
+
+## Theming
+
+`@swal/ui` uses framework-agnostic CSS variables defined in `:root`. To use the theme across your application, import the stylesheet into your app's main entry point (`+layout.svelte`, `main.ts`, `layout.astro`, or index stylesheet).
+
+### Token Files
+
+Theme definitions are located under `src/tokens/`:
+
+- `src/tokens/theme.css`: Main dark theme tokens (Slate 950 base, Hive accents, layout dimensions). Automatically imports `colors.css`.
+- `src/tokens/colors.css`: Color palette custom properties (`--swal-bg`, `--swal-accent`, `--swal-accent-orange`, `--swal-text`, etc.).
+- `src/tokens/tikpro.css`: Specialized color token overrides and CRT scanline effects for telemetry screens.
+- `src/tokens/index.ts`: TypeScript constants and design token helper functions for programmatic access.
+- `src/tokens/tailwind.ts`: Tailwind CSS theme extension object for seamless integration with Tailwind projects.
+
+### Standard Import
+
+```css
+/* Import in global CSS or root layout */
+@import '@swal/ui/tokens';
+```
+
+### Key Design Variables
+
+| CSS Variable | Default Value | Usage |
+|--------------|---------------|-------|
+| `--swal-bg` | `#020617` | Main canvas background |
+| `--swal-elevated` | `#0f172a` | Panels, sidebars, modal surfaces |
+| `--swal-elevated-850` | `#151e2e` | Elevated card surfaces |
+| `--swal-void` | `#000000` | Terminal background / void black |
+| `--swal-accent` | `#06b6d4` | Primary action cyan accent |
+| `--swal-accent-orange` | `#f97316` | System notification & warning orange |
+| `--swal-text` | `#f1f5f9` | Primary readable text |
+| `--swal-text-secondary` | `#94a3b8` | Subtitles and meta text |
+| `--swal-success` | `#10b981` | Success indicators |
+| `--swal-warning` | `#f59e0b` | Warning indicators |
+| `--swal-danger` | `#ef4444` | Danger & error indicators |
+
+---
+
+## Usage Examples
+
+### Svelte 5
 
 ```svelte
 <script>
-  import { Button, Card, StatusBadge } from '@swal/ui';
+  import { Button, Card, StatusBadge, Input } from '@swal/ui';
+
+  let nodeName = $state('edge-node-01');
+  let status = $state('healthy');
 </script>
 
-<Card>
-  <h3>Nodo</h3>
-  <StatusBadge status="healthy" label="online" />
-  <Button variant="primary" glow>Conectar</Button>
+<Card variant="elevated">
+  <h3>System Status</h3>
+  <StatusBadge {status} label={nodeName} />
+
+  <Input bind:value={nodeName} placeholder="Enter node alias" />
+
+  <Button variant="primary" glow onclick={() => console.log('Connecting...')}>
+    Connect Node
+  </Button>
 </Card>
 ```
 
-## Uso (Astro)
+### Astro Islands
 
 ```astro
 ---
-import { Button } from '@swal/ui';
+import { Button, StatusBadge } from '@swal/ui';
 ---
-<!-- Island: solo client-side -->
-<Button client:load variant="primary" glow>Conectar</Button>
+
+<div class="status-container">
+  <StatusBadge status="healthy" label="Cluster Online" />
+  <!-- Hydrated client-side -->
+  <Button client:load variant="orange">Action</Button>
+</div>
 ```
-
-## Componentes (15)
-
-| Componente | Descripción |
-|-----------|-------------|
-| `Button` | Variantes: primary (cyan), orange, outline, ghost, danger |
-| `Card` | Superficie estándar con borde translúcido |
-| `Badge` | Etiqueta de estado |
-| `Input` | Campo de texto con tema SWAL |
-| `StatusBadge` | healthy/warning/error/offline con pulso neon |
-| `Modal` | Diálogo modal |
-| `Tabs` | Pestañas |
-| `Table` | Tabla de datos |
-| `Skeleton` | Loading placeholder |
-| `Toaster` | Notificaciones toast (store) |
-| `Terminal` | Terminal interactivo (responsive) |
-| `LogViewer` | Visor de logs |
-| `CommandPalette` | Palette Ctrl+K |
-| `ConfigEditor` | Editor de config con sync JSON |
-| `LoadingState` | Estado de carga |
-
-## Estructura
-
-```
-swal-ui/
-├── package.json          # @swal/ui v0.2.0 — exports svelte + tokens
-├── vite.config.js        # build Svelte (vite-plugin-svelte)
-├── demo/                 # Showcase interactivo
-├── USAGE.md              # Guía de uso con ejemplos reales
-└── src/
-    ├── components/       # 15 componentes Svelte 5
-    ├── tokens/           # theme.css (tokens CSS) + colors.css
-    ├── styles/           # global.css (base, scrollbar, CRT)
-    └── lib/              # motion.js, toast.svelte.js
-```
-
-## Roadmap
-
-- [ ] DashboardLayout (sidebar + GlobalTicker) para apps SWAL
-- [ ] Landing page template (Astro)
-- [ ] Verificar islands en Astro (`UI-ASTRO-01`)
-- [ ] Modo claro (fase 2)
-- [ ] Publicar a npm registry
 
 ---
-*SouthWest AI Labs · Stack: Svelte 5 + Astro (Jamstack) · Backend: edge-hive*
+
+## License
+
+This project is licensed under the **MIT License**. See the [LICENSE](./LICENSE) file for full details.
+
+---
+
+*SouthWest AI Labs (SWAL) · Edge-Hive Theme & Svelte 5 UI Component Library*
