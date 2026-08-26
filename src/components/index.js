@@ -17,6 +17,10 @@ export { default as Toaster } from './Toaster.svelte';
 export { default as LogViewer } from './LogViewer.svelte';
 export { default as ConfigEditor } from './ConfigEditor.svelte';
 
+// Soberanía Pro
+export { default as SwalNodeProvider } from './SwalNodeProvider.svelte';
+export { default as ProGate } from './ProGate.svelte';
+
 // New Components
 export { default as DashboardLayout } from './DashboardLayout.svelte';
 export { default as GlobalTicker } from './GlobalTicker.svelte';

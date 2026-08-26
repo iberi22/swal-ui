@@ -354,6 +354,55 @@ Token-driven status / market marquee ticker bar.
 />
 ```
 
+### Soberanía Pro — `SwalNodeProvider` + `ProGate`
+
+Gate soberano para features Pro: solo nodo SWAL activo (sin Stripe).
+
+| Componente | Props | Descripción |
+|------------|-------|-------------|
+| `SwalNodeProvider` | `probeUrl?: string` (default `http://127.0.0.1:8006/health`), `interval?: number` (default `60000` ms) | Provee contexto `{status, lastCheck}` vía `setContext('swal:node')`. Hace `fetch` con `AbortController` timeout 3s. SSR-safe (no accede a `window` en render). Re-renderiza `children` como snippet con `nodeState`. |
+| `ProGate` | `status?: string`, `fallback?: snippet` | Renderiza `children` solo cuando `status === 'active'`. Si no se pasa `status`, lee del contexto `swal:node`. Si inactivo y hay `fallback`, renderiza el fallback. |
+
+```svelte
+<script>
+  import { SwalNodeProvider, ProGate, Card, Badge } from '@swal/ui';
+</script>
+
+<SwalNodeProvider probeUrl="http://127.0.0.1:8006/health" interval={60000}>
+  {#snippet children({ status, lastCheck })}
+    <p>Node: {status} — último check: {lastCheck}</p>
+
+    <ProGate {status}>
+      {#snippet children()}
+        <Card>Contenido Pro — solo con nodo activo</Card>
+      {/snippet}
+      {#snippet fallback()}
+        <Card>Nodo inactivo — activa tu SWAL node para desbloquear Pro</Card>
+      {/snippet}
+    </ProGate>
+
+    <!-- Alternativa: ProGate lee status del contexto automáticamente -->
+    <ProGate fallback={fallbackSnippet}>
+      <Badge variant="success">PRO UNLOCKED</Badge>
+    </ProGate>
+  {/snippet}
+</SwalNodeProvider>
+```
+
+Para probar sin nodo real, pasa `status` manualmente:
+
+```svelte
+<ProGate status="active">
+  <p>Feature Pro visible</p>
+</ProGate>
+
+<ProGate status="inactive" fallback={fallbackSnippet}>
+  <p>No visible — muestra fallback</p>
+</ProGate>
+```
+
+Solo usa tokens `--swal-*`, zero-dependency, CSS scoped.
+
 ### `<Landing>`
 
 Full-featured landing page template styled using SWAL design system tokens.
