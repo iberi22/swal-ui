@@ -1,0 +1,113 @@
+/* ═══════════════════════════════════════════════
+   SWAL Design Tokens — Tema Antigravity DUAL
+   Copia 1:1 de Google Antigravity (2025) — captura 21:18
+   Dark = default Antigravity (canvas #050507, sidebar #0F0F10)
+   Light = Hueso (#FDFCF8, letras zapote #1C1917) — personalizable
+   Global: data-theme="antigravity" | "antigravity-light"
+   Primera app: veeduriacol
+   ═══════════════════════════════════════════════ */
+
+/* ─── DARK (default, captura 21:12/21:18) ─── */
+:root[data-theme="antigravity"] {
+  --swal-bg: #050507;
+  --swal-surface: #0F0F10;
+  --swal-surface-hover: #1A1A1D;
+  --swal-surface-active: #232326;
+  --swal-elevated: #1A1A1D;
+  --swal-elevated-850: #1E1E1E;
+  --swal-overlay: rgba(0,0,0,0.6);
+  --swal-void: #000000;
+  --swal-border: rgba(255,255,255,0.06);
+  --swal-border-light: rgba(255,255,255,0.10);
+  --swal-radius: 12px;
+  --swal-radius-sm: 8px;
+  --swal-radius-lg: 20px;
+  --swal-text: #E5E5E5;
+  --swal-text-secondary: #9CA3AF;
+  --swal-text-muted: #6B7280;
+  --swal-text-inverse: #FDFCF8;
+  --swal-accent: #8B5CF6;
+  --swal-accent-hover: #A78BFA;
+  --swal-accent-muted: rgba(139,92,246,0.12);
+  --swal-accent-orange: #06B6D4;
+  --swal-accent-orange-muted: rgba(6,182,212,0.10);
+  --swal-success: #10B981;
+  --swal-warning: #F59E0B;
+  --swal-danger: #EF4444;
+  --swal-info: #8B5CF6;
+  --swal-shadow-sm: none;
+  --swal-shadow: 0 12px 40px rgba(0,0,0,0.6);
+  --swal-shadow-lg: 0 20px 60px rgba(0,0,0,0.8);
+  --swal-shadow-neon-cyan: none;
+  --swal-shadow-neon-orange: none;
+  --swal-shadow-neon-emerald: none;
+  --swal-shadow-glow-cyan: none;
+  --swal-shadow-glow-orange: none;
+  --swal-shadow-glow-emerald: none;
+  --swal-font: 'Inter', system-ui, -apple-system, sans-serif;
+  --swal-font-mono: 'Geist Mono','JetBrains Mono', monospace;
+}
+
+/* ─── LIGHT HUESO (personalizable) ─── */
+:root[data-theme="antigravity-light"] {
+  --swal-bg: #FDFCF8;                 /* hueso */
+  --swal-surface: #FFFFFF;
+  --swal-surface-hover: #F5F5F0;
+  --swal-surface-active: #E7E5E4;
+  --swal-elevated: #FFFFFF;
+  --swal-elevated-850: #FAF9F6;
+  --swal-overlay: rgba(28,25,23,0.45);
+  --swal-void: #1C1917;               /* zapote oscuro para contraste */
+  --swal-border: rgba(28,25,23,0.08);
+  --swal-border-light: rgba(28,25,23,0.14);
+  --swal-radius: 16px;
+  --swal-radius-sm: 12px;
+  --swal-radius-lg: 24px;
+  --swal-text: #1C1917;               /* zapote locura */
+  --swal-text-secondary: #57534E;
+  --swal-text-muted: #A8A29E;
+  --swal-text-inverse: #FDFCF8;
+  --swal-accent: var(--swal-accent-custom, #7C3AED); /* personalizable */
+  --swal-accent-hover: #8B5CF6;
+  --swal-accent-muted: rgba(124,58,237,0.10);
+  --swal-accent-orange: #78716C;
+  --swal-accent-orange-muted: rgba(120,113,108,0.10);
+  --swal-success: #059669;
+  --swal-warning: #D97706;
+  --swal-danger: #DC2626;
+  --swal-info: var(--swal-accent);
+  --swal-shadow-sm: 0 1px 2px rgba(28,25,23,0.06);
+  --swal-shadow: 0 4px 12px rgba(28,25,23,0.08);
+  --swal-shadow-lg: 0 12px 32px rgba(28,25,23,0.12);
+  --swal-font: 'Google Sans','Inter', system-ui, sans-serif;
+  --swal-font-mono: 'Geist Mono','JetBrains Mono', monospace;
+}
+
+/* Grid */
+:root[data-theme="antigravity"] .swal-grid-bg {
+  background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+:root[data-theme="antigravity-light"] .swal-grid-bg {
+  background-image: linear-gradient(rgba(28,25,23,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(28,25,23,0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Glass */
+:root[data-theme="antigravity"] .swal-glass {
+  background: #1E1E1E;
+  backdrop-filter: none;
+  border: 1px solid var(--swal-border);
+}
+:root[data-theme="antigravity-light"] .swal-glass {
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border: 1px solid rgba(255,255,255,0.6);
+  box-shadow: var(--swal-shadow);
+}
+
+/* Scrollbar */
+.swal-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+.swal-scrollbar::-webkit-scrollbar-thumb { background: #27272A; border-radius: 4px; }
+:root[data-theme="antigravity-light"] .swal-scrollbar::-webkit-scrollbar-thumb { background: #D6D3D1; }

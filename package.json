@@ -2,7 +2,7 @@
   "name": "@swal/ui",
   "version": "0.2.0",
   "private": false,
-  "description": "SWAL Design System — Edge-Hive theme, Svelte 5 components (zero-dependency, scoped CSS)",
+  "description": "SWAL Design System \u2014 Edge-Hive theme, Svelte 5 components (zero-dependency, scoped CSS)",
   "type": "module",
   "scripts": {
     "build": "vite build",
@@ -24,7 +24,9 @@
     "./colors": "./src/tokens/colors.css",
     "./tikpro.css": "./src/tokens/tikpro.css",
     "./motion": "./src/lib/motion.js",
-    "./toast": "./src/lib/toast.svelte.js"
+    "./toast": "./src/lib/toast.svelte.js",
+    "./antigravity.css": "./src/tokens/antigravity.css",
+    "./tokens/antigravity.css": "./src/tokens/antigravity.css"
   },
   "files": [
     "src",
