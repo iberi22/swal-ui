@@ -21,3 +21,4 @@ export { default as ConfigEditor } from './ConfigEditor.svelte';
 export { default as DashboardLayout } from './DashboardLayout.svelte';
 export { default as GlobalTicker } from './GlobalTicker.svelte';
 export { default as Landing } from './Landing.svelte';
+export { default as QRCode } from './QRCode.svelte';
