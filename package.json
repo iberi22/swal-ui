@@ -26,7 +26,9 @@
     "./motion": "./src/lib/motion.js",
     "./toast": "./src/lib/toast.svelte.js",
     "./antigravity.css": "./src/tokens/antigravity.css",
-    "./tokens/antigravity.css": "./src/tokens/antigravity.css"
+    "./tokens/antigravity.css": "./src/tokens/antigravity.css",
+    "./fonts.css": "./src/tokens/fonts.css",
+    "./tokens/fonts.css": "./src/tokens/fonts.css"
   },
   "files": [
     "src",

@@ -499,6 +499,38 @@ Para ver un ejemplo completo en funcionamiento con todos los componentes descrit
 }
 ```
 
+### Presets de Tipografía (`data-font`)
+
+Para personalizar o alternar tipografías sin tocar los estilos base ni los colores, `@swal/ui` incluye presets opt-in en `@swal/ui/tokens/fonts.css` (o `@swal/ui/fonts.css`) activables mediante el atributo `data-font` en `:root` (`<html>`):
+
+```css
+@import '@swal/ui/tokens';
+@import '@swal/ui/tokens/fonts.css';
+```
+
+```html
+<!-- En tu <html> o elemento raíz -->
+<html data-font="jetbrains">
+```
+
+#### Presets válidos
+
+| Valor `data-font` | `--swal-font` | `--swal-font-mono` | Descripción |
+|-------------------|---------------|--------------------|-------------|
+| `inter` *(default)* | `'Inter', system-ui, -apple-system, sans-serif` | `'Fira Code', 'JetBrains Mono', monospace` | Pila estándar de SWAL / Edge-Hive |
+| `jetbrains` | `'JetBrains Mono', 'Fira Code', ui-monospace, monospace` | `'JetBrains Mono', 'Fira Code', ui-monospace, monospace` | Look monoespaciado / terminal para todo el texto |
+| `system` | `system-ui, -apple-system, BlinkMacSystemFont, ...` | `ui-monospace, SFMono-Regular, Menlo, ...` | Pila nativa del sistema operativo (cero dependencias de red) |
+| `fira` | `'Fira Sans', system-ui, -apple-system, sans-serif` | `'Fira Code', monospace` | Estética técnica moderna |
+
+#### Persistencia automática en `ConfigFloatingWindow`
+
+El componente `<ConfigFloatingWindow />` incluye un selector de tipografía en su sección **Appearance**, que:
+1. Aplica inmediatamente `document.documentElement.dataset.font = valor`.
+2. Persiste la selección en `localStorage` bajo la clave `'swal-font'`.
+3. Restaura automáticamente la fuente guardada durante el `onMount`.
+
+---
+
 ## Package Exports
 
 | Export | Contenido |
@@ -506,9 +538,14 @@ Para ver un ejemplo completo en funcionamiento con todos los componentes descrit
 | `@swal/ui` | Todos los componentes |
 | `@swal/ui/components/*.svelte` | Componente individual |
 | `@swal/ui/tokens` | theme.css + colors.css |
+| `@swal/ui/tokens/fonts.css` | Presets de tipografía (`data-font`) |
+| `@swal/ui/fonts.css` | Alias directo de presets tipográficos |
+| `@swal/ui/antigravity.css` / `@swal/ui/tokens/antigravity.css` | Tema Antigravity dual (dark/hueso light) |
+| `@swal/ui/tikpro.css` | Tema Sci-Fi TikPro |
 | `@swal/ui/motion` | swalFade, swalSlide |
 | `@swal/ui/toast` | store `toast` + `toasts` |
 
 ## License
 
 SWAL Ecosystem — AGPL-3.0.
+

@@ -4,21 +4,25 @@
   let theme = $state('antigravity');
   let accent = $state('#8B5CF6');
   let accentLight = $state('#7C3AED');
+  let font = $state('inter');
 
   onMount(() => {
     theme = localStorage.getItem('swal-theme') || 'antigravity';
     accent = localStorage.getItem('swal-accent-dark') || '#8B5CF6';
     accentLight = localStorage.getItem('swal-accent-light') || '#7C3AED';
+    font = localStorage.getItem('swal-font') || 'inter';
     apply();
   });
 
   function apply() {
     document.documentElement.dataset.theme = theme;
+    document.documentElement.dataset.font = font;
     document.documentElement.style.setProperty('--swal-accent', theme === 'antigravity-light' ? accentLight : accent);
     document.documentElement.style.setProperty('--swal-accent-custom', accentLight);
     localStorage.setItem('swal-theme', theme);
     localStorage.setItem('swal-accent-dark', accent);
     localStorage.setItem('swal-accent-light', accentLight);
+    localStorage.setItem('swal-font', font);
   }
 
   function toggleTheme() {
@@ -66,6 +70,18 @@
                   <div class="text-xs text-white/40">Cambia entre Dark y Hueso (light)</div>
                 </div>
                 <button onclick={toggleTheme} class="px-3 py-1.5 rounded-full text-xs font-bold border transition-all" style="background: {theme === 'antigravity-light' ? '#FDFCF8' : '#0A0A0B'}; color:{theme === 'antigravity-light' ? '#1C1917' : 'white'}; border-color: rgba(255,255,255,0.15)">{theme === 'antigravity-light' ? 'Hueso Light' : 'Dark'}</button>
+              </div>
+              <div class="flex justify-between items-center p-3.5 border-b border-white/5">
+                <div>
+                  <div class="text-sm font-medium">Tipografía</div>
+                  <div class="text-xs text-white/40">Presets de fuente (data-font)</div>
+                </div>
+                <select bind:value={font} onchange={apply} class="px-3 py-1.5 rounded-lg bg-[#2A2A2E] border border-white/10 text-xs text-white/90 focus:outline-none focus:border-white/30 cursor-pointer">
+                  <option value="inter">Inter (Default)</option>
+                  <option value="jetbrains">JetBrains (Mono)</option>
+                  <option value="system">System (Nativa)</option>
+                  <option value="fira">Fira (Code)</option>
+                </select>
               </div>
               <div class="flex justify-between items-center p-3.5 border-b border-white/5">
                 <div>
