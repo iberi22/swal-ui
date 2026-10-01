@@ -5,3 +5,6 @@ xavier_memory.db*
 
 # Cache local de análisis de código (agentes)
 code_graph.db*
+
+# Receta local de `hermes verify` (bootstrap/build/test/start detectados)
+.hermes/

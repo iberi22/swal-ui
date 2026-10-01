@@ -29,5 +29,5 @@ export { cn } from './utils/cn';
 
 // ——— Styles ———
 import './styles/global.css';
-import './tokens/tikpro.css';
+import './themes.css';
 

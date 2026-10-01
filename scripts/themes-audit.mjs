@@ -249,21 +249,18 @@ for (const [selector, nombre] of MODOS) {
 /**
  * El propio core no es una app que migra: es el sistema.
  *
- * Se reconoce por RUTA y no solo por `cores/swal-ui/`, porque el core se
- * comprueba a menudo desde un worktree detached (`git worktree add --detach`)
- * y ahi la ruta es `scratch/swal-theme-XXXXXX/src/themes.css`. Una exclusion
- * basada solo en la ruta del repositorio hacia que el auditor se acusa a si
- * mismo en cuanto se ejecuta fuera del arbol.
+ * Se excluyen solo los ficheros de tokens y themes.css, que son justo lo que
+ * el auditor busca. Todo lo demas bajo la carpeta del core se audita como
+ * cualquier app, y el demo va incluido a proposito: hoy importa
+ * `../src/tokens/theme.css` a mano, que es la infraccion mas visible del
+ * repositorio y no puede quedar tapada por una exclusion de carpeta.
  *
- * Se reconoce ademas por contenido: cualquier `swal-ui/src/` es el core,
- * este o donde este.
+ * El nombre `themes.css` cubre el caso del worktree detached
+ * (`git worktree add --detach`), donde la ruta es `scratch/algo-XXXXXX/` y no
+ * lleva el nombre del paquete.
  */
 function esElSistema(rel, nombre) {
-  // Por ruta: el core en su sitio, o un checkout con el nombre del paquete.
-  if (/(^|\/)cores\/swal-ui\//.test(rel) || /(^|\/)swal-ui\//.test(rel)) return true;
-  // Por contenido: un worktree detached es `scratch/algo-XXXXXX/src/themes.css`,
-  // sin el nombre del paquete en ninguna parte de la ruta. themes.css es el
-  // punto de entrada del sistema y no hay otro fichero con ese nombre.
+  if (/(^|\/)(src\/)?tokens\//.test(rel)) return true;
   return nombre === 'themes.css';
 }
 
@@ -289,9 +286,19 @@ if (process.argv.includes('--ecosistema')) {
         let txt;
         try { txt = readFileSync(p, 'utf8'); } catch { return; }
         // Un import de tokens/ o de theme.css propio es el antipatron.
+        // El antipatron tiene dos formas. La obvia es un @import de CSS, pero
+        // desde JS es igual de valido y mas habitual en un proyecto Svelte/Vite:
+        //
+        //     import '@swal/ui/tokens';
+        //     import '../src/tokens/theme.css';
+        //
+        // Mirar solo @import dejaba pasar el caso que mas se da en la practica:
+        // el entry del demo del propio core. Se buscan las dos.
         const patron =
           /@import\s+(?:url\()?['"]?[^'")]*(tokens\/(theme|tikpro|antigravity)\.css)/.test(txt) ||
-          /@import\s+['"]@swal\/ui\/tokens\//.test(txt);
+          /@import\s+['"]@swal\/ui\/tokens\//.test(txt) ||
+          /(?:^|\n)\s*import\s+(?:[^'"]*from\s+)?['"][^'"]*(tokens\/(theme|tikpro|antigravity)\.css|\/tokens)['"]/.test(txt) ||
+          /(?:^|\n)\s*import\s+['"]@swal\/ui\/(tokens|tikpro\.css|antigravity\.css|colors)['"]/.test(txt);
         if (!patron) continue;
 
         // El propio themes.css del core menciona el patron al documentarlo, y

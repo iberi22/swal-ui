@@ -90,11 +90,25 @@
    estetica.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* ── 1. Bone: la base ───────────────────────────────────────────────────────
-   Sin capa: es la base, no una variante. Importar un @import dentro de @layer
-   dentro de otro @import es valido en CSS, pero Flutter Web y algunos
-   minificadores de Vite lo resuelven mal. Se deja plano a proposito. */
+/* ── 1. Tokens ──────────────────────────────────────────────────────────────
+   Bone trae el juego completo de color y es la fuente unica de los tokens
+   semanticos. Se importa sin capa: es la base, no una variante. Meter un
+   @import dentro de @layer dentro de otro @import es CSS valido, pero Flutter
+   Web y algunos minificadores de Vite lo resuelven mal.
+
+   Las tres variantes van aqui y no mas abajo porque CSS exige que TODOS los
+   @import aparezcan antes de la primera regla que no sea @charset o @layer. Un
+   @import colocado despues de un @media se descarta en silencio, sin error:
+   es lo que pasaba con tikpro y antigravity, que llegaban al bundle vacios.
+
+   Bone se queda con [data-theme='dark'], [data-theme='light'] y
+   :root:not([data-theme]). Ninguno coincide con data-theme="tikpro" ni con
+   :root[data-theme="antigravity"], de modo que las variantes no compiten con
+   Bone por cascada: son selectores disjuntos. Bone gana cuando no hay
+   atributo, y solo una variante gana cuando lo hay. */
 @import './tokens/theme.css';
+@import './tokens/tikpro.css';
+@import './tokens/antigravity.css';
 
 /* ── 2. Modo claro ──────────────────────────────────────────────────────────
    theme.css ya trae [data-theme='light']. Este bloque solo fija el valor por
@@ -160,15 +174,11 @@
 }
 
 /* ── 4. Variantes ───────────────────────────────────────────────────────────
-   Se importan aqui pero NO se activan: un @import no es un selector. Para
-   usarlas, la app copia el bloque correspondiente de tokens/tikpro.css o
-   tokens/antigravity.css dentro de su [data-theme='tikpro']. Ver la nota de
-   "temas fuera del registro" mas abajo.
-
-   No se autoimportan porque tikpro.css y antigravity.css cuelgan de
-   [data-theme="tikpro"] / :root[data-theme="antigravity"], y autoimportarlos
-   los haria ganar a Bone por orden de cascada cuando el atributo coincida.
-   Bone tiene que poder ganar siempre. */
+   Los @import de arriba (seccion 1). Se activan solas cuando la app pone el
+   atributo, y no compiten con Bone: Bone usa [data-theme='dark'],
+   [data-theme='light'] y :root:not([data-theme]), ninguno de los cuales
+   coincide con data-theme="tikpro". Son selectores disjuntos, no una cascada
+   donde una gane por orden. */
 
 /* ───────────────────────────────────────────────────────────────────────────
    TEMAS FUERA DEL REGISTRO
