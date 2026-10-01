@@ -35,14 +35,14 @@
     opacity: 0.75;
     animation: swal-ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
   }
-  .dot.healthy { background: #10b981; box-shadow: var(--swal-shadow-neon-cyan); }
-  .ring.healthy { background: rgba(16, 185, 129, 0.2); }
-  .dot.warning { background: var(--swal-accent-orange); box-shadow: var(--swal-shadow-neon-orange); }
-  .ring.warning { background: rgba(249, 115, 22, 0.2); }
-  .dot.error { background: #ef4444; box-shadow: 0 0 10px rgba(239, 68, 68, 0.5); }
-  .ring.error { background: rgba(239, 68, 68, 0.2); }
-  .dot.offline { background: #475569; }
-  .ring.offline { background: rgba(71, 85, 105, 0.2); }
+  .dot.healthy { background: var(--swal-success); box-shadow: var(--swal-shadow-sm); }
+  .ring.healthy { background: var(--swal-success-muted); }
+  .dot.warning { background: var(--swal-warning); box-shadow: var(--swal-shadow-sm); }
+  .ring.warning { background: var(--swal-warning-muted); }
+  .dot.error { background: var(--swal-danger); box-shadow: var(--swal-shadow-sm); }
+  .ring.error { background: var(--swal-danger-muted); }
+  .dot.offline { background: var(--swal-text-muted); }
+  .ring.offline { background: var(--swal-accent-muted); }
 
   @keyframes swal-ping {
     75%, 100% { transform: scale(2); opacity: 0; }
