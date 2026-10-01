@@ -1,68 +1,390 @@
-/* ═══════════════════════════════════════════════
-   SWAL Design Tokens
-   Tema: Edge-Hive — portado fielmente desde edge-hive-admin
-   Dark slate con acentos cyan/orange, estética industrial.
-   ═══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════════════
+   SWAL Design Tokens — Tema "Bone" (Papel Alabastro / Carbón Mineral)
 
+  Direccion visual: "Warm Minimalist" — la sobriedad arquitectonica de Linear
+  o Vercel mezclada con la calidez editorial de un cuaderno de papel japones.
+  Alabastro en claro, carbon mineral calido en oscuro. Ni blanco clinico
+  (#FFFFFF) ni negro puro (#000000): los dos extremos vibran y endurecen el
+  texto. El blanco roto de papel y el grafito con tinte de tierra son mas
+  cansables.
+
+  Tres decisiones que sostienen todo:
+
+  1. UN SOLO TONO. El tema anterior (Edge-Hive) mezclaba cyan + orange +
+     emerald y por eso cada pantalla se sentia de un color distinto. Aqui hay
+     una sola familia (piedra/alabastro) y la jerarquia se construye con
+     OPACIDAD del mismo color, nunca con tonos nuevos.
+
+  2. GLASS TACTIL, NO CRISTAL. Superficies translucidas con backdrop-blur y
+     opacidad 85-90%, bordes tenue de 1px, sombra difusa. El efecto es que
+     el contenido de abajo "respira" un poco, sin convertirse en slideshow.
+
+  3. COLOR SOLO CUANDO ES INFORMACION. 90% de la interfaz descansa en tonos
+     piedra. Los unicos colores vivos son puntos semanticos: un estado, un
+     badge de alerta, un borde de error. Si se colorea todo, no colorea nada.
+
+  Los tokens SEMANTICOS (--swal-bg, --swal-text...) NO cambian de nombre al
+  cambiar de tema. Un componente escrito con tokens no sabe que tema hay.
+
+  Todos los contrastes de este archivo estan MEDIDOS con la formula de
+  luminancia de WCAG 2.2 (no estimados a ojo). Los valores se anotan junto a
+  cada token para que una retoca no los invalide sin darse cuenta.
+
+  Este archivo es la FUENTE UNICA. `tokens.css` en la raiz del paquete es una
+  copia byte a byte, porque BaseLayout.astro lo carga por URL
+  (`/node_modules/@swal/ui/tokens.css`) y no puede resolver `@import`. Si tocas
+  uno, copia al otro; hay un test que falla si divergen.
+  ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Tema oscuro — Carbón Mineral (por defecto)
+
+   Base #121211: grafito con un punto de cal, no el negro OLED #000. Sobre este
+   fondo los grises de piedra se leen calidos; sobre negro puro cualquier
+   superficie gris parece una mancha.
+
+   Texto #F5F5F4 (no blanco puro): el blanco al 100% sobre un fondo casi negro
+   vibra en pantallas de alta densidad. Marfil va mas tranquilo.
+
+   Acento = texto. Un boton primario es marfil sobre grafito. No hay color de
+   marca: en un tema de un solo tono, un acento de color rompe la disciplina
+   mas de lo que aporta.
+   ─────────────────────────────────────────────────────────────────────────── */
+:root,
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  /* Superficies: cada peldaño sube ~3% de luminancia. Suficiente para que la
+     diferencia se vea sin que un panel parezca de otro material. */
+  --swal-bg: #121211;
+  --swal-surface: rgba(28, 25, 23, 0.85);
+  --swal-surface-hover: rgba(41, 37, 36, 0.88);
+  --swal-surface-active: rgba(54, 48, 46, 0.92);
+  --swal-elevated: rgba(28, 27, 25, 0.92);
+  --swal-elevated-850: rgba(22, 21, 20, 0.9);
+  --swal-overlay: rgba(12, 11, 11, 0.7);
+  --swal-void: #0b0b0a;
+
+  /* Bordes: piedra con opacidad. 60% es el punto donde un borde sigue
+     separando dos superficies sin gritar. */
+  --swal-border: rgba(68, 64, 60, 0.5);
+  --swal-border-light: rgba(87, 83, 78, 0.62);
+  --swal-border-strong: rgba(120, 113, 108, 0.75);
+
+  /* Texto — marfil piedra. MEDIDO sobre --swal-bg #121211 (formula WCAG 2.2):
+       1.00 -> 17.18:1   0.74 ->  9.65:1   0.55 ->  5.79:1   0.40 ->  3.62:1
+     Los tres primeros pasan AA para texto normal. `--swal-text-faint` queda en
+     AA-large: solo texto grande o elementos decorativos (excepcion 1.4.3). */
+  --swal-text: #f5f5f4;
+  --swal-text-secondary: rgba(245, 245, 244, 0.74);
+  --swal-text-muted: rgba(245, 245, 244, 0.55);
+  --swal-text-faint: rgba(245, 245, 244, 0.4);
+  --swal-text-inverse: #121211;
+
+  --swal-accent: #f5f5f4;
+  --swal-accent-hover: #e7e5e4;
+  --swal-accent-muted: rgba(245, 245, 244, 0.13);
+  --swal-accent-contrast: #1c1917;
+
+  /* Semanticos: los unicos que conservan color, porque deben distinguir estado
+     (pagado / pendiente / error) sin depender del tono del tema.
+     MEDIDO con la formula de WCAG 2.2 sobre la superficie de vidrio
+     (negro calido al 85% sobre el canvas #121211):
+       exito  #34d399 ->  9.21:1  aviso  #fbbf24 -> 10.61:1  alerta #fb7185 ->  6.58:1  info  #7dd3fc -> 10.62:1
+     Los cuatro pasan AA con holgura. Van los tonos -400 porque sobre
+     fondo oscuro un -600 se apaga y deja de leerse. */
+  --swal-success: #34d399;
+  --swal-warning: #fbbf24;
+  --swal-danger: #fb7185;
+  --swal-info: #7dd3fc;
+  --swal-success-muted: rgba(52, 211, 153, 0.16);
+  --swal-warning-muted: rgba(251, 191, 36, 0.16);
+  --swal-danger-muted: rgba(251, 113, 133, 0.16);
+  --swal-info-muted: rgba(125, 211, 252, 0.16);
+
+  /* En oscuro el relieve lo hace el BORDE y la sombra, no la luminancia. */
+  --swal-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.32);
+  --swal-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.38);
+  --swal-shadow-lg: 0 8px 32px -4px rgba(0, 0, 0, 0.5);
+  /* Malla ambiental: degradados radiales de tonos piedra, sin cuadrícula.
+     Es lo unico del tema con mas de un color, y a proposito: son tonos casi
+     indistinguibles entre si (< 3% de tono) que se perciben como "hay algo ahi",
+     no como "esto es azul". Va en el body, no en cada tarjeta. */
+  --swal-mesh:
+    radial-gradient(at 15% 12%, rgba(32, 30, 27, 0.85) 0px, transparent 55%),
+    radial-gradient(at 85% 8%, rgba(26, 25, 23, 0.7) 0px, transparent 50%),
+    radial-gradient(at 50% 55%, rgba(18, 18, 17, 0.9) 0px, transparent 100%),
+    radial-gradient(at 10% 80%, rgba(28, 26, 23, 0.7) 0px, transparent 60%),
+    radial-gradient(at 90% 85%, rgba(26, 25, 23, 0.8) 0px, transparent 55%);
+  /* Velo de hover: neutro, no de color. Un blanco al 4% sobre papel
+     claro casi no se ve, y un grafito al 4% sobre carbon tampoco. */
+  --swal-hover: rgba(245, 245, 244, 0.06);
+
+  /* ─── Alias de tokens legacy (Edge-Hive) ───
+     97 usos en la app referencian tokens que el tema Bone todavia no
+     declara, y por eso caian a su fallback literal: cyan #22d3ee y naranja
+     #f97316 hardcodeados por toda la interfaz. Definir los alias aqui, y no
+     editar los 12 componentes, hace que el tema los migre a la vez — y sin
+     pisar los cambios que la wave de agentes este tocando en los archivos.
+     Cada alias apunta a un ROL del tema, nunca a un color: asi el mismo alias
+     se lee bien en claro y en oscuro. */
+  --swal-accent-cyan: var(--swal-accent);
+  --swal-neon-cyan: var(--swal-accent);
+  --swal-cyan-bright: var(--swal-accent);
+  --swal-accent-orange: var(--swal-accent);
+  --swal-accent-red: var(--swal-danger);
+  --swal-neon-green: var(--swal-success);
+  --swal-bg-elevated: var(--swal-surface);
+  --swal-bg-surface: var(--swal-surface);
+  --swal-card-bg: var(--swal-surface);
+  --swal-hover-bg: var(--swal-hover);
+  --swal-active-bg: var(--swal-accent-muted);
+  --swal-danger-bg: var(--swal-danger-muted);
+
+  /* Sombras "glow/neon" del tema anterior (Edge-Hive). Bone no tiene luz de
+     marca: una sombra difusa de 2px no se emite. Los nombres sobreviven para
+     que StatusBadge, ConfigEditor y CommandPalette no dejen de compilar, y
+     apuntan a la sombra del tema -- si un dia una app quiere su glow, es su
+     trabajo redefinirlo, no el del token. */
+  --swal-shadow-neon-cyan: var(--swal-shadow);
+  --swal-shadow-neon-orange: var(--swal-shadow);
+  --swal-shadow-neon-emerald: var(--swal-shadow);
+  --swal-shadow-glow-cyan: var(--swal-shadow);
+  --swal-shadow-glow-orange: var(--swal-shadow);
+  --swal-shadow-glow-emerald: var(--swal-shadow);
+  /* El naranja era el complementario del cyan de marca. Bone no tiene
+     contrapunto cromatico: el aviso usa su rol, no un color. */
+  --swal-accent-orange-muted: var(--swal-warning-muted);
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Tema claro — Papel Alabastro
+
+   Canvas #FAF9F5: blanco roto de papel de archivo, no blanco clinico. Sobre
+   el, el negro puro parece un tunel. Texto #1C1917 (stone-950): carbon profundo,
+   el tono mas oscuro de la escala de piedra, para contraste inmediato.
+
+   Superficies translucidas al 90% de blanco: dejan ver apenas el degradado
+   ambiental del fondo, que es lo que da la sensacion de papel bajo luz.
+
+   MEDIDO sobre --swal-bg #FAF9F5:
+       texto 1.00 -> 16.60:1
+     Sobre la superficie de tarjeta (blanco 90% sobre #FAF9F5 ≈ #FEFEFE):
+       texto 1.00 -> 17.34:1   secundario -> 7.56:1
+   ─────────────────────────────────────────────────────────────────────────── */
+[data-theme='light'] {
+
+  color-scheme: light;
+
+  --swal-bg: #faf9f5;
+  --swal-surface: rgba(255, 255, 255, 0.9);
+  --swal-surface-hover: rgba(245, 244, 242, 0.95);
+  --swal-surface-active: rgba(235, 233, 229, 0.95);
+  --swal-elevated: rgba(255, 255, 255, 0.95);
+  --swal-elevated-850: rgba(250, 249, 245, 0.95);
+  --swal-overlay: rgba(40, 38, 34, 0.4);
+  --swal-void: #f0eeea;
+
+  /* Bordes: stone-200 al 80%. Delimita sin competir con el texto. */
+  --swal-border: rgba(231, 229, 228, 0.8);
+  --swal-border-light: rgba(214, 211, 209, 0.85);
+  --swal-border-strong: rgba(168, 162, 158, 0.9);
+
+  /* Texto sobre #FAF9F5, MEDIDO (formula WCAG 2.2):
+       1.00 -> 16.60:1   0.65 ->  5.33:1   0.42 ->  2.63:1
+  El alfa de muted es 0.65 y no 0.60: con 0.60 daba 4.49:1, que ya no pasa
+  AA por un pelo. 0.65 deja 5.33:1 con margen para el texto pequeno de las
+  fichas de estado y los precios secundarios.
+  `--swal-text-faint` es decorativo (bordes, separadores, iconos apagados). */
+  --swal-text: #1c1917;
+  --swal-text-secondary: rgba(28, 25, 23, 0.78);
+  --swal-text-muted: rgba(28, 25, 23, 0.65);
+  --swal-text-faint: rgba(28, 25, 23, 0.42);
+  --swal-text-inverse: #faf9f5;
+
+  --swal-accent: #1c1917;
+  --swal-accent-hover: #292524;
+  --swal-accent-muted: rgba(28, 25, 23, 0.08);
+  --swal-accent-contrast: #faf9f9;
+
+  /* Semanticos MEDIDOS con la formula de WCAG 2.2, en DOS superficies: el
+     canvas #FAF9F5 y la tarjeta (blanco al 90% sobre el ≈ #FEFEFE).
+       exito  #047857 -> 5.21:1 / 5.44:1     alerta #dc2626 -> 4.58:1 / 4.79:1
+       aviso  #b45309 -> 4.77:1 / 4.98:1     info  #0369a1 -> 5.63:1 / 5.88:1
+     Los cuatro pasan AA en las dos. Dos ajustes sobre la paleta sugerida:
+     el verde #059669 daba 3.74:1 = solo AA-large, y en Fi'ze "Pagado" sale en
+     texto pequeno -> #047857. El rosa #e11d48 daba 4.46:1 sobre el canvas, por
+     debajo de AA -> #dc2626. Ninguno de los dos cambios se nota a simple vista;
+     los dos evitan texto que no cumple el contraste que el propio tema exige. */
+  --swal-success: #047857;
+  --swal-warning: #b45309;
+  --swal-danger: #dc2626;
+  --swal-info: #0369a1;
+  --swal-success-muted: rgba(4, 120, 87, 0.12);
+  --swal-warning-muted: rgba(180, 83, 9, 0.12);
+  --swal-danger-muted: rgba(220, 38, 38, 0.12);
+  --swal-info-muted: rgba(3, 105, 161, 0.12);
+
+  --swal-shadow-sm: 0 1px 3px rgba(28, 25, 23, 0.02);
+  --swal-shadow: 0 4px 20px -2px rgba(28, 25, 23, 0.04);
+  --swal-shadow-lg: 0 8px 32px -4px rgba(28, 25, 23, 0.07);
+  /* La misma malla en papel: mas clara y calida que la de carbon. */
+  --swal-mesh:
+    radial-gradient(at 12% 10%, rgba(244, 238, 226, 0.55) 0px, transparent 55%),
+    radial-gradient(at 88% 8%, rgba(238, 238, 236, 0.4) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(255, 255, 255, 0.5) 0px, transparent 95%),
+    radial-gradient(at 15% 82%, rgba(245, 239, 228, 0.45) 0px, transparent 60%),
+    radial-gradient(at 88% 88%, rgba(240, 237, 227, 0.45) 0px, transparent 55%);
+  --swal-hover: rgba(28, 25, 23, 0.055);
+
+  /* Alias legacy: mismos roles, resueltos por el bloque de este tema. */
+  --swal-accent-cyan: var(--swal-accent);
+  --swal-neon-cyan: var(--swal-accent);
+  --swal-cyan-bright: var(--swal-accent);
+  --swal-accent-orange: var(--swal-accent);
+  --swal-accent-red: var(--swal-danger);
+  --swal-neon-green: var(--swal-success);
+  --swal-bg-elevated: var(--swal-surface);
+  --swal-bg-surface: var(--swal-surface);
+  --swal-card-bg: var(--swal-surface);
+  --swal-hover-bg: var(--swal-hover);
+  --swal-active-bg: var(--swal-accent-muted);
+  --swal-danger-bg: var(--swal-danger-muted);
+
+  /* Espejo del bloque oscuro: sin esto el token solo existiria en dark y una
+     app en tema claro caeria a su fallback. */
+  --swal-shadow-neon-cyan: var(--swal-shadow);
+  --swal-shadow-neon-orange: var(--swal-shadow);
+  --swal-shadow-neon-emerald: var(--swal-shadow);
+  --swal-shadow-glow-cyan: var(--swal-shadow);
+  --swal-shadow-glow-orange: var(--swal-shadow);
+  --swal-shadow-glow-emerald: var(--swal-shadow);
+  --swal-accent-orange-muted: var(--swal-warning-muted);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    color-scheme: light;
+
+
+
+  --swal-bg: #faf9f5;
+  --swal-surface: rgba(255, 255, 255, 0.9);
+  --swal-surface-hover: rgba(245, 244, 242, 0.95);
+  --swal-surface-active: rgba(235, 233, 229, 0.95);
+  --swal-elevated: rgba(255, 255, 255, 0.95);
+  --swal-elevated-850: rgba(250, 249, 245, 0.95);
+  --swal-overlay: rgba(40, 38, 34, 0.4);
+  --swal-void: #f0eeea;
+
+  /* Bordes: stone-200 al 80%. Delimita sin competir con el texto. */
+  --swal-border: rgba(231, 229, 228, 0.8);
+  --swal-border-light: rgba(214, 211, 209, 0.85);
+  --swal-border-strong: rgba(168, 162, 158, 0.9);
+
+  /* Texto sobre #FAF9F5, MEDIDO (formula WCAG 2.2):
+       1.00 -> 16.60:1   0.65 ->  5.33:1   0.42 ->  2.63:1
+  El alfa de muted es 0.65 y no 0.60: con 0.60 daba 4.49:1, que ya no pasa
+  AA por un pelo. 0.65 deja 5.33:1 con margen para el texto pequeno de las
+  fichas de estado y los precios secundarios.
+  `--swal-text-faint` es decorativo (bordes, separadores, iconos apagados). */
+  --swal-text: #1c1917;
+  --swal-text-secondary: rgba(28, 25, 23, 0.78);
+  --swal-text-muted: rgba(28, 25, 23, 0.65);
+  --swal-text-faint: rgba(28, 25, 23, 0.42);
+  --swal-text-inverse: #faf9f5;
+
+  --swal-accent: #1c1917;
+  --swal-accent-hover: #292524;
+  --swal-accent-muted: rgba(28, 25, 23, 0.08);
+  --swal-accent-contrast: #faf9f9;
+
+  /* Semanticos MEDIDOS con la formula de WCAG 2.2, en DOS superficies: el
+     canvas #FAF9F5 y la tarjeta (blanco al 90% sobre el ≈ #FEFEFE).
+       exito  #047857 -> 5.21:1 / 5.44:1     alerta #dc2626 -> 4.58:1 / 4.79:1
+       aviso  #b45309 -> 4.77:1 / 4.98:1     info  #0369a1 -> 5.63:1 / 5.88:1
+     Los cuatro pasan AA en las dos. Dos ajustes sobre la paleta sugerida:
+     el verde #059669 daba 3.74:1 = solo AA-large, y en Fi'ze "Pagado" sale en
+     texto pequeno -> #047857. El rosa #e11d48 daba 4.46:1 sobre el canvas, por
+     debajo de AA -> #dc2626. Ninguno de los dos cambios se nota a simple vista;
+     los dos evitan texto que no cumple el contraste que el propio tema exige. */
+  --swal-success: #047857;
+  --swal-warning: #b45309;
+  --swal-danger: #dc2626;
+  --swal-info: #0369a1;
+  --swal-success-muted: rgba(4, 120, 87, 0.12);
+  --swal-warning-muted: rgba(180, 83, 9, 0.12);
+  --swal-danger-muted: rgba(220, 38, 38, 0.12);
+  --swal-info-muted: rgba(3, 105, 161, 0.12);
+
+  --swal-shadow-sm: 0 1px 3px rgba(28, 25, 23, 0.02);
+  --swal-shadow: 0 4px 20px -2px rgba(28, 25, 23, 0.04);
+  --swal-shadow-lg: 0 8px 32px -4px rgba(28, 25, 23, 0.07);
+  /* La misma malla en papel: mas clara y calida que la de carbon. */
+  --swal-mesh:
+    radial-gradient(at 12% 10%, rgba(244, 238, 226, 0.55) 0px, transparent 55%),
+    radial-gradient(at 88% 8%, rgba(238, 238, 236, 0.4) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(255, 255, 255, 0.5) 0px, transparent 95%),
+    radial-gradient(at 15% 82%, rgba(245, 239, 228, 0.45) 0px, transparent 60%),
+    radial-gradient(at 88% 88%, rgba(240, 237, 227, 0.45) 0px, transparent 55%);
+  --swal-hover: rgba(28, 25, 23, 0.055);
+
+  /* Alias legacy: mismos roles, resueltos por el bloque de este tema. */
+  --swal-accent-cyan: var(--swal-accent);
+  --swal-neon-cyan: var(--swal-accent);
+  --swal-cyan-bright: var(--swal-accent);
+  --swal-accent-orange: var(--swal-accent);
+  --swal-accent-red: var(--swal-danger);
+  --swal-neon-green: var(--swal-success);
+  --swal-bg-elevated: var(--swal-surface);
+  --swal-bg-surface: var(--swal-surface);
+  --swal-card-bg: var(--swal-surface);
+  --swal-hover-bg: var(--swal-hover);
+  --swal-active-bg: var(--swal-accent-muted);
+  --swal-danger-bg: var(--swal-danger-muted);
+    --swal-shadow-neon-cyan: var(--swal-shadow);
+    --swal-shadow-neon-orange: var(--swal-shadow);
+    --swal-shadow-neon-emerald: var(--swal-shadow);
+    --swal-shadow-glow-cyan: var(--swal-shadow);
+    --swal-shadow-glow-orange: var(--swal-shadow);
+    --swal-shadow-glow-emerald: var(--swal-shadow);
+    --swal-accent-orange-muted: var(--swal-warning-muted);
+  }
+}
+
+
+
+
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Tokens independientes del tema: geometria, tipografia, espacio, tiempo
+
+   No cambian con el tema. Un componente que usa --swal-radius obtiene el mismo
+   radio en claro y en oscuro; si estos vivieran dentro de cada bloque de tema,
+   seria mas facil olvidar que mantenerlos sincronizados a mano.
+   ═══════════════════════════════════════════════════════════════════════════ */
 :root {
-  /* ─── Superficies (Edge-Hive style) ─── */
-  --swal-bg: #020617;             /* slate-950 — fondo edge-hive */
-  --swal-surface: rgba(15, 23, 42, 0.8); /* slate-900/80 */
-  --swal-surface-hover: rgba(30, 41, 59, 0.6); /* slate-800/60 */
-  --swal-surface-active: rgba(51, 65, 85, 0.4); /* slate-700/40 */
-  --swal-elevated: #0f172a;       /* slate-900 */
-  --swal-elevated-850: #151e2e;   /* slate-850 (custom del origen) */
-  --swal-overlay: rgba(2, 6, 23, 0.8); /* slate-950/80 */
-  --swal-void: #000000;           /* hive-void — terminal black */
+  /* Curvatura generosa. Contenedores 16-24px, botones 12px, chips 6px.
+     El radio alto es lo que quita el aspecto "tecnico" y lo deja editorial. */
+  --swal-radius-xs: 6px;
+  --swal-radius-sm: 8px;
+  --swal-radius: 12px;   /* boton, input */
+  --swal-radius-lg: 16px; /* tarjeta */
+  --swal-radius-xl: 24px; /* panel grande */
+  --swal-radius-full: 9999px; /* pill, avatar */
 
-  /* ─── Bordes (edge-hive usa white/10) ─── */
-  --swal-border: rgba(255, 255, 255, 0.08);
-  --swal-border-light: rgba(255, 255, 255, 0.12);
-  --swal-radius: 8px;
-  --swal-radius-sm: 4px;
-  --swal-radius-lg: 12px;
-
-  /* ─── Texto ─── */
-  --swal-text: #f1f5f9;           /* slate-100 */
-  --swal-text-secondary: #94a3b8; /* slate-400 */
-  --swal-text-muted: #64748b;     /* slate-500 */
-  --swal-text-inverse: #020617;
-
-  /* ─── Acentos (Edge-Hive palette) ─── */
-  --swal-accent: #06b6d4;         /* cyan-500 — hive-cyan (data/stable) */
-  --swal-accent-hover: #22d3ee;   /* cyan-400 */
-  --swal-accent-muted: rgba(6, 182, 212, 0.12);
-  --swal-accent-orange: #f97316;  /* orange-500 — hive-orange (system/nav) */
-  --swal-accent-orange-muted: rgba(249, 115, 22, 0.12);
-  --swal-success: #10b981;        /* emerald-500 */
-  --swal-warning: #f59e0b;
-  --swal-danger: #ef4444;
-  --swal-info: #06b6d4;
-
-  /* ─── Sombras ─── */
-  --swal-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
-  --swal-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --swal-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
-  /* Neon (valores exactos del origen: shadow-neon-cyan/orange) */
-  --swal-shadow-neon-cyan: 0 0 15px rgba(6, 182, 212, 0.3), 0 0 30px rgba(6, 182, 212, 0.1);
-  --swal-shadow-neon-orange: 0 0 15px rgba(249, 115, 22, 0.3), 0 0 30px rgba(249, 115, 22, 0.1);
-  --swal-shadow-neon-emerald: 0 0 15px rgba(16, 185, 129, 0.3), 0 0 30px rgba(16, 185, 129, 0.1);
-  /* Aliases legacy (mantener compat con 0.1.0) */
-  --swal-shadow-glow-cyan: var(--swal-shadow-neon-cyan);
-  --swal-shadow-glow-orange: var(--swal-shadow-neon-orange);
-  --swal-shadow-glow-emerald: var(--swal-shadow-neon-emerald);
-
-  /* ─── Tipografía (Inter UI + Fira Code data, como el origen) ─── */
-  --swal-font: 'Inter', system-ui, -apple-system, sans-serif;
-  --swal-font-mono: 'Fira Code', 'JetBrains Mono', monospace;
-  --swal-font-size-xs: 0.75rem;
-  --swal-font-size-sm: 0.875rem;
-  --swal-font-size: 1rem;
-  --swal-font-size-lg: 1.125rem;
+  --swal-font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* Metadatos, atajos y numeros van en monoespaciada a escala reduzida:
+     alinea las cifras en columna y las hace legibles como dato, no como texto. */
+  --swal-font-mono: 'Geist Mono', 'Fira Code', 'JetBrains Mono', ui-monospace, monospace;
+  --swal-font-size-xs: 0.6875rem; /* 11px — metadatos */
+  --swal-font-size-sm: 0.8125rem; /* 13px — subtitulos, etiquetas */
+  --swal-font-size: 0.875rem;    /* 14px — cuerpo */
+  --swal-font-size-lg: 1rem;
   --swal-font-size-xl: 1.25rem;
   --swal-font-size-2xl: 1.5rem;
 
-  /* ─── Espaciado ─── */
   --swal-space-1: 4px;
   --swal-space-2: 8px;
   --swal-space-3: 12px;
@@ -72,31 +394,45 @@
   --swal-space-8: 32px;
   --swal-space-10: 40px;
 
-  /* ─── Animaciones ─── */
-  --swal-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  --swal-transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
-  --swal-transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
-  --swal-ease-out: cubic-bezier(0.16, 1, 0.3, 1); /* ease del .animate-in original */
+  --swal-transition-fast: 120ms cubic-bezier(0.4, 0, 0.2, 1);
+  --swal-transition: 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  --swal-transition-slow: 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  --swal-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --swal-ease-in: cubic-bezier(0.4, 0, 1, 1);
 }
 
-/* ─── Edge-Hive Grid Background ─── */
+/* ─── Clases del tema Edge-Hive anterior: se conservan, sin color ───
+   Se neutralizan en vez de borrarse porque componentes existentes las usan.
+   Aqui queda explicito que el tema Bone no inyecta color. */
+.swal-neon-cyan,
+.swal-neon-orange { text-shadow: none; }
+.swal-scanline { background: none; }
 .swal-grid-bg {
   background-image:
-    linear-gradient(rgba(71, 85, 105, 0.3) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(71, 85, 105, 0.3) 1px, transparent 1px);
+    linear-gradient(var(--swal-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--swal-border) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
 /* ─── Glass morphism sutil ───
-   Nota: backdrop-filter es costoso en GPUs móviles débiles.
-   Úsalo en superficies pequeñas (modals, toasts), no en pantallas completas. */
+   backdrop-filter es costoso en GPUs moviles debiles: usarlo en superficies
+   pequeñas (modals, toasts, barra de pedido), NO en pantallas completas.
+   El color de fondo sale de --swal-surface, que ya es translucido por tema:
+   antes iba rgba(15,23,42,.8) hardcodeado, que es azul-noche de Edge-Hive y
+   en tema claro se leia como una mancha gris azulada. */
 .swal-glass {
-  background: rgba(15, 23, 42, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: var(--swal-surface);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
   border: 1px solid var(--swal-border);
+  box-shadow: var(--swal-shadow);
 }
+
+/* La malla ambiental ya no es una clase sino el token --swal-mesh, definido en
+   cada bloque de tema. Asi el body puede hacer `background-image:
+   var(--swal-mesh)` y la malla correcta llega sola segun el tema, sin selectores
+   condicionales ni duplicar la regla para prefers-color-scheme: cuando no hay
+   atributo data-theme, gana el bloque :root que el sistema haya elegido. */
 
 /* ─── Scrollbar industrial (custom-scrollbar del origen) ─── */
 .swal-scrollbar::-webkit-scrollbar {
@@ -107,31 +443,20 @@
   background: rgba(0, 0, 0, 0.1);
 }
 .swal-scrollbar::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: var(--swal-border-strong);
   border-radius: 4px;
 }
-.swal-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #334155;
-}
+.swal-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--swal-text-muted); }
 /* Firefox */
 .swal-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: #1e293b rgba(0, 0, 0, 0.1);
+  scrollbar-color: var(--swal-border-strong) transparent;
 }
 
-/* ─── Texto neon (text-neon-* del origen) ─── */
-.swal-neon-cyan {
-  text-shadow: 0 0 5px rgba(6, 182, 212, 0.5), 0 0 10px rgba(6, 182, 212, 0.3);
-}
-.swal-neon-orange {
-  text-shadow: 0 0 5px rgba(249, 115, 22, 0.5), 0 0 10px rgba(249, 115, 22, 0.3);
-}
-
-/* ─── Scanline (bg-scanline del origen) ─── */
-.swal-scanline {
-  background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.3) 51%);
-  background-size: 100% 4px;
-}
+/* ─── Texto neon y scanline del tema Edge-Hive ───
+   Ya neutralizados mas arriba. Estas reglas se eliminaron porque, al estar
+   despues, sobreescribian la neutralizacion y el resplandor neon volvia a
+   aparecer en cualquier texto que usara la clase. */
 
 /* ─── Safe area / mobile helpers (del index.html original) ───
    Aplicar en el contenedor raíz de la app PWA. */
@@ -241,5 +566,52 @@
   }
 }
 
-/* Clases utilitarias de color */
-@import './colors.css';
+/* ═══════════════════════════════════════════════════════════════════════════
+   Foco visible — WCAG 2.2, criterio 2.4.7
+
+   Vive aqui, en el core, y no en cada app: si lo define el core, ninguna app
+   puede olvidarlo. `:focus-visible` en vez de `:focus` para que el anillo no
+   aparezca al navegar con raton.
+   ═══════════════════════════════════════════════════════════════════════════ */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--swal-accent);
+  outline-offset: 2px;
+}
+
+/* Jerarquia por rol: el componente dice "esto es secundario" y el tema decide
+   el tono. Es la forma correcta de bajar la presencia de un texto. */
+.swal-text-secondary { color: var(--swal-text-secondary); }
+.swal-text-muted { color: var(--swal-text-muted); }
+.swal-text-faint { color: var(--swal-text-faint); }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Clases utilitarias de color
+
+   Inline aqui a proposito, no en un `@import`. Motivo real: `tokens.css` esta en
+   la RAIZ del paquete y la app lo carga por URL, asi que un
+   `@import './colors.css'` se resolveria contra la raiz — donde ese archivo no
+   existe — y PostCSS falla con ENOENT. Y si el import colgara al final,
+   PostCSS lo descartaria con "must precede all other statements". Inline,
+   tokens.css es autonomo, que es lo que necesita quien lo carga por URL.
+   `src/tokens/colors.css` se mantiene para consumidores que importen src/.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.swal-bg { background: var(--swal-bg); }
+.swal-surface { background: var(--swal-surface); }
+.swal-elevated { background: var(--swal-elevated); }
+.swal-void { background: var(--swal-void); }
+
+.swal-border { border-color: var(--swal-border); }
+.swal-border-light { border-color: var(--swal-border-light); }
+.swal-border-strong { border-color: var(--swal-border-strong); }
+
+/* Acento unico: en oscuro es marfil, en claro es grafito. El rol no cambia. */
+.swal-accent { color: var(--swal-accent); }
+.swal-accent-bg { background: var(--swal-accent); }
+.swal-accent-muted { background: var(--swal-accent-muted); }
+.swal-accent-contrast { color: var(--swal-accent-contrast); }
+
+/* Semanticos: conservan color porque deben distinguir estado. */
+.swal-success { color: var(--swal-success); background: var(--swal-success-muted); }
+.swal-warning { color: var(--swal-warning); background: var(--swal-warning-muted); }
+.swal-danger { color: var(--swal-danger); background: var(--swal-danger-muted); }
+.swal-info { color: var(--swal-info); background: var(--swal-info-muted); }
