@@ -1,0 +1,197 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   SWAL themes.css — REGISTRO DE TEMAS (punto de entrada único)
+
+   Bone es el tema del ecosistema. Es el que se aplica si no pides otro, y el
+   que todas las apps deben usar por defecto. Este fichero es la única forma
+   admitida de cambiar de tema:
+
+       @import '@swal/ui/themes.css';
+
+   Bone vive en tokens/theme.css. Este fichero solo lo orquesta.
+
+   ───────────────────────────────────────────────────────────────────────────
+   POR QUÉ EXISTE
+   ───────────────────────────────────────────────────────────────────────────
+   Antes cada app importaba el fichero que encontraba, y no habia convencion:
+
+     · theme.css        →  [data-theme='dark']   (comillas simples)
+     · tikpro.css       →  [data-theme="tikpro"]  (comillas dobles)
+     · antigravity.css  →  :root[data-theme="antigravity"]
+
+   Tres formas de escribir lo mismo, ninguna documentada. Peor: el tema
+   edge-hive que tienen vendorizado maloca, content-studio, tiktboost, synapse
+   y xavier cuelga de :root SIN condicion, asi que se aplica siempre y encima
+   de lo que sea. Por eso convive con Bone sin que se note: no es un tema, es
+   un reset, y por eso no puede offerederse como variante.
+
+   themes.css arregla las dos cosas: una sola sintaxis, y edge-hive fuera del
+   sistema (documentado abajo, no importado).
+
+   ───────────────────────────────────────────────────────────────────────────
+   USO
+   ───────────────────────────────────────────────────────────────────────────
+   1) Bone, sin escribir nada mas:
+
+       @import '@swal/ui/themes.css';
+
+   2) Cambiar de tema, por atributo en <html>:
+
+       <html data-theme="light">
+
+   3) Fijar el tema en el build, sin tocar el HTML:
+
+       @import '@swal/ui/themes.css';
+       <html data-theme="bone">          ← explicito, gana al :root
+
+   Cambiar el tema en caliente:
+
+       document.documentElement.dataset.theme = 'light';
+
+   ───────────────────────────────────────────────────────────────────────────
+   CONTRATO DE TOKENS (lo que un tema debe definir para ser valido)
+   ───────────────────────────────────────────────────────────────────────────
+   Un componente se escribe con tokens semanticos, nunca con un color
+   literal. Si un tema no encaja, se arregla el tema en el core, no la app.
+
+     --swal-bg                 fondo de la pagina
+     --swal-surface            superficie de panel
+     --swal-text               texto principal
+     --swal-text-secondary     texto secundario
+     --swal-text-muted         metadatos y atajos (texto pequeno)
+     --swal-border             borde sutil
+     --swal-accent             acento / primario
+     --swal-accent-contrast    texto sobre el acento
+     --swal-success            estado ok
+     --swal-warning            estado avisado
+     --swal-danger             estado error
+     --swal-font               familia tipografica
+     --swal-font-mono          metadatos y numeros
+     --swal-radius             radio de esquina
+
+   Bone cumple el contrato entero (52 tokens por modo) y todos sus pares
+   texto/fondo pasan WCAG 2.2 AA. Ver AGENTS.md y src/themes.audit.mjs.
+
+   ───────────────────────────────────────────────────────────────────────────
+   PALETA DE BONE  (verificada contra WCAG 2.2 AA, sept 2026)
+   ───────────────────────────────────────────────────────────────────────────
+                     claro              oscuro
+     fondo          #FAF9F5  hueso     #121211  carbon mineral
+     texto          #1C1917            #F5F5F4
+     texto-2        rgba(#1C1917, .78) rgba(#F5F5F4, .74)
+     texto-3        rgba(#1C1917, .65) rgba(#F5F5F4, .55)
+     borde          rgba(231,229,228,.8) rgba(68,64,60,.5)
+     exito          #047857   5.21:1    #34D399   9.75:1
+     alerta         #B45309   4.77:1    #FBBF24  11.23:1
+     peligro        #DC2626   4.58:1    #FB7185   6.96:1
+
+   Nota sobre los estados en claro: se usan los tonos -600/700, no los -500.
+   Emerald-500 (#10B981) sobre #FAF9F5 da 2.53:1 y Rose-500 (#F43F5E) da
+   3.16:1: ambos fallan AA para texto normal. Es una decision medida, no
+   estetica.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Bone: la base ───────────────────────────────────────────────────────
+   Sin capa: es la base, no una variante. Importar un @import dentro de @layer
+   dentro de otro @import es valido en CSS, pero Flutter Web y algunos
+   minificadores de Vite lo resuelven mal. Se deja plano a proposito. */
+@import './tokens/theme.css';
+
+/* ── 2. Modo claro ──────────────────────────────────────────────────────────
+   theme.css ya trae [data-theme='light']. Este bloque solo fija el valor por
+   defecto cuando no hay atributo, para que una app que no toca su HTML
+   reciba el modo que corresponde al preferencia del sistema. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    color-scheme: light;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+  }
+}
+
+/* ── 3. Utilidades Bone ─────────────────────────────────────────────────────
+   El pegado de referencia pedia malla ambiental, glassmorphism, micro-bordes
+   y monoespaciada para metadatos. Bone ya lo tiene todo; aqui solo se le da
+   el nombre estable que las apps usan, sin duplicar el CSS. */
+
+/* Superficie translucida. Equivale a bg-white/90 + backdrop-blur-xl. */
+.swal-glass {
+  background: color-mix(in srgb, var(--swal-surface) 90%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--swal-border);
+  box-shadow: 0 4px 20px -2px rgba(28, 25, 23, 0.04);
+}
+
+[data-theme='dark'] .swal-glass {
+  background: color-mix(in srgb, var(--swal-surface) 85%, transparent);
+  box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.35);
+}
+
+/* Malla ambiental calida. El pegado la pedia como fondo de pagina. */
+.swal-mesh-bg {
+  background-image:
+    radial-gradient(at 12% 10%, rgba(244, 238, 226, 0.95) 0px, transparent 55%),
+    radial-gradient(at 88% 8%, rgba(238, 241, 247, 0.75) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(255, 255, 255, 0.98) 0px, transparent 95%),
+    radial-gradient(at 15% 82%, rgba(245, 239, 228, 0.85) 0px, transparent 60%),
+    radial-gradient(at 88% 88%, rgba(240, 237, 227, 0.9) 0px, transparent 55%);
+  background-attachment: fixed;
+}
+
+[data-theme='dark'] .swal-mesh-bg {
+  background-image:
+    radial-gradient(at 15% 12%, rgba(32, 30, 27, 0.95) 0px, transparent 55%),
+    radial-gradient(at 85% 8%, rgba(24, 24, 27, 0.9) 0px, transparent 50%),
+    radial-gradient(at 50% 55%, rgba(18, 18, 17, 0.98) 0px, transparent 100%),
+    radial-gradient(at 10% 80%, rgba(28, 26, 23, 0.9) 0px, transparent 60%),
+    radial-gradient(at 90% 85%, rgba(24, 24, 27, 0.95) 0px, transparent 55%);
+}
+
+/* Metadatos, atajos y numeros: monoespaciada y pequena. El pegado lo pedia
+   para jerarquia tipografica. */
+.swal-meta {
+  font-family: var(--swal-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+}
+
+/* ── 4. Variantes ───────────────────────────────────────────────────────────
+   Se importan aqui pero NO se activan: un @import no es un selector. Para
+   usarlas, la app copia el bloque correspondiente de tokens/tikpro.css o
+   tokens/antigravity.css dentro de su [data-theme='tikpro']. Ver la nota de
+   "temas fuera del registro" mas abajo.
+
+   No se autoimportan porque tikpro.css y antigravity.css cuelgan de
+   [data-theme="tikpro"] / :root[data-theme="antigravity"], y autoimportarlos
+   los haria ganar a Bone por orden de cascada cuando el atributo coincida.
+   Bone tiene que poder ganar siempre. */
+
+/* ───────────────────────────────────────────────────────────────────────────
+   TEMAS FUERA DEL REGISTRO
+   ───────────────────────────────────────────────────────────────────────────
+   edge-hive — EXCLUIDO
+     11 copias del ecosistema (maloca, content-studio, tiktboost, synapse y
+     el vendor de xavier), sha 428e00f8, 7960 B, 56 tokens. No se declara con
+     data-theme: sus reglas cuelgan de :root sin condicion y se aplican
+     siempre, encima de Bone sin aviso. Como variante seria imborrable, asi
+     que queda fuera del sistema en vez de repartido en 11 ficheros muertos.
+
+     Ademas es anterior a Bone y su paleta es deliberadamente otra (slate 950
+     + cyan + orange). Bone sustituyo ese criterio por uno monocromo con la
+     jerarquia en opacidad. Bone es el canonico.
+
+   Para migrar una app que aun lo tenga vendorizado:
+     a) Inventaria los colores que la app usa y de donde. No inventes: mira su
+        index.css. NO copies la paleta de edge-hive.
+     b) Cambia el @import del fichero viejo por `@import '@swal/ui/themes.css'`.
+     c) Si la app tenia variantes propias (xavier tiene studio-dark,
+        studio-bone, cyberpunk), cada una debe definir el CONTRATO COMPLETO,
+        no solo el fondo. Un tema que cambia el fondo y deja el texto del
+        anterior es un bug esperando.
+     d) Mide el contraste de los pares que muevas. Bone ya viene medido; un
+        tema nuevo no.
+   ═══════════════════════════════════════════════════════════════════════════ */

@@ -2,7 +2,7 @@
   "name": "@swal/ui",
   "version": "0.2.0",
   "private": false,
-  "description": "SWAL Design System \u2014 Edge-Hive theme, Svelte 5 components (zero-dependency, scoped CSS)",
+  "description": "SWAL Design System — Edge-Hive theme, Svelte 5 components (zero-dependency, scoped CSS)",
   "type": "module",
   "scripts": {
     "build": "vite build",
@@ -10,7 +10,10 @@
     "preview": "vite preview",
     "test": "vitest run -c vite.config.js",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "themes:audit": "node scripts/themes-audit.mjs",
+    "themes:ecosistema": "node scripts/themes-audit.mjs --ecosistema",
+    "check": "node scripts/themes-audit.mjs"
   },
   "svelte": "./src/components/index.js",
   "exports": {
