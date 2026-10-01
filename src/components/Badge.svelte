@@ -33,11 +33,11 @@
   .sm { font-size: 11px; padding: 2px 8px; }
   .md { font-size: var(--swal-font-size-xs); padding: 4px 10px; }
 
-  .success { background: rgba(16, 185, 129, 0.1); color: #34d399; border-color: rgba(16, 185, 129, 0.2); }
-  .warning { background: rgba(245, 158, 11, 0.1); color: #fbbf24; border-color: rgba(245, 158, 11, 0.2); }
-  .danger  { background: rgba(239, 68, 68, 0.1);  color: #f87171; border-color: rgba(239, 68, 68, 0.2); }
-  .info    { background: rgba(6, 182, 212, 0.1);  color: #22d3ee; border-color: rgba(6, 182, 212, 0.2); }
-  .orange  { background: var(--swal-accent-orange-muted); color: var(--swal-accent-orange); border-color: rgba(249, 115, 22, 0.2); }
+  .success { background: var(--swal-success-muted); color: var(--swal-success); border-color: var(--swal-success-muted); }
+  .warning { background: var(--swal-warning-muted); color: var(--swal-warning); border-color: var(--swal-warning-muted); }
+  .danger  { background: var(--swal-danger-muted);  color: var(--swal-danger);  border-color: var(--swal-danger-muted); }
+  .info    { background: var(--swal-info-muted);    color: var(--swal-info);    border-color: var(--swal-info-muted); }
+  .orange  { background: var(--swal-accent-orange-muted); color: var(--swal-accent-orange); border-color: var(--swal-accent-orange-muted); }
   .neutral { background: var(--swal-surface); color: var(--swal-text-secondary); border-color: var(--swal-border); }
 
   .dot {
