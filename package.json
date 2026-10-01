@@ -24,6 +24,7 @@
       "svelte": "./src/components/*.svelte"
     },
     "./tokens": "./src/tokens/theme.css",
+    "./themes.css": "./src/themes.css",
     "./colors": "./src/tokens/colors.css",
     "./tikpro.css": "./src/tokens/tikpro.css",
     "./motion": "./src/lib/motion.js",

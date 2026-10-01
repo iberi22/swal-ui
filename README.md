@@ -3,16 +3,16 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Svelte 5](https://img.shields.io/badge/Svelte-5-orange.svg)](https://svelte.dev)
 
-> Edge-Hive theme tokens and Svelte 5 runes-based UI components powering SouthWest AI Labs (SWAL) web applications.
+> Bone theme tokens and Svelte 5 runes-based UI components powering SouthWest AI Labs (SWAL) web applications.
 
-`@swal/ui` is the official design system for SouthWest AI Labs (SWAL). Built from the ground up for **Svelte 5** using modern runes (`$state`, `$derived`, `$props`, `$bindable`, `$effect`), it provides a zero-dependency, scoped-CSS component library and framework-agnostic CSS design tokens ("Hive Dark" theme).
+`@swal/ui` is the official design system for SouthWest AI Labs (SWAL). Built from the ground up for **Svelte 5** using modern runes (`$state`, `$derived`, `$props`, `$bindable`, `$effect`), it provides a zero-dependency, scoped-CSS component library and framework-agnostic CSS design tokens (the Bone theme by default).
 
 ---
 
 ## Features
 
 - ⚡ **Svelte 5 Runes Native**: Built using Svelte 5 reactivity runes without legacy store dependencies.
-- 🎨 **Hive Theme Tokens**: CSS custom properties for slate dark-mode UI, vibrant cyan/orange accents, and neon indicators.
+- 🎨 **Bone Theme Tokens**: CSS custom properties for the warm-minimalist palette — bone white and warm mineral dark, stone borders, accessibility-measured status colours.
 - 🚀 **Zero Dependencies**: Lightweight UI primitives styled with scoped CSS.
 - 🏝️ **Astro Islands Compatible**: Full SSR and hydration support with Astro (`client:load`, `client:visible`).
 - 🛠️ **TypeScript & Tailwind Support**: Pre-configured token exports for TypeScript definitions (`src/tokens/index.ts`) and Tailwind CSS integration (`src/tokens/tailwind.ts`).
@@ -72,24 +72,59 @@ The design system exports 18 reusable Svelte 5 components located under `src/com
 
 ## Theming
 
-`@swal/ui` uses framework-agnostic CSS variables defined in `:root`. To use the theme across your application, import the stylesheet into your app's main entry point (`+layout.svelte`, `main.ts`, `layout.astro`, or index stylesheet).
-
-### Token Files
-
-Theme definitions are located under `src/tokens/`:
-
-- `src/tokens/theme.css`: Main dark theme tokens (Slate 950 base, Hive accents, layout dimensions). Automatically imports `colors.css`.
-- `src/tokens/colors.css`: Color palette custom properties (`--swal-bg`, `--swal-accent`, `--swal-accent-orange`, `--swal-text`, etc.).
-- `src/tokens/tikpro.css`: Specialized color token overrides and CRT scanline effects for telemetry screens.
-- `src/tokens/index.ts`: TypeScript constants and design token helper functions for programmatic access.
-- `src/tokens/tailwind.ts`: Tailwind CSS theme extension object for seamless integration with Tailwind projects.
+`@swal/ui` uses framework-agnostic CSS variables. **Bone is the theme**: it applies with no configuration, and every app gets the same look unless it asks for something else.
 
 ### Standard Import
 
+One entry point. Do not import the token files directly — each app that picks its own file is how the ecosystem ended up with three different selector conventions and a theme that silently overrode everything.
+
 ```css
-/* Import in global CSS or root layout */
-@import '@swal/ui/tokens';
+/* In your global CSS or root layout */
+@import '@swal/ui/themes.css';
 ```
+
+That gives you Bone plus the utilities: `.swal-glass` (translucent surface), `.swal-mesh-bg` (warm ambient gradient), `.swal-meta` (monospace metadata, keyboard hints, figures).
+
+### Switching Theme
+
+```html
+<html data-theme="light">
+```
+
+```js
+document.documentElement.dataset.theme = 'light';   // at runtime
+```
+
+`data-theme` accepts `dark` (default), `light`, and `tikpro`. With no attribute, Bone follows `prefers-color-scheme`.
+
+### Token Files
+
+Under `src/tokens/`, imported by `themes.css` — reach them only through it:
+
+| File | Contents |
+|---|---|
+| `src/tokens/theme.css` | Bone: the colour and geometry contract, `[data-theme='dark']` and `[data-theme='light']` |
+| `src/tokens/colors.css` | Raw palette custom properties |
+| `src/tokens/tikpro.css` | `tikpro` overrides for telemetry screens |
+| `src/tokens/antigravity.css` | `antigravity` and `antigravity-light` |
+| `src/tokens/fonts.css` | Font stacks |
+
+`src/themes.css` is the registry; `src/tokens/*` are its inputs.
+
+### Contract and auditing
+
+A theme must define the full semantic token set — `--swal-bg`, `--swal-surface`, `--swal-text`, `--swal-text-secondary`, `--swal-text-muted`, `--swal-border`, `--swal-accent`, `--swal-accent-contrast`, `--swal-success`, `--swal-warning`, `--swal-danger`. Typography and geometry (`--swal-font`, `--swal-font-mono`, `--swal-radius`) live once in the base layer, not per theme.
+
+```bash
+pnpm run check              # contract + WCAG AA, both modes
+pnpm run themes:ecosistema  # also flags apps importing token files by hand
+```
+
+Bone passes 16/16 pairs (lowest: 4.58:1, danger on background in light mode). If a theme you write does not pass AA, the theme is wrong — not the auditor.
+
+### Tailwind
+
+`src/tokens/tailwind.ts` maps the tokens into a Tailwind theme object for Tailwind projects.
 
 ### Key Design Variables
 
@@ -155,4 +190,4 @@ This project is licensed under the **MIT License**. See the [LICENSE](./LICENSE)
 
 ---
 
-*SouthWest AI Labs (SWAL) · Edge-Hive Theme & Svelte 5 UI Component Library*
+*SouthWest AI Labs (SWAL) · Bone Theme & Svelte 5 UI Component Library*
