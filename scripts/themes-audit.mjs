@@ -246,6 +246,27 @@ for (const [selector, nombre] of MODOS) {
   }
 }
 
+/**
+ * El propio core no es una app que migra: es el sistema.
+ *
+ * Se reconoce por RUTA y no solo por `cores/swal-ui/`, porque el core se
+ * comprueba a menudo desde un worktree detached (`git worktree add --detach`)
+ * y ahi la ruta es `scratch/swal-theme-XXXXXX/src/themes.css`. Una exclusion
+ * basada solo en la ruta del repositorio hacia que el auditor se acusa a si
+ * mismo en cuanto se ejecuta fuera del arbol.
+ *
+ * Se reconoce ademas por contenido: cualquier `swal-ui/src/` es el core,
+ * este o donde este.
+ */
+function esElSistema(rel, nombre) {
+  // Por ruta: el core en su sitio, o un checkout con el nombre del paquete.
+  if (/(^|\/)cores\/swal-ui\//.test(rel) || /(^|\/)swal-ui\//.test(rel)) return true;
+  // Por contenido: un worktree detached es `scratch/algo-XXXXXX/src/themes.css`,
+  // sin el nombre del paquete en ninguna parte de la ruta. themes.css es el
+  // punto de entrada del sistema y no hay otro fichero con ese nombre.
+  return nombre === 'themes.css';
+}
+
 // ── Ecosistema: nadie importa un tema a mano ───────────────────────────────
 
 if (process.argv.includes('--ecosistema')) {
@@ -277,7 +298,7 @@ if (process.argv.includes('--ecosistema')) {
         // los ficheros de tokens son justo lo que se busca. No son una app
         // que migra: son el sistema.
         const rel = p.replace(raizEcosistema + '/', '');
-        if (rel.startsWith('cores/swal-ui/src/')) continue;
+        if (esElSistema(rel, e)) continue;
 
         importaciones.push(rel);
       }
