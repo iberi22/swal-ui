@@ -22,3 +22,8 @@ export { default as DashboardLayout } from './DashboardLayout.svelte';
 export { default as GlobalTicker } from './GlobalTicker.svelte';
 export { default as Landing } from './Landing.svelte';
 export { default as QRCode } from './QRCode.svelte';
+
+// Preferencias y tema
+export { default as PrefsEditor } from './PrefsEditor.svelte';
+export { default as OnboardingWizard } from './OnboardingWizard.svelte';
+export { default as ThemeModeSwitch } from './ThemeModeSwitch.svelte';

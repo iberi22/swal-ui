@@ -605,6 +605,25 @@ await store.save({ ...store.get(), onboarded: true });   // PUT { prefs }
   re-aplica con `swal:prefschange` y `astro:after-swap`.
 - El endpoint es de la app: guarda `{ prefs }` por usuario y responde `{ prefs }` resueltas.
 
+### Componentes: onboarding, ajustes y tema
+
+```svelte
+<script>
+  import { OnboardingWizard, PrefsEditor, ThemeModeSwitch } from '@swal/ui';
+  let prefs = $state(store.get());   // schema y store como arriba
+</script>
+
+<!-- Asistente de bienvenida (perfil, menu, paneles, listo); emite solo al terminar con onboarded:true -->
+<OnboardingWizard {schema} value={prefs} title="Bienvenido"
+  onfinish={(p) => store.save(p)} onskip={() => {}} />
+
+<!-- Editor de ajustes; no muta value, emite un objeto nuevo. sections: 'modules' | 'panels' -->
+<PrefsEditor {schema} value={prefs} onchange={(p) => (prefs = p)} sections={['modules', 'panels']} />
+
+<!-- Claro / Oscuro / Sistema (requiere themeModeScript() en el <head>; escucha swal:themechange) -->
+<ThemeModeSwitch />
+```
+
 ## License
 
 SWAL Ecosystem — AGPL-3.0.
