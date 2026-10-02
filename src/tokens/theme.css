@@ -416,6 +416,7 @@
   --swal-space-6: 24px;
   --swal-space-8: 32px;
   --swal-space-10: 40px;
+  --swal-space-12: 48px; /* separacion entre secciones de pagina */
 
   --swal-transition-fast: 120ms cubic-bezier(0.4, 0, 0.2, 1);
   --swal-transition: 180ms cubic-bezier(0.4, 0, 0.2, 1);

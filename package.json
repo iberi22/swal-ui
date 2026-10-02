@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "test": "vitest run -c vite.config.js",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "gen:flutter": "node scripts/gen-flutter-tokens.mjs"
   },
   "svelte": "./src/components/index.js",
   "exports": {
@@ -31,6 +32,8 @@
     "./tokens/antigravity.css": "./src/tokens/antigravity.css",
     "./taller.css": "./src/tokens/taller.css",
     "./tokens/taller.css": "./src/tokens/taller.css",
+    "./bone-taller.css": "./src/tokens/bone-taller.css",
+    "./tokens/bone-taller.css": "./src/tokens/bone-taller.css",
     "./theme-mode": "./src/lib/themeMode.js",
     "./prefs": {
       "types": "./src/lib/prefs/index.d.ts",
