@@ -84,7 +84,17 @@
   --swal-accent: #f5f5f4;
   --swal-accent-hover: #e7e5e4;
   --swal-accent-muted: rgba(245, 245, 244, 0.13);
-  --swal-accent-contrast: #1c1917;
+
+  /* Primer plano SOBRE un relleno solido (boton primario, peligro). Faltaba
+     este rol: Button pintaba `color: #fff` sobre --swal-accent, y en oscuro el
+     acento es marfil #f5f5f4 -> blanco sobre marfil, 1.09:1, los CTA de la
+     landing ilegibles. Un componente que pinta un fondo solido toma su texto
+     de aqui, nunca de un literal. MEDIDO (formula WCAG 2.2):
+       on-accent #1c1917 sobre #f5f5f4 -> 16.03:1  (hover #e7e5e4 -> 13.93:1)
+       on-danger #1c1917 sobre #fb7185 ->  6.50:1  (con #fff daba 2.69:1) */
+  --swal-on-accent: #1c1917;
+  --swal-on-danger: #1c1917;
+  --swal-accent-contrast: var(--swal-on-accent);
 
   /* Semanticos: los unicos que conservan color, porque deben distinguir estado
      (pagado / pendiente / error) sin depender del tono del tema.
@@ -205,7 +215,13 @@
   --swal-accent: #1c1917;
   --swal-accent-hover: #292524;
   --swal-accent-muted: rgba(28, 25, 23, 0.08);
-  --swal-accent-contrast: #faf9f9;
+
+  /* Primer plano sobre relleno solido, en papel. MEDIDO:
+       on-accent #faf9f5 sobre #1c1917 -> 16.60:1
+       on-danger #faf9f5 sobre #dc2626 ->  4.58:1 */
+  --swal-on-accent: #faf9f5;
+  --swal-on-danger: #faf9f5;
+  --swal-accent-contrast: var(--swal-on-accent);
 
   /* Semanticos MEDIDOS con la formula de WCAG 2.2, en DOS superficies: el
      canvas #FAF9F5 y la tarjeta (blanco al 90% sobre el ≈ #FEFEFE).
@@ -297,7 +313,10 @@
   --swal-accent: #1c1917;
   --swal-accent-hover: #292524;
   --swal-accent-muted: rgba(28, 25, 23, 0.08);
-  --swal-accent-contrast: #faf9f9;
+
+  --swal-on-accent: #faf9f5;
+  --swal-on-danger: #faf9f5;
+  --swal-accent-contrast: var(--swal-on-accent);
 
   /* Semanticos MEDIDOS con la formula de WCAG 2.2, en DOS superficies: el
      canvas #FAF9F5 y la tarjeta (blanco al 90% sobre el ≈ #FEFEFE).
@@ -374,9 +393,13 @@
   --swal-radius-xl: 24px; /* panel grande */
   --swal-radius-full: 9999px; /* pill, avatar */
 
-  --swal-font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  /* Metadatos, atajos y numeros van en monoespaciada a escala reduzida:
-     alinea las cifras en columna y las hace legibles como dato, no como texto. */
+  /* Sans para titulos, cuerpo y botones. Solo fuentes del sistema: nada de CDN
+     externo (un nodo Pro funciona sin internet). Si el equipo no tiene Inter,
+     cae a la sans nativa de cada plataforma, nunca a una monoespaciada. */
+  --swal-font: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  /* Monoespaciada SOLO para datos: rutas, estados, codigos, cifras. Alinea los
+     numeros en columna y los marca como dato; en titulos hunde la jerarquia. */
   --swal-font-mono: 'Geist Mono', 'Fira Code', 'JetBrains Mono', ui-monospace, monospace;
   --swal-font-size-xs: 0.6875rem; /* 11px — metadatos */
   --swal-font-size-sm: 0.8125rem; /* 13px — subtitulos, etiquetas */

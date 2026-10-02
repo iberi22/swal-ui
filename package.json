@@ -25,6 +25,8 @@
     "./tikpro.css": "./src/tokens/tikpro.css",
     "./motion": "./src/lib/motion.js",
     "./toast": "./src/lib/toast.svelte.js",
+    "./storage": "./src/lib/storage.js",
+    "./backup": "./src/lib/backup.js",
     "./antigravity.css": "./src/tokens/antigravity.css",
     "./tokens/antigravity.css": "./src/tokens/antigravity.css",
     "./taller.css": "./src/tokens/taller.css",
@@ -35,10 +37,15 @@
       "default": "./src/lib/prefs/index.js"
     },
     "./fonts.css": "./src/tokens/fonts.css",
-    "./tokens/fonts.css": "./src/tokens/fonts.css"
+    "./tokens/fonts.css": "./src/tokens/fonts.css",
+    "./tokens.css": "./src/tokens/theme.css",
+    "./icons": "./src/lib/icons.js",
+    "./nav": "./src/lib/nav.js",
+    "./theme-boot": "./src/lib/theme-boot.js"
   },
   "files": [
     "src",
+    "scripts",
     "README.md",
     "USAGE.md"
   ],
@@ -61,9 +68,13 @@
     "@eslint/js": "^9.9.0",
     "@sveltejs/vite-plugin-svelte": "^5.0.0",
     "eslint": "^9.9.0",
+    "jsdom": "30.1.1",
     "svelte": "^5.0.0",
     "typescript": "^5.9.3",
     "vite": "^6.0.0",
     "vitest": "^4.1.10"
+  },
+  "bin": {
+    "swal-check-vendored-drift": "./scripts/check-vendored-drift.mjs"
   }
 }
