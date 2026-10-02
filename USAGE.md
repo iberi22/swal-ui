@@ -333,6 +333,59 @@ Sidebar template component optimized for Svelte 5.
 </DashboardLayout>
 ```
 
+### App shell (`Icon`, `MobileNav`, `AppShell`) *(extraido del rediseno de Fize, sin marca ni rutas)*
+
+Todas las apps del ecosistema de salud usan este mismo shell: columna lateral en escritorio, barra superior con menu desplegable (rejilla 2 columnas, objetivos de 44px, Escape cierra) en movil. Sin JS el menu queda abierto y el boton oculto. **Requisito**: incluir en el `<head>` el script de arranque (`themeBootScript()` / `THEME_BOOT_SCRIPT` de `@swal/ui/theme-boot`, o solo `NAV_BOOT_SCRIPT`), que pone `class="js"` en `<html>` antes de pintar; sin el, el menu movil se ve abierto hasta hidratar (el componente anade `js` al montar como respaldo, con salto de layout). Con Escape el foco vuelve al boton.
+
+**`<Icon>`**: `name` (clave del registro), `paths` (array de `d`, prioridad sobre `name`), `size=20`, `strokeWidth=1.75`, `label` (si se da, `role="img"`; sin label es decorativo). Un nombre desconocido pinta un svg vacio. Registro extensible:
+
+```js
+import { registerIcons, ICONS } from '@swal/ui/icons';
+registerIcons({ dumbbell: ['M14.4 14.4 9.6 9.6', 'M18.657 21.485a2 2 0 1 1-2.829-2.828'] });
+```
+
+Iconos incluidos: home, table, clipboard, chef, package, utensils, book, receipt, device, wifi, qr, login, menu, close, user, heart, activity, calendar, chart, sliders, check.
+
+**`<MobileNav>`**: `items` (`[{ href, label, icon?, exact? }]`), `currentPath`, `bind:open` (false), `menuLabel='Menu'`, `navLabel='Principal'`, `id='swal-nav'`, `onnavigate(item)`, snippet `lead` (marca; sin el, la barra movil muestra la seccion actual).
+
+**`<AppShell>`**: `items`, `currentPath`, `showNav=true`, `bind:menuOpen`, `menuLabel`, `navLabel`; snippets `brand`, `navFooter`, `topbar`, `children`.
+
+```svelte
+<script>
+  import { AppShell } from '@swal/ui';
+  let { path } = $props();
+  const items = [
+    { href: '/', label: 'Inicio', icon: 'home' },
+    { href: '/app/sessions', label: 'Sesiones', icon: 'calendar' },
+  ];
+</script>
+<AppShell {items} currentPath={path}>
+  {#snippet brand()}<strong>Mi app</strong>{/snippet}
+  {#snippet topbar()}<button>Perfil</button>{/snippet}
+  <h1>Contenido</h1>
+</AppShell>
+```
+
+`isNavActive(item, path)` / `findCurrentNav(items, path)` (`@swal/ui/nav`): coincidencia por segmento ("/app" no activa "/app2"; "/" solo exacto).
+
+### Arranque de tema sin destello (`@swal/ui/theme-boot`)
+
+`themeBootScript({ themeKey='swal-theme', fontKey='swal-font', themes=['light','dark'] })` devuelve el JS (IIFE) para el `<head>`; `THEME_BOOT_SCRIPT` es el valor por defecto. Tambien marca `<html class="js">` (ver MobileNav). No fija tema: sin eleccion guardada el CSS sigue a `prefers-color-scheme`; solo aplica `data-theme` / `data-font` guardados. `setTheme('light'|'dark'|'system')` cambia y persiste en runtime.
+
+```astro
+<script is:inline set:html={THEME_BOOT_SCRIPT}></script>
+```
+
+Tema como CSS: `import themeCss from '@swal/ui/tokens.css?inline'` (alias de `src/tokens/theme.css`).
+
+### Deteccion de deriva en copias vendorizadas
+
+```bash
+node node_modules/@swal/ui/scripts/check-vendored-drift.mjs <ruta-copia> [--canonical <ruta>] [--ignore <subcadena>]
+```
+
+Compara `src/` y el `tokens.css` de la raiz contra el canonico; lista distintos/faltantes/sobrantes. Exit 0 sin deriva, 1 con deriva, 2 uso incorrecto.
+
 ### `<GlobalTicker>`
 
 Token-driven status / market marquee ticker bar.
@@ -542,6 +595,10 @@ El componente `<ConfigFloatingWindow />` incluye un selector de tipografía en s
 | `@swal/ui/fonts.css` | Alias directo de presets tipográficos |
 | `@swal/ui/antigravity.css` / `@swal/ui/tokens/antigravity.css` | Tema Antigravity dual (dark/hueso light) |
 | `@swal/ui/tikpro.css` | Tema Sci-Fi TikPro |
+| `@swal/ui/tokens.css` | Alias de theme.css (para `?inline`) |
+| `@swal/ui/icons` | `ICONS`, `registerIcons`, `getIcon` |
+| `@swal/ui/nav` | `isNavActive`, `findCurrentNav` |
+| `@swal/ui/theme-boot` | `themeBootScript`, `THEME_BOOT_SCRIPT`, `NAV_BOOT_SCRIPT`, `setTheme` |
 | `@swal/ui/motion` | swalFade, swalSlide |
 | `@swal/ui/toast` | store `toast` + `toasts` |
 

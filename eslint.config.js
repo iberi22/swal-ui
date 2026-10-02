@@ -25,6 +25,7 @@ export default [
         clearInterval: 'readonly',
         getComputedStyle: 'readonly',
         document: 'readonly',
+        localStorage: 'readonly',
         window: 'readonly',
         $state: 'readonly',
         $derived: 'readonly',

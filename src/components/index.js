@@ -22,3 +22,11 @@ export { default as DashboardLayout } from './DashboardLayout.svelte';
 export { default as GlobalTicker } from './GlobalTicker.svelte';
 export { default as Landing } from './Landing.svelte';
 export { default as QRCode } from './QRCode.svelte';
+
+// App shell generico (extraido del rediseno de Fize)
+export { default as Icon } from './Icon.svelte';
+export { default as MobileNav } from './MobileNav.svelte';
+export { default as AppShell } from './AppShell.svelte';
+export { ICONS, registerIcons, getIcon } from '../lib/icons.js';
+export { isNavActive, findCurrentNav } from '../lib/nav.js';
+export { THEME_BOOT_SCRIPT, themeBootScript, setTheme } from '../lib/theme-boot.js';
