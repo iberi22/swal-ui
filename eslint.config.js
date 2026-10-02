@@ -30,6 +30,8 @@ export default [
         URL: 'readonly',
         localStorage: 'readonly',
         window: 'readonly',
+        fetch: 'readonly',
+        CustomEvent: 'readonly',
         $state: 'readonly',
         $derived: 'readonly',
         $props: 'readonly',
