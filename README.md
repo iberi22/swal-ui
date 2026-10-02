@@ -83,6 +83,7 @@ Theme definitions are located under `src/tokens/`:
 - `src/tokens/tikpro.css`: Specialized color token overrides and CRT scanline effects for telemetry screens.
 - `src/tokens/index.ts`: TypeScript constants and design token helper functions for programmatic access.
 - `src/tokens/tailwind.ts`: Tailwind CSS theme extension object for seamless integration with Tailwind projects.
+- `src/tokens/bone-taller.css`: "Bone Taller" accent layer — Bone stone neutrals + the Taller orange (`#FF6A13`) as the single accent. Activated with `data-accent="taller"` on `<html>`; also the source of the Flutter package tokens.
 
 ### Standard Import
 
@@ -145,6 +146,31 @@ import { Button, StatusBadge } from '@swal/ui';
   <!-- Hydrated client-side -->
   <Button client:load variant="orange">Action</Button>
 </div>
+```
+
+---
+
+## Flutter package (`flutter/`)
+
+The same design system for Flutter lives in [`flutter/`](./flutter/README.md) as the Dart
+package `swal_ui` (Material 3 `ThemeData` + widgets, "Bone Taller" theme, light / dark / system).
+Its colors, radii, spacing, shadows and durations are **generated** from the CSS tokens, so web
+and Flutter cannot drift:
+
+```bash
+pnpm gen:flutter   # src/tokens/{theme,bone-taller,taller}.css -> flutter/lib/src/tokens.g.dart
+```
+
+`tests/flutter-tokens.test.js` (part of `pnpm test`) fails if the generated Dart file is stale.
+Install it in an app as a git dependency:
+
+```yaml
+dependencies:
+  swal_ui:
+    git:
+      url: https://github.com/iberi22/swal-ui
+      path: flutter
+      ref: <tag-or-sha>
 ```
 
 ---

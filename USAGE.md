@@ -632,6 +632,7 @@ En tu capa de escritura, captura `isQuotaError(err)` para avisar al usuario y su
 | `@swal/ui/fonts.css` | Alias directo de presets tipográficos |
 | `@swal/ui/antigravity.css` / `@swal/ui/tokens/antigravity.css` | Tema Antigravity dual (dark/hueso light) |
 | `@swal/ui/taller.css` / `@swal/ui/tokens/taller.css` | Tema Taller dual (plano tecnico claro / garaje oscuro) |
+| `@swal/ui/bone-taller.css` / `@swal/ui/tokens/bone-taller.css` | Capa Bone Taller: Bone + acento naranja de Taller (`data-accent="taller"`) |
 | `@swal/ui/theme-mode` | `themeModeScript()`, `getThemeMode()`, `setThemeMode()` — claro/oscuro/sistema sin parpadeo |
 | `@swal/ui/prefs` | `createPrefsStore()`, `resolvePrefs()`, `prefsBootstrapScript()` — menus y paneles activables por el usuario |
 | `@swal/ui/tikpro.css` | Tema Sci-Fi TikPro |
@@ -670,6 +671,47 @@ import { themeModeScript } from '@swal/ui/theme-mode';
 - Utilidades: `.swal-chamfer-sm | .swal-chamfer | .swal-chamfer-lg`, `.swal-card-frame` +
   `.swal-card-inner` (borde de 1px con esquinas cortadas), `.swal-blueprint-bg`, `.swal-kicker`,
   `.swal-tick`, `.swal-scrollbar`.
+
+## Tema Bone Taller (Bone + naranja Taller)
+
+El tema Bone tal cual (Papel Alabastro / Carbon Mineral, un solo tono de piedra, glass tactil)
+con el naranja senal de Taller `#FF6A13` como UNICO acento: accion primaria, anillo de foco,
+seleccion y navegacion activa. Es una capa sobre `theme.css`: no repite ningun neutro.
+
+```css
+@import '@swal/ui/tokens';
+@import '@swal/ui/bone-taller.css';
+```
+
+```astro
+---
+import { themeModeScript } from '@swal/ui/theme-mode';
+---
+<html data-accent="taller" data-theme="light">
+  <head><script is:inline set:html={themeModeScript({ light: 'light', dark: 'dark', themeColor: { light: '#FAF9F5', dark: '#121211' } })} /></head>
+```
+
+- El modo va en `data-theme` (`light` | `dark` | sin atributo = sistema), igual que Bone.
+- Tokens nuevos: `--swal-accent-text` (naranja legible como texto: `#B44709` claro, `#FF8A45`
+  oscuro), `--swal-focus-ring` y `--swal-selection`. El texto sobre naranja es `--swal-on-accent`
+  = piedra `#1C1917` en los dos modos (marfil daria 2.72:1). Contrastes medidos en el encabezado
+  de `bone-taller.css`.
+- Es la fuente del paquete Flutter `swal_ui` (`flutter/`): `pnpm gen:flutter` regenera
+  `flutter/lib/src/tokens.g.dart` y `tests/flutter-tokens.test.js` falla si queda desactualizado.
+  El generador exige que el naranja de esta capa sea el mismo que el de `taller.css`.
+
+## Paquete Flutter (`flutter/`)
+
+`swal_ui` es el mismo design system en Flutter (Material 3, sin dependencias): `SwalTheme.light()`
+/ `.dark()`, `SwalThemeMode`, `SwalPalette`, `SwalTokens`, y los widgets `SwalPage`, `SwalCard`,
+`SwalButton`, `SwalTextField`, `SwalSectionHeader`, `SwalEmptyState`, `SwalBrandMark`,
+`SwalStatusBadge`. Instalacion, API y tabla de tokens en [`flutter/README.md`](./flutter/README.md).
+
+```yaml
+dependencies:
+  swal_ui:
+    git: { url: https://github.com/iberi22/swal-ui, path: flutter, ref: <tag-o-sha> }
+```
 
 ## Preferencias de interfaz (`@swal/ui/prefs`)
 
