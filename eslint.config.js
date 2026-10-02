@@ -30,6 +30,9 @@ export default [
         URL: 'readonly',
         localStorage: 'readonly',
         window: 'readonly',
+        fetch: 'readonly',
+        CustomEvent: 'readonly',
+        localStorage: 'readonly',
         $state: 'readonly',
         $derived: 'readonly',
         $props: 'readonly',
@@ -39,6 +42,7 @@ export default [
     rules: {
       'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
       'no-undef': 'error',
+      'no-empty': ['error', { allowEmptyCatch: true }],
     },
   },
 ];
