@@ -541,9 +541,38 @@ El componente `<ConfigFloatingWindow />` incluye un selector de tipografía en s
 | `@swal/ui/tokens/fonts.css` | Presets de tipografía (`data-font`) |
 | `@swal/ui/fonts.css` | Alias directo de presets tipográficos |
 | `@swal/ui/antigravity.css` / `@swal/ui/tokens/antigravity.css` | Tema Antigravity dual (dark/hueso light) |
+| `@swal/ui/taller.css` / `@swal/ui/tokens/taller.css` | Tema Taller dual (plano tecnico claro / garaje oscuro) |
+| `@swal/ui/theme-mode` | `themeModeScript()`, `getThemeMode()`, `setThemeMode()` — claro/oscuro/sistema sin parpadeo |
 | `@swal/ui/tikpro.css` | Tema Sci-Fi TikPro |
 | `@swal/ui/motion` | swalFade, swalSlide |
 | `@swal/ui/toast` | store `toast` + `toasts` |
+
+## Tema Taller (plano tecnico)
+
+Hoja de plano clara, tinta casi negra, lineas de plano, UN acento naranja senal y esquinas
+cortadas. Primera app: gara-g (garage 3D y consola de flotas).
+
+```css
+@import '@swal/ui/tokens';
+@import '@swal/ui/taller.css';
+```
+
+```astro
+---
+import { themeModeScript } from '@swal/ui/theme-mode';
+---
+<html data-theme="taller">
+  <head><script is:inline set:html={themeModeScript()} /></head>
+```
+
+- `data-theme="taller"` (claro, default) / `"taller-dark"`; el modo del usuario va en
+  `localStorage['swal:theme-mode']` = `light | dark | system`. Cambiarlo: `setThemeMode('dark')`
+  (o `window.swalTheme.set`); escuchar `swal:themechange` en `document`.
+- El naranja `--swal-accent` es para rellenos; el texto naranja usa `--swal-accent-text` y el texto
+  sobre naranja `--swal-accent-contrast`. Contrastes medidos en el encabezado de `taller.css`.
+- Utilidades: `.swal-chamfer-sm | .swal-chamfer | .swal-chamfer-lg`, `.swal-card-frame` +
+  `.swal-card-inner` (borde de 1px con esquinas cortadas), `.swal-blueprint-bg`, `.swal-kicker`,
+  `.swal-tick`, `.swal-scrollbar`.
 
 ## License
 
