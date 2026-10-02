@@ -94,4 +94,35 @@ void main() {
       expect(tester.getSize(find.byKey(_content)), const Size(400 - 32, 800));
     });
   });
+
+  group('SwalPage centerVertically', () {
+    Future<Rect> pumpCentered(WidgetTester tester, double contentHeight) async {
+      tester.view.physicalSize = const Size(560, 820);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: SwalTheme.dark(),
+          home: Scaffold(
+            body: SwalPage(
+              centerVertically: true,
+              child: SizedBox(key: _content, height: contentHeight),
+            ),
+          ),
+        ),
+      );
+      return tester.getRect(find.byKey(_content));
+    }
+
+    testWidgets('contenido corto queda centrado en vertical', (tester) async {
+      final rect = await pumpCentered(tester, 200);
+      expect(rect.center.dy, closeTo(410, 1));
+    });
+
+    testWidgets('contenido largo empieza arriba y hace scroll', (tester) async {
+      final rect = await pumpCentered(tester, 2000);
+      expect(rect.top, closeTo(SwalTokens.space6, 1));
+      expect(find.byType(SingleChildScrollView), findsOneWidget);
+    });
+  });
 }

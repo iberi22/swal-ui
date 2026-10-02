@@ -11,6 +11,10 @@ import '../tokens.dart';
 ///
 /// Por defecto hace scroll vertical; con `scrollable: false` el hijo recibe
 /// el alto disponible (util para listas propias o layouts con Expanded).
+///
+/// Con `centerVertically: true` (solo junto a [scrollable]) el contenido corto
+/// queda centrado tambien en vertical, como una pantalla de acceso; si no cabe,
+/// hace scroll normal desde arriba.
 class SwalPage extends StatelessWidget {
   /// Crea una pagina.
   const SwalPage({
@@ -21,6 +25,7 @@ class SwalPage extends StatelessWidget {
     this.padding,
     this.verticalPadding = SwalTokens.space6,
     this.controller,
+    this.centerVertically = false,
   });
 
   /// Contenido de la pagina.
@@ -41,6 +46,9 @@ class SwalPage extends StatelessWidget {
   /// Controlador del scroll (solo con [scrollable]).
   final ScrollController? controller;
 
+  /// Centra en vertical el contenido que cabe en la pantalla (con [scrollable]).
+  final bool centerVertically;
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -53,8 +61,10 @@ class SwalPage extends StatelessWidget {
             vertical: verticalPadding,
           ),
           child: Align(
-            alignment: Alignment.topCenter,
-            heightFactor: scrollable ? 1 : null,
+            alignment: centerVertically && scrollable
+                ? Alignment.center
+                : Alignment.topCenter,
+            heightFactor: scrollable && !centerVertically ? 1 : null,
             child: ConstrainedBox(
               constraints: BoxConstraints(maxWidth: maxWidth),
               child: SizedBox(
@@ -66,6 +76,12 @@ class SwalPage extends StatelessWidget {
           ),
         );
         if (scrollable) {
+          if (centerVertically && constraints.hasBoundedHeight) {
+            content = ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: content,
+            );
+          }
           content = SingleChildScrollView(
             controller: controller,
             child: content,
