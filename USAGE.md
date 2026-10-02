@@ -584,6 +584,43 @@ El componente `<ConfigFloatingWindow />` incluye un selector de tipografía en s
 
 ---
 
+## Offline-first: persistencia y respaldo
+
+Toda app SWAL guarda datos solo en el dispositivo. El core ofrece helpers y componentes genericos (sin logica de app).
+
+- `requestPersistence()` -> `'granted' | 'denied' | 'unsupported'` (`navigator.storage.persist`).
+- `getStorageStatus()` -> `{ persisted, usageBytes, quotaBytes, ratio }`.
+- `isQuotaError(err)` detecta `QuotaExceededError`; `formatBytes(n)` formatea tamanos.
+- Formato de respaldo: `{ format: 'swal-backup/v1', appId, createdAt, schemaVersion, stores: { nombre: any[] } }`.
+- `createBackup({ appId, schemaVersion, collect })`, `downloadBackup(backup, filename?)`,
+  `readBackupFile(file, { appId?, maxBytes? })` (valida formato/appId, limite 50 MB por defecto),
+  `restoreBackup(backup, { apply, onConflict: 'replace' | 'merge' })`.
+- `<StorageStatus warnAt={0.8} />`: badge de persistencia, barra de uso, aviso >80% y boton para pedir persistencia.
+- `<BackupPanel {appId} {schemaVersion} {collect} {apply} onConflict onRestored />`: exportar, importar (input o arrastrar), dialogo de confirmacion con conteo por store y toasts (requiere `<Toaster />`).
+
+Ejemplo con IndexedDB (app con stores `notes` y `tags`):
+
+```svelte
+<script>
+  import { StorageStatus, BackupPanel, Toaster } from '@swal/ui';
+  import { db } from './db.js'; // wrapper propio de IndexedDB
+
+  const STORES = ['notes', 'tags'];
+  const collect = async () =>
+    Object.fromEntries(await Promise.all(STORES.map(async (s) => [s, await db.getAll(s)])));
+  const apply = async (store, records, mode) => {
+    if (mode === 'replace') await db.clear(store);
+    for (const r of records) await db.put(store, r); // put = upsert (merge)
+  };
+</script>
+
+<Toaster />
+<StorageStatus />
+<BackupPanel appId="mi-app" schemaVersion={3} {collect} {apply} onRestored={() => location.reload()} />
+```
+
+En tu capa de escritura, captura `isQuotaError(err)` para avisar al usuario y sugerir exportar un respaldo.
+
 ## Package Exports
 
 | Export | Contenido |
@@ -601,6 +638,8 @@ El componente `<ConfigFloatingWindow />` incluye un selector de tipografía en s
 | `@swal/ui/theme-boot` | `themeBootScript`, `THEME_BOOT_SCRIPT`, `NAV_BOOT_SCRIPT`, `setTheme` |
 | `@swal/ui/motion` | swalFade, swalSlide |
 | `@swal/ui/toast` | store `toast` + `toasts` |
+| `@swal/ui/storage` | `requestPersistence`, `getStorageStatus`, `isQuotaError`, `formatBytes` |
+| `@swal/ui/backup` | `createBackup`, `downloadBackup`, `readBackupFile`, `restoreBackup`, `validateBackup` |
 
 ## License
 

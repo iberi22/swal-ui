@@ -25,6 +25,8 @@
     "./tikpro.css": "./src/tokens/tikpro.css",
     "./motion": "./src/lib/motion.js",
     "./toast": "./src/lib/toast.svelte.js",
+    "./storage": "./src/lib/storage.js",
+    "./backup": "./src/lib/backup.js",
     "./antigravity.css": "./src/tokens/antigravity.css",
     "./tokens/antigravity.css": "./src/tokens/antigravity.css",
     "./fonts.css": "./src/tokens/fonts.css",
