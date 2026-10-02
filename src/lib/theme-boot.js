@@ -12,6 +12,13 @@ export const FONT_STORAGE_KEY = 'swal-font';
 export const DEFAULT_THEMES = ['light', 'dark'];
 
 /**
+ * Script minimo que marca <html class="js"> antes de pintar (lo necesita
+ * MobileNav para plegar el menu sin salto de layout). `themeBootScript` ya lo
+ * incluye; usalo solo si no usas el de tema.
+ */
+export const NAV_BOOT_SCRIPT = '(function(){document.documentElement.classList.add("js");})();';
+
+/**
  * Devuelve el codigo JS (IIFE) del script de arranque.
  * @param {{ themeKey?: string, fontKey?: string, themes?: string[] }} [opts]
  *   `themes`: valores guardados que se aceptan como data-theme.
@@ -22,7 +29,7 @@ export function themeBootScript(opts = {}) {
   const themes = opts.themes ?? DEFAULT_THEMES;
   return (
     '(function(){try{' +
-    'var d=document.documentElement;' +
+    'var d=document.documentElement;d.classList.add("js");' +
     `var t=localStorage.getItem(${JSON.stringify(themeKey)});` +
     `if(${JSON.stringify(themes)}.indexOf(t)>-1)d.setAttribute("data-theme",t);` +
     `var f=localStorage.getItem(${JSON.stringify(fontKey)});` +

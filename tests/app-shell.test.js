@@ -78,9 +78,9 @@ describe('MobileNav', () => {
     expect(out).toContain('aria-label="Principal"');
   });
 
-  it('SSR sin JS: sin data-nav (menu visible), boton cerrado y enlazado al menu', () => {
+  it('SSR: data-nav=closed (el CSS solo pliega bajo html.js), boton cerrado y enlazado al menu', () => {
     const out = html(MobileNav, { items, currentPath: '/', id: 'm1', menuLabel: 'Menu' });
-    expect(out).not.toContain('data-nav');
+    expect(out).toContain('data-nav="closed"');
     expect(out).toContain('aria-controls="m1"');
     expect(out).toContain('aria-expanded="false"');
   });
@@ -124,14 +124,15 @@ describe('theme-boot', () => {
 
   it('se ejecuta sin DOM real: aplica eleccion guardada y tolera localStorage bloqueado', () => {
     const attrs = {};
-    const doc = { documentElement: { setAttribute: (k, v) => (attrs[k] = v) } };
+    const classList = { add() {} };
+    const doc = { documentElement: { classList, setAttribute: (k, v) => (attrs[k] = v) } };
     const store = { 'swal-theme': 'light', 'swal-font': 'jetbrains' };
     new Function('document', 'localStorage', themeBootScript())(doc, { getItem: (k) => store[k] ?? null });
     expect(attrs).toEqual({ 'data-theme': 'light', 'data-font': 'jetbrains' });
 
     const attrs2 = {};
     new Function('document', 'localStorage', themeBootScript())(
-      { documentElement: { setAttribute: (k, v) => (attrs2[k] = v) } },
+      { documentElement: { classList, setAttribute: (k, v) => (attrs2[k] = v) } },
       { getItem: () => 'evil"><script>' },
     );
     expect(attrs2).toEqual({});

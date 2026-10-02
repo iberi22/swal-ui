@@ -335,7 +335,7 @@ Sidebar template component optimized for Svelte 5.
 
 ### App shell (`Icon`, `MobileNav`, `AppShell`) *(extraido del rediseno de Fize, sin marca ni rutas)*
 
-Todas las apps del ecosistema de salud usan este mismo shell: columna lateral en escritorio, barra superior con menu desplegable (rejilla 2 columnas, objetivos de 44px, Escape cierra) en movil. Sin JS el menu queda abierto y el boton oculto.
+Todas las apps del ecosistema de salud usan este mismo shell: columna lateral en escritorio, barra superior con menu desplegable (rejilla 2 columnas, objetivos de 44px, Escape cierra) en movil. Sin JS el menu queda abierto y el boton oculto. **Requisito**: incluir en el `<head>` el script de arranque (`themeBootScript()` / `THEME_BOOT_SCRIPT` de `@swal/ui/theme-boot`, o solo `NAV_BOOT_SCRIPT`), que pone `class="js"` en `<html>` antes de pintar; sin el, el menu movil se ve abierto hasta hidratar (el componente anade `js` al montar como respaldo, con salto de layout). Con Escape el foco vuelve al boton.
 
 **`<Icon>`**: `name` (clave del registro), `paths` (array de `d`, prioridad sobre `name`), `size=20`, `strokeWidth=1.75`, `label` (si se da, `role="img"`; sin label es decorativo). Un nombre desconocido pinta un svg vacio. Registro extensible:
 
@@ -370,7 +370,7 @@ Iconos incluidos: home, table, clipboard, chef, package, utensils, book, receipt
 
 ### Arranque de tema sin destello (`@swal/ui/theme-boot`)
 
-`themeBootScript({ themeKey='swal-theme', fontKey='swal-font', themes=['light','dark'] })` devuelve el JS (IIFE) para el `<head>`; `THEME_BOOT_SCRIPT` es el valor por defecto. No fija tema: sin eleccion guardada el CSS sigue a `prefers-color-scheme`; solo aplica `data-theme` / `data-font` guardados. `setTheme('light'|'dark'|'system')` cambia y persiste en runtime.
+`themeBootScript({ themeKey='swal-theme', fontKey='swal-font', themes=['light','dark'] })` devuelve el JS (IIFE) para el `<head>`; `THEME_BOOT_SCRIPT` es el valor por defecto. Tambien marca `<html class="js">` (ver MobileNav). No fija tema: sin eleccion guardada el CSS sigue a `prefers-color-scheme`; solo aplica `data-theme` / `data-font` guardados. `setTheme('light'|'dark'|'system')` cambia y persiste en runtime.
 
 ```astro
 <script is:inline set:html={THEME_BOOT_SCRIPT}></script>
@@ -598,7 +598,7 @@ El componente `<ConfigFloatingWindow />` incluye un selector de tipografía en s
 | `@swal/ui/tokens.css` | Alias de theme.css (para `?inline`) |
 | `@swal/ui/icons` | `ICONS`, `registerIcons`, `getIcon` |
 | `@swal/ui/nav` | `isNavActive`, `findCurrentNav` |
-| `@swal/ui/theme-boot` | `themeBootScript`, `THEME_BOOT_SCRIPT`, `setTheme` |
+| `@swal/ui/theme-boot` | `themeBootScript`, `THEME_BOOT_SCRIPT`, `NAV_BOOT_SCRIPT`, `setTheme` |
 | `@swal/ui/motion` | swalFade, swalSlide |
 | `@swal/ui/toast` | store `toast` + `toasts` |
 

@@ -18,12 +18,13 @@
     ...rest
   } = $props();
 
-  // Sin JS no hay data-nav: el CSS muestra el menu entero y esconde el boton,
-  // asi que ningun destino queda inaccesible. Con JS arranca plegado en movil
-  // (en escritorio el menu nunca se pliega).
-  let mounted = $state(false);
+  // Sin JS (html sin clase `js`) el CSS muestra el menu entero y esconde el
+  // boton, asi que ningun destino queda inaccesible. Con `html.js` (puesto antes
+  // de pintar por el script de arranque, o aqui al montar como respaldo) el menu
+  // arranca plegado en movil sin salto de layout.
+  let toggleEl = $state();
   onMount(() => {
-    mounted = true;
+    document.documentElement.classList.add('js');
   });
 
   let current = $derived(findCurrentNav(items, currentPath));
@@ -31,6 +32,7 @@
   function onkeydown(e) {
     if (e.key === 'Escape' && open) {
       open = false;
+      toggleEl?.focus();
     }
   }
 
@@ -42,7 +44,7 @@
 
 <svelte:window {onkeydown} />
 
-<div class="swal-mobile-nav" data-nav={mounted ? (open ? 'open' : 'closed') : undefined} {...rest}>
+<div class="swal-mobile-nav" data-nav={open ? 'open' : 'closed'} {...rest}>
   <div class="nav-bar" class:has-lead={!!lead}>
     {#if lead}
       <span class="nav-lead">{@render lead()}</span>
@@ -55,6 +57,7 @@
     <button
       type="button"
       class="nav-toggle"
+      bind:this={toggleEl}
       aria-controls={id}
       aria-expanded={open}
       onclick={() => (open = !open)}
@@ -143,9 +146,7 @@
       color: var(--swal-text, #f5f5f4);
     }
 
-    .nav-bar.has-lead .nav-toggle { display: inline-flex; }
     .nav-toggle {
-      display: inline-flex;
       align-items: center;
       gap: 0.5rem;
       min-width: 44px;
@@ -167,9 +168,12 @@
     .nav-toggle .when-open { display: none; }
     [data-nav='open'] .nav-toggle .when-open { display: block; }
     [data-nav='open'] .nav-toggle .when-closed { display: none; }
-    /* Sin JS el boton no haria nada: no se pinta y el menu queda abierto. */
-    .swal-mobile-nav:not([data-nav]) .nav-toggle,
-    .swal-mobile-nav:not([data-nav]) .nav-bar.has-lead .nav-toggle { display: none; }
+    /* Sin JS (html sin `.js`) el boton no haria nada: no se pinta y el menu
+       queda abierto. Con `html.js` el boton se ve y el menu parte plegado. */
+    .nav-toggle,
+    .nav-bar.has-lead .nav-toggle { display: none; }
+    :global(html.js) .nav-toggle,
+    :global(html.js) .nav-bar.has-lead .nav-toggle { display: inline-flex; }
 
     /* Desplegado: rejilla de dos columnas, caben los destinos sin cortar. */
     .nav {
@@ -178,7 +182,7 @@
       gap: 0.25rem;
       padding: 0.25rem 0 0.5rem;
     }
-    [data-nav='closed'] .nav { display: none; }
+    :global(html.js) .swal-mobile-nav:not([data-nav='open']) .nav { display: none; }
 
     a.nav-item { white-space: nowrap; }
   }
