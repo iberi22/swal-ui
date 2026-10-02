@@ -84,6 +84,8 @@
   --swal-accent: #f5f5f4;
   --swal-accent-hover: #e7e5e4;
   --swal-accent-muted: rgba(245, 245, 244, 0.13);
+  /* --swal-accent-contrast ya existia en los tres bloques y no lo usaba
+     nadie; era el token correcto que faltaba en Button.svelte. */
   --swal-accent-contrast: #1c1917;
 
   /* Semanticos: los unicos que conservan color, porque deben distinguir estado
@@ -96,6 +98,12 @@
   --swal-success: #34d399;
   --swal-warning: #fbbf24;
   --swal-danger: #fb7185;
+  /* Texto sobre relleno solido. Antes los botones usaban "color: #fff"
+     fijo, que en Bone es blanco roto sobre blanco roto: los CTA quedaban
+     ilegibles. Con #fff sobre --swal-danger la relacion era 2.69:1.
+     MEDIDO con estos valores: primary/orange 16.03:1 en dark y 16.64:1 en
+     light; danger 6.96:1 sobre #fb7185 y 4.60:1 sobre #dc2626. Todo AA. */
+  --swal-on-danger: #121211;
   --swal-info: #7dd3fc;
   --swal-success-muted: rgba(52, 211, 153, 0.16);
   --swal-warning-muted: rgba(251, 191, 36, 0.16);
@@ -219,6 +227,7 @@
   --swal-success: #047857;
   --swal-warning: #b45309;
   --swal-danger: #dc2626;
+  --swal-on-danger: #faf9f9;
   --swal-info: #0369a1;
   --swal-success-muted: rgba(4, 120, 87, 0.12);
   --swal-warning-muted: rgba(180, 83, 9, 0.12);
@@ -311,6 +320,7 @@
   --swal-success: #047857;
   --swal-warning: #b45309;
   --swal-danger: #dc2626;
+  --swal-on-danger: #faf9f9;
   --swal-info: #0369a1;
   --swal-success-muted: rgba(4, 120, 87, 0.12);
   --swal-warning-muted: rgba(180, 83, 9, 0.12);

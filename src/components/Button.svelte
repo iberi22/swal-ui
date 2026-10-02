@@ -55,14 +55,14 @@
   /* Variantes */
   .primary {
     background: var(--swal-accent);
-    color: #fff;
+    color: var(--swal-accent-contrast);
     box-shadow: var(--swal-shadow-sm);
   }
   .primary:hover:not(.busy) { background: var(--swal-accent-hover); }
 
   .orange {
     background: var(--swal-accent-orange);
-    color: #fff;
+    color: var(--swal-accent-contrast);
     box-shadow: var(--swal-shadow-sm);
   }
   .orange:hover:not(.busy) { opacity: 0.9; }
@@ -82,7 +82,7 @@
 
   .danger {
     background: var(--swal-danger);
-    color: #fff;
+    color: var(--swal-on-danger);
   }
   .danger:hover:not(.busy) { opacity: 0.9; }
 
