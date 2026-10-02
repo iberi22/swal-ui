@@ -24,6 +24,7 @@ function createPrefsStore(opts) {
     try {
       localStorage.setItem(key, JSON.stringify(p));
     } catch {
+      // Ignorar error
     }
   };
   let current = resolvePrefs(opts.schema, readLocal());
@@ -43,6 +44,7 @@ function createPrefsStore(opts) {
           emit();
         }
       } catch {
+        // Ignorar error
       }
       return current;
     },
