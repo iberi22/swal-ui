@@ -18,26 +18,29 @@
   "svelte": "./src/components/index.js",
   "exports": {
     ".": {
-      "svelte": "./src/components/index.js"
+      "svelte": "./src/components/index.js",
+      "default": "./src/components/index.js"
     },
+    "./antigravity.css": "./src/tokens/antigravity.css",
+    "./colors": "./src/tokens/colors.css",
     "./components/*.svelte": {
       "svelte": "./src/components/*.svelte"
     },
-    "./tokens": "./src/tokens/theme.css",
-    "./themes.css": "./src/themes.css",
-    "./colors": "./src/tokens/colors.css",
-    "./tikpro.css": "./src/tokens/tikpro.css",
-    "./motion": "./src/lib/motion.js",
-    "./toast": "./src/lib/toast.svelte.js",
-    "./antigravity.css": "./src/tokens/antigravity.css",
-    "./tokens/antigravity.css": "./src/tokens/antigravity.css",
     "./fonts.css": "./src/tokens/fonts.css",
-    "./tokens/fonts.css": "./src/tokens/fonts.css"
+    "./motion": "./src/lib/motion.js",
+    "./themes.css": "./src/themes.css",
+    "./tikpro.css": "./src/tokens/tikpro.css",
+    "./toast": "./src/lib/toast.svelte.js",
+    "./tokens": "./src/tokens/theme.css",
+    "./tokens/antigravity.css": "./src/tokens/antigravity.css",
+    "./tokens/fonts.css": "./src/tokens/fonts.css",
+    "./ui.css": "./dist/ui.css"
   },
   "files": [
     "src",
     "README.md",
-    "USAGE.md"
+    "USAGE.md",
+    "dist"
   ],
   "sideEffects": [
     "*.css"
