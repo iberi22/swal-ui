@@ -1,0 +1,247 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   SWAL Design Tokens — Tema TALLER (plano tecnico)
+   Claro = "Taller": hoja de plano gris, tinta casi negra, lineas de plano y
+           un solo acento naranja senal. Referencia: el configurador de producto
+           del garage 3D de GARA-G (hoja #E9ECEF, tarjetas #F9FAFB, #FF6A13).
+   Oscuro = "Garaje": el mismo plano de noche, mismo acento.
+   Global: data-theme="taller" | "taller-dark" (en <html>)
+   Import: @swal/ui/taller.css (o @swal/ui/tokens/taller.css), despues de @swal/ui/tokens.
+   Modo claro/oscuro/sistema sin parpadeo: @swal/ui/theme-mode (themeModeScript).
+   Primera app: gara-g (packages/app-pwa/src/styles/swal-taller.css, mismo contenido).
+
+   Contraste (WCAG 2.2, medido sobre --swal-bg-surface de cada tema, 2026-10-02):
+     claro  texto #0D0F12 17.6:1 · secundario #3F4651 8.7:1 · muted #5A626E 5.7:1
+            acento-texto #B44709 5.0:1 · exito #17783F 5.1:1 · aviso #8F5400 5.6:1
+            peligro #C8352B 4.8:1 · faint #8C95A2 2.8:1 (solo decorativo / texto grande)
+     oscuro texto #E8ECF1 15.4:1 · muted #96A0AE 6.9:1 · faint #7C8694 5.0:1
+            acento-texto #FF8A45 7.8:1 · exito 8.8:1 · aviso 9.8:1 · peligro 5.8:1
+   El naranja #FF6A13 es para RELLENOS y senales, no para texto sobre claro
+   (2.6:1): el texto naranja usa --swal-accent-text. Sobre un relleno naranja el
+   texto va en --swal-accent-contrast (tinta: 6.7:1; el blanco daria 2.9:1).
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ─── CLARO: taller (default de gara-g) ─── */
+:root[data-theme="taller"] {
+  color-scheme: light;
+
+  /* Superficies: hoja exterior → hoja interior → tarjeta → tarjeta en hover. */
+  --swal-bg: #E9ECEF;
+  --swal-bg-surface: #F4F5F7;
+  --swal-bg-elevated: #FFFFFF;
+  --swal-surface: #F9FAFB;
+  --swal-surface-hover: #FFFFFF;
+  --swal-surface-active: #ECEFF3;
+  --swal-elevated: #FFFFFF;
+  --swal-elevated-850: #F4F5F7;
+  --swal-card-bg: #F9FAFB;
+  --swal-hover: #FFFFFF;
+  --swal-hover-bg: rgba(13, 15, 18, 0.04);
+  --swal-active-bg: rgba(255, 106, 19, 0.10);
+  --swal-overlay: rgba(13, 15, 18, 0.45);
+  --swal-void: #0D0F12;
+  --swal-mesh: none;
+
+  /* Lineas: hairline separa tarjetas; blueprint dibuja el plano y las cotas. */
+  --swal-border: #D5DADF;
+  --swal-border-light: #C6CDD6;
+  --swal-border-strong: #8C95A2;
+  --swal-line-hairline: #D5DADF;
+  --swal-line-blueprint: #C6CDD6;
+  --swal-line-grid: #DDE2E8;
+
+  /* Tinta */
+  --swal-text: #0D0F12;
+  --swal-text-secondary: #3F4651;
+  --swal-text-muted: #5A626E;
+  --swal-text-faint: #8C95A2;
+  --swal-text-inverse: #F9FAFB;
+  --swal-ink-graphite: #1E2229;
+
+  /* Acento senal */
+  --swal-accent: #FF6A13;
+  --swal-accent-hover: #E85A06;
+  --swal-accent-muted: rgba(255, 106, 19, 0.12);
+  --swal-accent-contrast: #0D0F12;
+  --swal-accent-text: #B44709;
+  --swal-accent-orange: #FF6A13;
+  --swal-accent-orange-muted: rgba(255, 106, 19, 0.12);
+  --swal-accent-cyan: #1E2229;
+  --swal-accent-red: #D63A2F;
+  --swal-cyan-bright: #1E2229;
+  --swal-neon-cyan: #1E2229;
+  --swal-neon-green: #1F9D55;
+
+  /* Semanticos (todos legibles como texto sobre la hoja) */
+  --swal-success: #17783F;
+  --swal-success-muted: rgba(23, 120, 63, 0.12);
+  --swal-warning: #8F5400;
+  --swal-warning-muted: rgba(212, 136, 6, 0.14);
+  --swal-danger: #C8352B;
+  --swal-danger-muted: rgba(214, 58, 47, 0.12);
+  --swal-danger-bg: rgba(214, 58, 47, 0.10);
+  --swal-on-danger: #FFFFFF;
+  --swal-info: #1E2229;
+  --swal-info-muted: rgba(30, 34, 41, 0.08);
+
+  /* Sombra: casi plana, como papel sobre la mesa. Sin neon. */
+  --swal-shadow-sm: 0 1px 2px rgba(13, 15, 18, 0.06);
+  --swal-shadow: 0 2px 5px rgba(13, 15, 18, 0.08);
+  --swal-shadow-lg: 0 10px 30px rgba(13, 15, 18, 0.12);
+  --swal-shadow-neon-cyan: none;
+  --swal-shadow-neon-orange: none;
+  --swal-shadow-neon-emerald: none;
+  --swal-shadow-glow-cyan: none;
+  --swal-shadow-glow-orange: none;
+  --swal-shadow-glow-emerald: none;
+
+  /* Forma: esquinas cortadas en vez de redondeadas. */
+  --swal-radius-xs: 0;
+  --swal-radius-sm: 0;
+  --swal-radius: 0;
+  --swal-radius-lg: 0;
+  --swal-chamfer-sm: 6px;
+  --swal-chamfer: 10px;
+  --swal-chamfer-lg: 14px;
+
+  --swal-font: 'Inter', system-ui, -apple-system, sans-serif;
+  --swal-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* ─── OSCURO: garaje ─── */
+:root[data-theme="taller-dark"] {
+  color-scheme: dark;
+
+  --swal-bg: #0E1116;
+  --swal-bg-surface: #11151B;
+  --swal-bg-elevated: #1B2029;
+  --swal-surface: #171B22;
+  --swal-surface-hover: #1E242D;
+  --swal-surface-active: #242B35;
+  --swal-elevated: #1B2029;
+  --swal-elevated-850: #141920;
+  --swal-card-bg: #171B22;
+  --swal-hover: #1E242D;
+  --swal-hover-bg: rgba(232, 236, 241, 0.05);
+  --swal-active-bg: rgba(255, 106, 19, 0.14);
+  --swal-overlay: rgba(4, 6, 9, 0.7);
+  --swal-void: #000000;
+  --swal-mesh: none;
+
+  --swal-border: #2A323D;
+  --swal-border-light: #333B47;
+  --swal-border-strong: #4A5464;
+  --swal-line-hairline: #2A323D;
+  --swal-line-blueprint: #333B47;
+  --swal-line-grid: #1D232C;
+
+  --swal-text: #E8ECF1;
+  --swal-text-secondary: #CFD5DE;
+  --swal-text-muted: #96A0AE;
+  --swal-text-faint: #7C8694;
+  --swal-text-inverse: #0D0F12;
+  --swal-ink-graphite: #CFD5DE;
+
+  --swal-accent: #FF6A13;
+  --swal-accent-hover: #FF8A45;
+  --swal-accent-muted: rgba(255, 106, 19, 0.16);
+  --swal-accent-contrast: #0D0F12;
+  --swal-accent-text: #FF8A45;
+  --swal-accent-orange: #FF6A13;
+  --swal-accent-orange-muted: rgba(255, 106, 19, 0.16);
+  --swal-accent-cyan: #CFD5DE;
+  --swal-accent-red: #F0625A;
+  --swal-cyan-bright: #E8ECF1;
+  --swal-neon-cyan: #CFD5DE;
+  --swal-neon-green: #3CCB7F;
+
+  --swal-success: #3CCB7F;
+  --swal-success-muted: rgba(60, 203, 127, 0.14);
+  --swal-warning: #F0B429;
+  --swal-warning-muted: rgba(240, 180, 41, 0.14);
+  --swal-danger: #F0625A;
+  --swal-danger-muted: rgba(240, 98, 90, 0.14);
+  --swal-danger-bg: rgba(240, 98, 90, 0.12);
+  --swal-on-danger: #0D0F12;
+  --swal-info: #CFD5DE;
+  --swal-info-muted: rgba(207, 213, 222, 0.10);
+
+  --swal-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --swal-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  --swal-shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.6);
+  --swal-shadow-neon-cyan: none;
+  --swal-shadow-neon-orange: none;
+  --swal-shadow-neon-emerald: none;
+  --swal-shadow-glow-cyan: none;
+  --swal-shadow-glow-orange: none;
+  --swal-shadow-glow-emerald: none;
+
+  --swal-radius-xs: 0;
+  --swal-radius-sm: 0;
+  --swal-radius: 0;
+  --swal-radius-lg: 0;
+  --swal-chamfer-sm: 6px;
+  --swal-chamfer: 10px;
+  --swal-chamfer-lg: 14px;
+
+  --swal-font: 'Inter', system-ui, -apple-system, sans-serif;
+  --swal-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* ─── Utilidades del tema (las dos variantes) ─── */
+:root[data-theme^="taller"] .swal-chamfer-sm {
+  clip-path: polygon(var(--swal-chamfer-sm) 0, 100% 0, 100% calc(100% - var(--swal-chamfer-sm)), calc(100% - var(--swal-chamfer-sm)) 100%, 0 100%, 0 var(--swal-chamfer-sm));
+}
+:root[data-theme^="taller"] .swal-chamfer {
+  clip-path: polygon(var(--swal-chamfer) 0, 100% 0, 100% calc(100% - var(--swal-chamfer)), calc(100% - var(--swal-chamfer)) 100%, 0 100%, 0 var(--swal-chamfer));
+}
+:root[data-theme^="taller"] .swal-chamfer-lg {
+  clip-path: polygon(var(--swal-chamfer-lg) 0, 100% 0, 100% calc(100% - var(--swal-chamfer-lg)), calc(100% - var(--swal-chamfer-lg)) 100%, 0 100%, 0 var(--swal-chamfer-lg));
+}
+
+/* Tarjeta con borde de 1px aunque tenga clip-path: el marco es el borde y el interior
+   la superficie (un `border` normal desaparece en las esquinas cortadas). */
+:root[data-theme^="taller"] .swal-card-frame {
+  background: var(--swal-line-hairline);
+  padding: 1px;
+  clip-path: polygon(var(--swal-chamfer) 0, 100% 0, 100% calc(100% - var(--swal-chamfer)), calc(100% - var(--swal-chamfer)) 100%, 0 100%, 0 var(--swal-chamfer));
+  filter: drop-shadow(var(--swal-shadow-sm));
+}
+:root[data-theme^="taller"] .swal-card-frame > .swal-card-inner {
+  background: var(--swal-surface);
+  clip-path: inherit;
+  height: 100%;
+}
+:root[data-theme^="taller"] .swal-card-frame.is-active {
+  background: var(--swal-accent);
+}
+
+/* Hoja de plano con cuadricula fina. */
+:root[data-theme^="taller"] .swal-blueprint-bg {
+  background-color: var(--swal-bg-surface);
+  background-image:
+    linear-gradient(var(--swal-line-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--swal-line-grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Rotulo tecnico: mono, mayusculas, espaciado. Ej.: "PLANO // CAMION // ESCALA 1:10". */
+:root[data-theme^="taller"] .swal-kicker {
+  font-family: var(--swal-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--swal-text-muted);
+}
+
+/* Paralelogramo naranja que marca un rotulo activo. */
+:root[data-theme^="taller"] .swal-tick {
+  display: inline-block;
+  width: 10px;
+  height: 7px;
+  background: var(--swal-accent);
+  transform: skewX(-24deg);
+}
+
+:root[data-theme^="taller"] .swal-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+:root[data-theme^="taller"] .swal-scrollbar::-webkit-scrollbar-track { background: var(--swal-bg); }
+:root[data-theme^="taller"] .swal-scrollbar::-webkit-scrollbar-thumb { background: var(--swal-border-strong); }

@@ -541,9 +541,88 @@ El componente `<ConfigFloatingWindow />` incluye un selector de tipografía en s
 | `@swal/ui/tokens/fonts.css` | Presets de tipografía (`data-font`) |
 | `@swal/ui/fonts.css` | Alias directo de presets tipográficos |
 | `@swal/ui/antigravity.css` / `@swal/ui/tokens/antigravity.css` | Tema Antigravity dual (dark/hueso light) |
+| `@swal/ui/taller.css` / `@swal/ui/tokens/taller.css` | Tema Taller dual (plano tecnico claro / garaje oscuro) |
+| `@swal/ui/theme-mode` | `themeModeScript()`, `getThemeMode()`, `setThemeMode()` — claro/oscuro/sistema sin parpadeo |
+| `@swal/ui/prefs` | `createPrefsStore()`, `resolvePrefs()`, `prefsBootstrapScript()` — menus y paneles activables por el usuario |
 | `@swal/ui/tikpro.css` | Tema Sci-Fi TikPro |
 | `@swal/ui/motion` | swalFade, swalSlide |
 | `@swal/ui/toast` | store `toast` + `toasts` |
+
+## Tema Taller (plano tecnico)
+
+Hoja de plano clara, tinta casi negra, lineas de plano, UN acento naranja senal y esquinas
+cortadas. Primera app: gara-g (garage 3D y consola de flotas).
+
+```css
+@import '@swal/ui/tokens';
+@import '@swal/ui/taller.css';
+```
+
+```astro
+---
+import { themeModeScript } from '@swal/ui/theme-mode';
+---
+<html data-theme="taller">
+  <head><script is:inline set:html={themeModeScript()} /></head>
+```
+
+- `data-theme="taller"` (claro, default) / `"taller-dark"`; el modo del usuario va en
+  `localStorage['swal:theme-mode']` = `light | dark | system`. Cambiarlo: `setThemeMode('dark')`
+  (o `window.swalTheme.set`); escuchar `swal:themechange` en `document`.
+- El naranja `--swal-accent` es para rellenos; el texto naranja usa `--swal-accent-text` y el texto
+  sobre naranja `--swal-accent-contrast`. Contrastes medidos en el encabezado de `taller.css`.
+- Utilidades: `.swal-chamfer-sm | .swal-chamfer | .swal-chamfer-lg`, `.swal-card-frame` +
+  `.swal-card-inner` (borde de 1px con esquinas cortadas), `.swal-blueprint-bg`, `.swal-kicker`,
+  `.swal-tick`, `.swal-scrollbar`.
+
+## Preferencias de interfaz (`@swal/ui/prefs`)
+
+Menus y paneles que el usuario activa, oculta y ajusta, declarados con un esquema. Tipos en
+`src/lib/prefs/types.d.ts`. Primer consumidor: GARA-G (`lib/prefs.config.ts`).
+
+```ts
+import { createPrefsStore, prefsBootstrapScript, isPanelEnabled, panelOption } from '@swal/ui/prefs';
+
+const schema = {
+  version: 1,
+  modules: [{ id: 'dashboard', label: 'Dashboard', group: 'Inicio', default: true, required: true },
+            { id: 'fuel', label: 'Combustible', group: 'Operacion', default: true }],
+  panels: [{ id: 'callouts', label: 'Llamadas', scope: 'Garage', default: true,
+             options: [{ id: 'max', label: 'Maximo', type: 'number', default: 6, min: 1, max: 12 }] }],
+  presets: [{ id: 'personal', label: 'Mi vehiculo', modules: { fuel: false } }],
+};
+const store = createPrefsStore({ schema, endpoint: '/api/prefs', storageKey: 'app:prefs' });
+await store.load();                       // GET { prefs } — servidor = fuente de verdad
+panelOption(store.get(), 'callouts', 'max', 6);
+await store.save({ ...store.get(), onboarded: true });   // PUT { prefs }
+```
+
+- `resolvePrefs(schema, stored)` valida todo lo guardado: descarta claves desconocidas, vuelve al
+  default si el tipo no cuadra, acota numeros y deja siempre activos los `required`. Cambiar
+  `version` vuelve a pedir onboarding sin perder las elecciones.
+- En el `<head>`, `<script is:inline set:html={prefsBootstrapScript({ storageKey: 'app:prefs' })} />`
+  oculta sin parpadeo cualquier `[data-pref-module="id"]` o `[data-pref-panel="id"]` apagado y se
+  re-aplica con `swal:prefschange` y `astro:after-swap`.
+- El endpoint es de la app: guarda `{ prefs }` por usuario y responde `{ prefs }` resueltas.
+
+### Componentes: onboarding, ajustes y tema
+
+```svelte
+<script>
+  import { OnboardingWizard, PrefsEditor, ThemeModeSwitch } from '@swal/ui';
+  let prefs = $state(store.get());   // schema y store como arriba
+</script>
+
+<!-- Asistente de bienvenida (perfil, menu, paneles, listo); emite solo al terminar con onboarded:true -->
+<OnboardingWizard {schema} value={prefs} title="Bienvenido"
+  onfinish={(p) => store.save(p)} onskip={() => {}} />
+
+<!-- Editor de ajustes; no muta value, emite un objeto nuevo. sections: 'modules' | 'panels' -->
+<PrefsEditor {schema} value={prefs} onchange={(p) => (prefs = p)} sections={['modules', 'panels']} />
+
+<!-- Claro / Oscuro / Sistema (requiere themeModeScript() en el <head>; escucha swal:themechange) -->
+<ThemeModeSwitch />
+```
 
 ## License
 
