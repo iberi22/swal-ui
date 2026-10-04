@@ -626,5 +626,5 @@ await store.save({ ...store.get(), onboarded: true });   // PUT { prefs }
 
 ## License
 
-SWAL Ecosystem — AGPL-3.0.
+SWAL Ecosystem — Apache-2.0.
 

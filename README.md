@@ -1,6 +1,6 @@
 # @swal/ui
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](./LICENSE)
 [![Svelte 5](https://img.shields.io/badge/Svelte-5-orange.svg)](https://svelte.dev)
 
 > Bone theme tokens and Svelte 5 runes-based UI components powering SouthWest AI Labs (SWAL) web applications.
@@ -186,7 +186,15 @@ import { Button, StatusBadge } from '@swal/ui';
 
 ## License
 
-This project is licensed under the **MIT License**. See the [LICENSE](./LICENSE) file for full details.
+This package is licensed under the **Apache License 2.0** — see [LICENSE](./LICENSE).
+
+Apache-2.0 was chosen over MIT/AGPL for a design system meant to be adopted:
+it is permissive like MIT (no copyleft, no obligation to open your service)
+**plus** it grants an explicit patent licence and states the patent
+termination clause, which matters for a package with a dozen organisations
+building on it.
+
+See also [NOTICE](./NOTICE) for attribution.
 
 ---
 

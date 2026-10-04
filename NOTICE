@@ -1,0 +1,26 @@
+SWAL Design System (@swal/ui)
+Copyright 2026 SouthWest AI Labs (SWAL)
+
+This product includes software developed at SouthWest AI Labs (SWAL).
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use these files except in compliance with the License. You may obtain a copy of
+the License at:
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+CONDITIONS OF ANY KIND, either express or implied. See the License for the
+specific language governing permissions and limitations under the License.
+
+--------------------------------------------------------------------------------
+
+THIRD-PARTY NOTICES
+
+This package has zero runtime dependencies. `svelte` is a peer dependency
+(>=5.0.0) and is not redistributed here.
+
+The design tokens in src/tokens/ implement colour scales measured against WCAG
+2.2 relative-luminance ratios. The method is public specification, not
+third-party code. The Bone palette is original work.
