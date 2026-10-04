@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
+    "prepublishOnly": "pnpm run build",
     "dev": "vite dev demo",
     "preview": "vite preview",
     "test": "vitest run -c vite.config.js",
