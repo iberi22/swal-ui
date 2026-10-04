@@ -85,7 +85,7 @@
     "svelte": "^5.0.0",
     "typescript": "^5.9.3",
     "vite": "^6.0.0",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.11"
   },
   "homepage": "https://github.com/iberi22/swal-ui",
   "bugs": {
