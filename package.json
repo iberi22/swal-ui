@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
-    "prepublishOnly": "pnpm run build",
+    "prepublishOnly": "pnpm run lint && pnpm run typecheck && pnpm test && pnpm run build",
     "dev": "vite dev demo",
     "preview": "vite preview",
     "test": "vitest run -c vite.config.js",
@@ -45,7 +45,12 @@
     "./ui.css": "./dist/ui.css"
   },
   "files": [
-    "src",
+    "src/components/",
+    "src/lib/",
+    "src/layouts/",
+    "src/styles/",
+    "src/tokens/",
+    "src/themes.css",
     "README.md",
     "USAGE.md",
     "dist",

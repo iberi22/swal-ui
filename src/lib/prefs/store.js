@@ -24,6 +24,9 @@ function createPrefsStore(opts) {
     try {
       localStorage.setItem(key, JSON.stringify(p));
     } catch {
+      // Cuota llena, modo privado o almacenamiento bloqueado: la preferencia
+      // sigue viva en memoria y el servidor es la fuente de verdad. Un fallo
+      // de cache local no debe tumbar la app.
     }
   };
   let current = resolvePrefs(opts.schema, readLocal());
@@ -43,6 +46,8 @@ function createPrefsStore(opts) {
           emit();
         }
       } catch {
+        // Servidor sin respuesta: se sigue con lo que haya en localStorage,
+        // que es exactamente para lo que existe readLocal(). No es un error.
       }
       return current;
     },
