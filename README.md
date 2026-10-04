@@ -85,6 +85,26 @@ One entry point. Do not import the token files directly — each app that picks 
 
 That gives you Bone plus the utilities: `.swal-glass` (translucent surface), `.swal-mesh-bg` (warm ambient gradient), `.swal-meta` (monospace metadata, keyboard hints, figures).
 
+### Component Styles
+
+`themes.css` above is **tokens only** — variables, not the rules that style the
+components. The component stylesheet is a separate import:
+
+```css
+@import '@swal/ui/themes.css';   /* tokens: --swal-*, Bone, utilities */
+@import '@swal/ui/ui.css';      /* rules: .swal-btn, .swal-card, ... */
+```
+
+**You need both.** Importing only the tokens gives you every variable defined
+and every component unstyled: `<Button>` renders with its correct class names
+and **zero matching rules**, so it looks like a native browser button
+(`padding: 1px 6px`, 13px, no radius) instead of the design system's.
+
+This bites hardest in `astro dev`, where Vite externalizes the package and the
+scoped CSS of a Svelte component used **without** a `client:*` directive is
+never injected — the component renders as static HTML with no styles. Import
+`ui.css` globally and it applies in every mode.
+
 ### Switching Theme
 
 ```html
@@ -106,10 +126,43 @@ Under `src/tokens/`, imported by `themes.css` — reach them only through it:
 | `src/tokens/theme.css` | Bone: the colour and geometry contract, `[data-theme='dark']` and `[data-theme='light']` |
 | `src/tokens/colors.css` | Raw palette custom properties |
 | `src/tokens/tikpro.css` | `tikpro` overrides for telemetry screens |
+| `src/tokens/taller.css` | Taller dual theme: `claro` (flat technical) / `garaje` (dark) |
 | `src/tokens/antigravity.css` | `antigravity` and `antigravity-light` |
 | `src/tokens/fonts.css` | Font stacks |
 
 `src/themes.css` is the registry; `src/tokens/*` are its inputs.
+
+### Theme Mode and Preferences
+
+For a UI that follows the operating system — or lets the reader choose — import
+the mode helpers:
+
+```js
+import { THEME_MODES, getThemeMode, setThemeMode } from '@swal/ui/theme-mode';
+```
+
+| Export | Purpose |
+|---|---|
+| `THEME_MODES` | `['light', 'dark', 'system']` |
+| `THEME_MODE_KEY` | `'swal:theme-mode'` — the storage key |
+| `getThemeMode()` | reads the stored mode |
+| `setThemeMode(mode)` | persists it |
+| `themeModeScript(opts)` | inline script to apply the mode before first paint |
+
+Interface preferences that live alongside it, under `@swal/ui/prefs`:
+
+| Export | Purpose |
+|---|---|
+| `prefsBootstrapScript(opts)` | inline script, applies stored prefs before first paint |
+| `resolvePrefs(prefs)` | resolves stored prefs against the current environment |
+| `createPrefsStore()` | reactive store (`get` / `set` / `reset`) |
+| `defaultPrefs` | the shipped defaults |
+| `applyPreset(name)` | applies a named preset |
+| `isModuleEnabled` / `isPanelEnabled` | feature toggles |
+| `moduleGroups` / `panelOption` / `panelScopes` | the module and panel taxonomy |
+| `PREFS_EVENT` | DOM event the store emits on change |
+
+Components: `OnboardingWizard`, `PrefsEditor`, `ThemeModeSwitch`.
 
 ### Contract and auditing
 
