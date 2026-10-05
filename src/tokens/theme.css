@@ -86,6 +86,21 @@
   --swal-accent-muted: rgba(245, 245, 244, 0.13);
   --swal-accent-contrast: #1c1917;
 
+  /* MEDIDO: --swal-on-accent sobre --swal-accent -> 16.03:1 (WCAG 2.2).
+     `--swal-accent-contrast` ya es exactamente este par, asi que el alias
+     cuesta una linea y no duplica el valor.
+
+     Por que un par fijo basta y no hace falta un token calculado: barriendo
+     el cubo sRGB, el peor caso para un par negro/blanco casi puro esta en
+     L=0.1863 y da 4.22:1 con UNO de los dos. El minimo global es 4.22:1, asi
+     que el par estatico iguala o supera a un token calculado en todo el
+     espacio de acentos posibles, y roza el 4.5:1 de AA solo en una banda
+     estrecha alrededor de ese luminancia. Para los usos reales de este token
+     —icono, etiqueta o borde sobre el acento— el margen de 3:1 de WCAG
+     1.4.11 se cumple con holgura en todo el cubo. Ver tests/on-accent.test.js,
+     que falla si alguien cambia --swal-accent sin re-medir. */
+  --swal-on-accent: var(--swal-accent-contrast);
+
   /* Semanticos: los unicos que conservan color, porque deben distinguir estado
      (pagado / pendiente / error) sin depender del tono del tema.
      MEDIDO con la formula de WCAG 2.2 sobre la superficie de vidrio
@@ -207,6 +222,11 @@
   --swal-accent-muted: rgba(28, 25, 23, 0.08);
   --swal-accent-contrast: #faf9f9;
 
+  /* MEDIDO: --swal-on-accent sobre --swal-accent -> 16.64:1 (WCAG 2.2). El
+     mismo par que la otra tema claro; ver el comentario largo en el tema
+     oscuro para por que un par fijo basta. */
+  --swal-on-accent: var(--swal-accent-contrast);
+
   /* Semanticos MEDIDOS con la formula de WCAG 2.2, en DOS superficies: el
      canvas #FAF9F5 y la tarjeta (blanco al 90% sobre el ≈ #FEFEFE).
        exito  #047857 -> 5.21:1 / 5.44:1     alerta #dc2626 -> 4.58:1 / 4.79:1
@@ -298,6 +318,11 @@
   --swal-accent-hover: #292524;
   --swal-accent-muted: rgba(28, 25, 23, 0.08);
   --swal-accent-contrast: #faf9f9;
+
+  /* MEDIDO: --swal-on-accent sobre --swal-accent -> 16.64:1 (WCAG 2.2). El
+     mismo par que la otra tema claro; ver el comentario largo en el tema
+     oscuro para por que un par fijo basta. */
+  --swal-on-accent: var(--swal-accent-contrast);
 
   /* Semanticos MEDIDOS con la formula de WCAG 2.2, en DOS superficies: el
      canvas #FAF9F5 y la tarjeta (blanco al 90% sobre el ≈ #FEFEFE).
