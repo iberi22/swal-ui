@@ -1,3 +1,7 @@
+/* Clases de color derivadas de los tokens del tema Bone.
+   Se aplican por ROL, nunca por color: el componente dice "esto es texto
+   secundario" y el tema decide el tono. Asi un componente no sabe si la app
+   esta en claro o en oscuro. */
 .swal-bg { background: var(--swal-bg); }
 .swal-surface { background: var(--swal-surface); }
 .swal-elevated { background: var(--swal-elevated); }
@@ -6,19 +10,27 @@
 .swal-text { color: var(--swal-text); }
 .swal-text-secondary { color: var(--swal-text-secondary); }
 .swal-text-muted { color: var(--swal-text-muted); }
+.swal-text-faint { color: var(--swal-text-faint); }
 
 .swal-border { border-color: var(--swal-border); }
 .swal-border-light { border-color: var(--swal-border-light); }
+.swal-border-strong { border-color: var(--swal-border-strong); }
 
+/* Acento unico. En oscuro es marfil, en claro es grafito: el rol no cambia,
+   el valor si. */
 .swal-accent { color: var(--swal-accent); }
 .swal-accent-bg { background: var(--swal-accent); }
 .swal-accent-muted { background: var(--swal-accent-muted); }
+/* Texto que va SOBRE un boton/acento primario. */
+.swal-accent-contrast { color: var(--swal-accent-contrast); }
 
+/* Semanticos: conservan color porque deben distinguir estado. */
+.swal-success { color: var(--swal-success); background: var(--swal-success-muted); }
+.swal-warning { color: var(--swal-warning); background: var(--swal-warning-muted); }
+.swal-danger { color: var(--swal-danger); background: var(--swal-danger-muted); }
+.swal-info { color: var(--swal-info); background: var(--swal-info-muted); }
+
+/* Alias legacy (Edge-Hive): --swal-accent-orange apunta al acento unico. */
 .swal-accent-orange { color: var(--swal-accent-orange); }
 .swal-accent-orange-bg { background: var(--swal-accent-orange); }
 .swal-accent-orange-muted { background: var(--swal-accent-orange-muted); }
-
-.swal-success { color: var(--swal-success); }
-.swal-warning { color: var(--swal-warning); }
-.swal-danger { color: var(--swal-danger); }
-.swal-info { color: var(--swal-info); }

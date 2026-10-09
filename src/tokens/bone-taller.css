@@ -1,0 +1,88 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   SWAL Design Tokens — Tema BONE TALLER (Bone + acento naranja Taller)
+
+   Es el tema Bone (theme.css) tal cual — Papel Alabastro / Carbon Mineral, un
+   solo tono de piedra, jerarquia por opacidad, glass tactil — con UNA excepcion:
+   el acento deja de ser marfil/grafito y pasa a ser el naranja senal del tema
+   Taller (taller.css, #FF6A13). Solo cambia el ROL acento: acciones primarias,
+   anillo de foco, seleccion y navegacion activa. Todo lo demas sigue en piedra.
+   "Color solo cuando es informacion": el naranja informa "aqui se actua".
+
+   Este archivo es una CAPA sobre theme.css, no un tema completo: no repite ni
+   un neutro de Bone. Por eso se activa con un atributo propio, `data-accent`,
+   y el modo sigue en `data-theme` (light | dark | sin atributo = sistema):
+
+     <html data-accent="taller" data-theme="light">     claro
+     <html data-accent="taller" data-theme="dark">      oscuro
+     <html data-accent="taller">                        sigue al sistema
+
+   Import: @swal/ui/tokens y DESPUES @swal/ui/bone-taller.css.
+   Modo sin parpadeo: themeModeScript({ light: 'light', dark: 'dark' }).
+
+   Es tambien la FUENTE del paquete Flutter `swal_ui`: scripts/gen-flutter-tokens.mjs
+   fusiona theme.css + esta capa y escribe flutter/lib/src/tokens.g.dart. El
+   generador exige que accent / accent-hover / accent-muted / accent-text de
+   aqui sean IGUALES a los de taller.css (claro = "taller", oscuro =
+   "taller-dark"): si el naranja de Taller cambia, el build de Flutter falla
+   hasta que se copie aqui. `pnpm gen:flutter` regenera; un test detecta el
+   archivo Dart desactualizado.
+
+   Contraste MEDIDO (formula WCAG 2.2), sobre el canvas de cada modo:
+     claro  (#FAF9F5) on-accent #1C1917 sobre #FF6A13 ->  6.10:1 (hover #E85A06 -> 4.91:1)
+                      acento-texto #B44709              ->  5.18:1 (tarjeta #FEFEFE -> 5.41:1)
+                      anillo de foco #B44709            ->  5.18:1 (minimo no-texto 3:1)
+     oscuro (#121211) on-accent #1C1917 sobre #FF6A13 ->  6.10:1 (hover #FF8A45 -> 7.47:1)
+                      acento-texto #FF8A45              ->  8.01:1
+                      anillo de foco #FF6A13            ->  6.54:1
+   El naranja de relleno sobre papel da 2.72:1: por eso en claro el texto
+   naranja y el anillo de foco usan --swal-accent-text, nunca --swal-accent. Y
+   el texto sobre naranja es piedra #1C1917 en los dos modos (marfil daria 2.72:1).
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ─── OSCURO: Carbon Mineral + naranja (y el default sin data-theme) ─── */
+[data-accent='taller'] {
+  --swal-accent: #FF6A13;
+  --swal-accent-hover: #FF8A45;
+  --swal-accent-muted: rgba(255, 106, 19, 0.16);
+  --swal-accent-text: #FF8A45;
+  --swal-on-accent: #1C1917;
+  --swal-accent-contrast: var(--swal-on-accent);
+  --swal-focus-ring: #FF6A13;
+  --swal-selection: rgba(255, 106, 19, 0.32);
+}
+
+/* ─── CLARO: Papel Alabastro + naranja ─── */
+[data-accent='taller'][data-theme='light'] {
+  --swal-accent: #FF6A13;
+  --swal-accent-hover: #E85A06;
+  --swal-accent-muted: rgba(255, 106, 19, 0.12);
+  --swal-accent-text: #B44709;
+  --swal-on-accent: #1C1917;
+  --swal-accent-contrast: var(--swal-on-accent);
+  --swal-focus-ring: #B44709;
+  --swal-selection: rgba(255, 106, 19, 0.24);
+}
+
+/* Sin data-theme manda el sistema, igual que en theme.css. */
+@media (prefers-color-scheme: light) {
+  :root[data-accent='taller']:not([data-theme]) {
+    --swal-accent: #FF6A13;
+    --swal-accent-hover: #E85A06;
+    --swal-accent-muted: rgba(255, 106, 19, 0.12);
+    --swal-accent-text: #B44709;
+    --swal-on-accent: #1C1917;
+    --swal-accent-contrast: var(--swal-on-accent);
+    --swal-focus-ring: #B44709;
+    --swal-selection: rgba(255, 106, 19, 0.24);
+  }
+}
+
+/* El foco de theme.css pinta con --swal-accent; en papel el naranja no llega a
+   3:1, asi que aqui el anillo toma su propio token. */
+[data-accent='taller'] :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline-color: var(--swal-focus-ring);
+}
+
+[data-accent='taller'] ::selection {
+  background: var(--swal-selection);
+}

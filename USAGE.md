@@ -333,6 +333,59 @@ Sidebar template component optimized for Svelte 5.
 </DashboardLayout>
 ```
 
+### App shell (`Icon`, `MobileNav`, `AppShell`) *(extraido del rediseno de Fize, sin marca ni rutas)*
+
+Todas las apps del ecosistema de salud usan este mismo shell: columna lateral en escritorio, barra superior con menu desplegable (rejilla 2 columnas, objetivos de 44px, Escape cierra) en movil. Sin JS el menu queda abierto y el boton oculto. **Requisito**: incluir en el `<head>` el script de arranque (`themeBootScript()` / `THEME_BOOT_SCRIPT` de `@swal/ui/theme-boot`, o solo `NAV_BOOT_SCRIPT`), que pone `class="js"` en `<html>` antes de pintar; sin el, el menu movil se ve abierto hasta hidratar (el componente anade `js` al montar como respaldo, con salto de layout). Con Escape el foco vuelve al boton.
+
+**`<Icon>`**: `name` (clave del registro), `paths` (array de `d`, prioridad sobre `name`), `size=20`, `strokeWidth=1.75`, `label` (si se da, `role="img"`; sin label es decorativo). Un nombre desconocido pinta un svg vacio. Registro extensible:
+
+```js
+import { registerIcons, ICONS } from '@swal/ui/icons';
+registerIcons({ dumbbell: ['M14.4 14.4 9.6 9.6', 'M18.657 21.485a2 2 0 1 1-2.829-2.828'] });
+```
+
+Iconos incluidos: home, table, clipboard, chef, package, utensils, book, receipt, device, wifi, qr, login, menu, close, user, heart, activity, calendar, chart, sliders, check.
+
+**`<MobileNav>`**: `items` (`[{ href, label, icon?, exact? }]`), `currentPath`, `bind:open` (false), `menuLabel='Menu'`, `navLabel='Principal'`, `id='swal-nav'`, `onnavigate(item)`, snippet `lead` (marca; sin el, la barra movil muestra la seccion actual).
+
+**`<AppShell>`**: `items`, `currentPath`, `showNav=true`, `bind:menuOpen`, `menuLabel`, `navLabel`; snippets `brand`, `navFooter`, `topbar`, `children`.
+
+```svelte
+<script>
+  import { AppShell } from '@swal/ui';
+  let { path } = $props();
+  const items = [
+    { href: '/', label: 'Inicio', icon: 'home' },
+    { href: '/app/sessions', label: 'Sesiones', icon: 'calendar' },
+  ];
+</script>
+<AppShell {items} currentPath={path}>
+  {#snippet brand()}<strong>Mi app</strong>{/snippet}
+  {#snippet topbar()}<button>Perfil</button>{/snippet}
+  <h1>Contenido</h1>
+</AppShell>
+```
+
+`isNavActive(item, path)` / `findCurrentNav(items, path)` (`@swal/ui/nav`): coincidencia por segmento ("/app" no activa "/app2"; "/" solo exacto).
+
+### Arranque de tema sin destello (`@swal/ui/theme-boot`)
+
+`themeBootScript({ themeKey='swal-theme', fontKey='swal-font', themes=['light','dark'] })` devuelve el JS (IIFE) para el `<head>`; `THEME_BOOT_SCRIPT` es el valor por defecto. Tambien marca `<html class="js">` (ver MobileNav). No fija tema: sin eleccion guardada el CSS sigue a `prefers-color-scheme`; solo aplica `data-theme` / `data-font` guardados. `setTheme('light'|'dark'|'system')` cambia y persiste en runtime.
+
+```astro
+<script is:inline set:html={THEME_BOOT_SCRIPT}></script>
+```
+
+Tema como CSS: `import themeCss from '@swal/ui/tokens.css?inline'` (alias de `src/tokens/theme.css`).
+
+### Deteccion de deriva en copias vendorizadas
+
+```bash
+node node_modules/@swal/ui/scripts/check-vendored-drift.mjs <ruta-copia> [--canonical <ruta>] [--ignore <subcadena>]
+```
+
+Compara `src/` y el `tokens.css` de la raiz contra el canonico; lista distintos/faltantes/sobrantes. Exit 0 sin deriva, 1 con deriva, 2 uso incorrecto.
+
 ### `<GlobalTicker>`
 
 Token-driven status / market marquee ticker bar.
@@ -531,6 +584,43 @@ El componente `<ConfigFloatingWindow />` incluye un selector de tipografía en s
 
 ---
 
+## Offline-first: persistencia y respaldo
+
+Toda app SWAL guarda datos solo en el dispositivo. El core ofrece helpers y componentes genericos (sin logica de app).
+
+- `requestPersistence()` -> `'granted' | 'denied' | 'unsupported'` (`navigator.storage.persist`).
+- `getStorageStatus()` -> `{ persisted, usageBytes, quotaBytes, ratio }`.
+- `isQuotaError(err)` detecta `QuotaExceededError`; `formatBytes(n)` formatea tamanos.
+- Formato de respaldo: `{ format: 'swal-backup/v1', appId, createdAt, schemaVersion, stores: { nombre: any[] } }`.
+- `createBackup({ appId, schemaVersion, collect })`, `downloadBackup(backup, filename?)`,
+  `readBackupFile(file, { appId?, maxBytes? })` (valida formato/appId, limite 50 MB por defecto),
+  `restoreBackup(backup, { apply, onConflict: 'replace' | 'merge' })`.
+- `<StorageStatus warnAt={0.8} />`: badge de persistencia, barra de uso, aviso >80% y boton para pedir persistencia.
+- `<BackupPanel {appId} {schemaVersion} {collect} {apply} onConflict onRestored />`: exportar, importar (input o arrastrar), dialogo de confirmacion con conteo por store y toasts (requiere `<Toaster />`).
+
+Ejemplo con IndexedDB (app con stores `notes` y `tags`):
+
+```svelte
+<script>
+  import { StorageStatus, BackupPanel, Toaster } from '@swal/ui';
+  import { db } from './db.js'; // wrapper propio de IndexedDB
+
+  const STORES = ['notes', 'tags'];
+  const collect = async () =>
+    Object.fromEntries(await Promise.all(STORES.map(async (s) => [s, await db.getAll(s)])));
+  const apply = async (store, records, mode) => {
+    if (mode === 'replace') await db.clear(store);
+    for (const r of records) await db.put(store, r); // put = upsert (merge)
+  };
+</script>
+
+<Toaster />
+<StorageStatus />
+<BackupPanel appId="mi-app" schemaVersion={3} {collect} {apply} onRestored={() => location.reload()} />
+```
+
+En tu capa de escritura, captura `isQuotaError(err)` para avisar al usuario y sugerir exportar un respaldo.
+
 ## Package Exports
 
 | Export | Contenido |
@@ -542,11 +632,18 @@ El componente `<ConfigFloatingWindow />` incluye un selector de tipografía en s
 | `@swal/ui/fonts.css` | Alias directo de presets tipográficos |
 | `@swal/ui/antigravity.css` / `@swal/ui/tokens/antigravity.css` | Tema Antigravity dual (dark/hueso light) |
 | `@swal/ui/taller.css` / `@swal/ui/tokens/taller.css` | Tema Taller dual (plano tecnico claro / garaje oscuro) |
+| `@swal/ui/bone-taller.css` / `@swal/ui/tokens/bone-taller.css` | Capa Bone Taller: Bone + acento naranja de Taller (`data-accent="taller"`) |
 | `@swal/ui/theme-mode` | `themeModeScript()`, `getThemeMode()`, `setThemeMode()` — claro/oscuro/sistema sin parpadeo |
 | `@swal/ui/prefs` | `createPrefsStore()`, `resolvePrefs()`, `prefsBootstrapScript()` — menus y paneles activables por el usuario |
 | `@swal/ui/tikpro.css` | Tema Sci-Fi TikPro |
+| `@swal/ui/tokens.css` | Alias de theme.css (para `?inline`) |
+| `@swal/ui/icons` | `ICONS`, `registerIcons`, `getIcon` |
+| `@swal/ui/nav` | `isNavActive`, `findCurrentNav` |
+| `@swal/ui/theme-boot` | `themeBootScript`, `THEME_BOOT_SCRIPT`, `NAV_BOOT_SCRIPT`, `setTheme` |
 | `@swal/ui/motion` | swalFade, swalSlide |
 | `@swal/ui/toast` | store `toast` + `toasts` |
+| `@swal/ui/storage` | `requestPersistence`, `getStorageStatus`, `isQuotaError`, `formatBytes` |
+| `@swal/ui/backup` | `createBackup`, `downloadBackup`, `readBackupFile`, `restoreBackup`, `validateBackup` |
 
 ## Tema Taller (plano tecnico)
 
@@ -574,6 +671,47 @@ import { themeModeScript } from '@swal/ui/theme-mode';
 - Utilidades: `.swal-chamfer-sm | .swal-chamfer | .swal-chamfer-lg`, `.swal-card-frame` +
   `.swal-card-inner` (borde de 1px con esquinas cortadas), `.swal-blueprint-bg`, `.swal-kicker`,
   `.swal-tick`, `.swal-scrollbar`.
+
+## Tema Bone Taller (Bone + naranja Taller)
+
+El tema Bone tal cual (Papel Alabastro / Carbon Mineral, un solo tono de piedra, glass tactil)
+con el naranja senal de Taller `#FF6A13` como UNICO acento: accion primaria, anillo de foco,
+seleccion y navegacion activa. Es una capa sobre `theme.css`: no repite ningun neutro.
+
+```css
+@import '@swal/ui/tokens';
+@import '@swal/ui/bone-taller.css';
+```
+
+```astro
+---
+import { themeModeScript } from '@swal/ui/theme-mode';
+---
+<html data-accent="taller" data-theme="light">
+  <head><script is:inline set:html={themeModeScript({ light: 'light', dark: 'dark', themeColor: { light: '#FAF9F5', dark: '#121211' } })} /></head>
+```
+
+- El modo va en `data-theme` (`light` | `dark` | sin atributo = sistema), igual que Bone.
+- Tokens nuevos: `--swal-accent-text` (naranja legible como texto: `#B44709` claro, `#FF8A45`
+  oscuro), `--swal-focus-ring` y `--swal-selection`. El texto sobre naranja es `--swal-on-accent`
+  = piedra `#1C1917` en los dos modos (marfil daria 2.72:1). Contrastes medidos en el encabezado
+  de `bone-taller.css`.
+- Es la fuente del paquete Flutter `swal_ui` (`flutter/`): `pnpm gen:flutter` regenera
+  `flutter/lib/src/tokens.g.dart` y `tests/flutter-tokens.test.js` falla si queda desactualizado.
+  El generador exige que el naranja de esta capa sea el mismo que el de `taller.css`.
+
+## Paquete Flutter (`flutter/`)
+
+`swal_ui` es el mismo design system en Flutter (Material 3, sin dependencias): `SwalTheme.light()`
+/ `.dark()`, `SwalThemeMode`, `SwalPalette`, `SwalTokens`, y los widgets `SwalPage`, `SwalCard`,
+`SwalButton`, `SwalTextField`, `SwalSectionHeader`, `SwalEmptyState`, `SwalBrandMark`,
+`SwalStatusBadge`. Instalacion, API y tabla de tokens en [`flutter/README.md`](./flutter/README.md).
+
+```yaml
+dependencies:
+  swal_ui:
+    git: { url: https://github.com/iberi22/swal-ui, path: flutter, ref: <tag-o-sha> }
+```
 
 ## Preferencias de interfaz (`@swal/ui/prefs`)
 

@@ -14,7 +14,8 @@
     "typecheck": "tsc --noEmit",
     "themes:audit": "node scripts/themes-audit.mjs",
     "themes:ecosistema": "node scripts/themes-audit.mjs --ecosistema",
-    "check": "node scripts/themes-audit.mjs"
+    "check": "node scripts/themes-audit.mjs",
+    "gen:flutter": "node scripts/gen-flutter-tokens.mjs"
   },
   "svelte": "./src/components/index.js",
   "exports": {
@@ -23,23 +24,31 @@
       "default": "./src/components/index.js"
     },
     "./antigravity.css": "./src/tokens/antigravity.css",
+    "./backup": "./src/lib/backup.js",
+    "./bone-taller.css": "./src/tokens/bone-taller.css",
     "./colors": "./src/tokens/colors.css",
     "./components/*.svelte": {
       "svelte": "./src/components/*.svelte"
     },
     "./fonts.css": "./src/tokens/fonts.css",
+    "./icons": "./src/lib/icons.js",
     "./motion": "./src/lib/motion.js",
+    "./nav": "./src/lib/nav.js",
     "./prefs": {
       "types": "./src/lib/prefs/index.d.ts",
       "default": "./src/lib/prefs/index.js"
     },
+    "./storage": "./src/lib/storage.js",
     "./taller.css": "./src/tokens/taller.css",
+    "./theme-boot": "./src/lib/theme-boot.js",
     "./theme-mode": "./src/lib/themeMode.js",
     "./themes.css": "./src/themes.css",
     "./tikpro.css": "./src/tokens/tikpro.css",
     "./toast": "./src/lib/toast.svelte.js",
     "./tokens": "./src/tokens/theme.css",
+    "./tokens.css": "./src/tokens/theme.css",
     "./tokens/antigravity.css": "./src/tokens/antigravity.css",
+    "./tokens/bone-taller.css": "./src/tokens/bone-taller.css",
     "./tokens/fonts.css": "./src/tokens/fonts.css",
     "./tokens/taller.css": "./src/tokens/taller.css",
     "./ui.css": "./dist/ui.css"
@@ -51,6 +60,7 @@
     "src/styles/",
     "src/tokens/",
     "src/themes.css",
+    "scripts/check-vendored-drift.mjs",
     "README.md",
     "USAGE.md",
     "dist",
@@ -90,7 +100,8 @@
     "svelte": "^5.0.0",
     "typescript": "^5.9.3",
     "vite": "^6.0.0",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.10",
+    "jsdom": "30.1.1"
   },
   "homepage": "https://github.com/iberi22/swal-ui",
   "bugs": {
@@ -107,5 +118,8 @@
   ],
   "engines": {
     "node": ">=18"
+  },
+  "bin": {
+    "swal-check-vendored-drift": "./scripts/check-vendored-drift.mjs"
   }
 }

@@ -27,3 +27,17 @@ export { default as QRCode } from './QRCode.svelte';
 export { default as PrefsEditor } from './PrefsEditor.svelte';
 export { default as OnboardingWizard } from './OnboardingWizard.svelte';
 export { default as ThemeModeSwitch } from './ThemeModeSwitch.svelte';
+
+// App shell generico (extraido del rediseno de Fize)
+export { default as Icon } from './Icon.svelte';
+export { default as MobileNav } from './MobileNav.svelte';
+export { default as AppShell } from './AppShell.svelte';
+export { ICONS, registerIcons, getIcon } from '../lib/icons.js';
+export { isNavActive, findCurrentNav } from '../lib/nav.js';
+export { THEME_BOOT_SCRIPT, themeBootScript, setTheme } from '../lib/theme-boot.js';
+
+// Offline-first: estado de almacenamiento y respaldo/restauracion
+export { default as StorageStatus } from './StorageStatus.svelte';
+export { default as BackupPanel } from './BackupPanel.svelte';
+export { requestPersistence, getStorageStatus, isQuotaError, formatBytes } from '../lib/storage.js';
+export { createBackup, downloadBackup, readBackupFile, restoreBackup, validateBackup } from '../lib/backup.js';

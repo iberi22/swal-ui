@@ -25,6 +25,10 @@ export default [
         clearInterval: 'readonly',
         getComputedStyle: 'readonly',
         document: 'readonly',
+        navigator: 'readonly',
+        Blob: 'readonly',
+        URL: 'readonly',
+        localStorage: 'readonly',
         window: 'readonly',
         // Globales del navegador que usa src/lib/prefs/store.js. Faltaban y
         // daban 6 errores de no-undef en el store de preferencias. El fichero
@@ -33,7 +37,6 @@ export default [
         // eslint-disable deja la regla sirviendo en el resto del codigo, donde
         // si detectaria un undefined real.
         fetch: 'readonly',
-        localStorage: 'readonly',
         CustomEvent: 'readonly',
         $state: 'readonly',
         $derived: 'readonly',
@@ -44,6 +47,7 @@ export default [
     rules: {
       'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
       'no-undef': 'error',
+      'no-empty': ['error', { allowEmptyCatch: true }],
     },
   },
 ];

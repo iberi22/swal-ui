@@ -74,6 +74,8 @@ The design system exports 18 reusable Svelte 5 components located under `src/com
 
 `@swal/ui` uses framework-agnostic CSS variables. **Bone is the theme**: it applies with no configuration, and every app gets the same look unless it asks for something else.
 
+The "Bone Taller" accent layer lives in `src/tokens/bone-taller.css` (Bone stone neutrals + the Taller orange `#FF6A13` as the single accent). Activate it with `data-accent="taller"` on `<html>`; it is also the source of the Flutter package tokens.
+
 ### Standard Import
 
 One entry point. Do not import the token files directly — each app that picks its own file is how the ecosystem ended up with three different selector conventions and a theme that silently overrode everything.
@@ -233,6 +235,31 @@ import { Button, StatusBadge } from '@swal/ui';
   <!-- Hydrated client-side -->
   <Button client:load variant="orange">Action</Button>
 </div>
+```
+
+---
+
+## Flutter package (`flutter/`)
+
+The same design system for Flutter lives in [`flutter/`](./flutter/README.md) as the Dart
+package `swal_ui` (Material 3 `ThemeData` + widgets, "Bone Taller" theme, light / dark / system).
+Its colors, radii, spacing, shadows and durations are **generated** from the CSS tokens, so web
+and Flutter cannot drift:
+
+```bash
+pnpm gen:flutter   # src/tokens/{theme,bone-taller,taller}.css -> flutter/lib/src/tokens.g.dart
+```
+
+`tests/flutter-tokens.test.js` (part of `pnpm test`) fails if the generated Dart file is stale.
+Install it in an app as a git dependency:
+
+```yaml
+dependencies:
+  swal_ui:
+    git:
+      url: https://github.com/iberi22/swal-ui
+      path: flutter
+      ref: <tag-or-sha>
 ```
 
 ---
