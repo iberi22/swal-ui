@@ -34,7 +34,7 @@
   .md { font-size: var(--swal-font-size-xs); padding: 4px 10px; }
 
   /* Cada variante sale de su token semantico. Antes llevaban los literales de
-     Edge-Hive pensados solo para oscuro (#fbbf24, #22d3ee...): en tema claro el
+     Edge-Hive pensados solo para oscuro (ambar y cian fijos): en tema claro el
      ambar daba ~1.7:1 sobre papel. La "tinta" se mezcla un 20% hacia
      --swal-text, que en oscuro la aclara y en claro la oscurece: asi el texto
      pequeno pasa AA sobre su propio tinte en los dos temas. MEDIDO sobre la

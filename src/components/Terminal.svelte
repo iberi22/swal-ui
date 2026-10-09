@@ -78,7 +78,7 @@
     gap: var(--swal-space-2);
     padding: var(--swal-space-2) var(--swal-space-4);
     background: var(--swal-elevated);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--swal-border);
   }
   .dots {
     display: flex;
@@ -91,9 +91,9 @@
     height: 12px;
     border-radius: 50%;
   }
-  .dot.red { background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.5); }
-  .dot.yellow { background: rgba(234, 179, 8, 0.2); border: 1px solid rgba(234, 179, 8, 0.5); }
-  .dot.green { background: rgba(34, 197, 94, 0.2); border: 1px solid rgba(34, 197, 94, 0.5); }
+  .dot.red { background: var(--swal-danger-muted); border: 1px solid var(--swal-danger); }
+  .dot.yellow { background: var(--swal-warning-muted); border: 1px solid var(--swal-warning); }
+  .dot.green { background: var(--swal-success-muted); border: 1px solid var(--swal-success); }
   .title {
     margin-left: var(--swal-space-2);
     font-size: var(--swal-font-size-xs);
@@ -103,7 +103,7 @@
   }
   .meta {
     font-size: 10px;
-    color: #475569;
+    color: var(--swal-text-muted);
     flex-shrink: 0;
   }
   .title {
@@ -130,15 +130,15 @@
     border-radius: var(--swal-radius-sm);
     transition: background var(--swal-transition-fast);
   }
-  .line:hover { background: rgba(255, 255, 255, 0.05); }
-  .ts { color: #475569; flex-shrink: 0; width: 6rem; }
+  .line:hover { background: var(--swal-hover); }
+  .ts { color: var(--swal-text-muted); flex-shrink: 0; width: 6rem; }
   .level { font-weight: 700; flex-shrink: 0; width: 4rem; }
-  .level.ERROR { color: #ef4444; }
-  .level.WARN { color: var(--swal-accent-orange); }
-  .level.DEBUG { color: #c084fc; }
+  .level.ERROR { color: var(--swal-danger); }
+  .level.WARN { color: var(--swal-warning); }
+  .level.DEBUG { color: var(--swal-info); }
   .level.INFO { color: var(--swal-accent); }
   .service { color: var(--swal-text-muted); flex-shrink: 0; width: 6rem; }
-  .message { color: #cbd5e1; word-break: break-all; min-width: 0; }
+  .message { color: var(--swal-text-secondary); word-break: break-all; min-width: 0; }
 
   /* Móvil: soltar anchos fijos y ocultar la columna service */
   @media (max-width: 640px) {
@@ -154,7 +154,7 @@
     margin-top: var(--swal-space-2);
     padding: 0 var(--swal-space-2);
   }
-  .prompt { color: var(--swal-accent-orange); }
+  .prompt { color: var(--swal-warning); }
   .cursor {
     width: 8px;
     height: 16px;
