@@ -129,7 +129,7 @@ describe('the accent pair is measurable, not guessed', () => {
   it.each(accentBlocks.map((b) => [b.selector, b]))(
     '%s resolves --swal-on-accent to a hex colour',
     (_selector, block) => {
-      // The token is an alias, so resolve one hop. An unresolved var() here
+      // The token may be an alias, so resolve one hop. An unresolved var() here
       // means the alias points at a name that does not exist — the exact
       // original defect, one level down.
       const value = resolveAlias(block.onAccent, block);
@@ -144,7 +144,9 @@ describe('the accent pair is measurable, not guessed', () => {
   it.each(accentBlocks.map((b) => [b.selector, b]))(
     '%s clears WCAG AA for normal text',
     (_selector, block) => {
-      const fg = block.accentContrast;
+      // accent-contrast is an alias of on-accent (or vice versa); resolve one hop
+      // so the measurement is taken on the actual colour, never on a `var()`.
+      const fg = resolveAlias(block.accentContrast, block);
       const measured = ratio(block.accent, fg);
       expect(
         measured,

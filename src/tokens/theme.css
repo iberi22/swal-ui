@@ -97,8 +97,8 @@
   --swal-accent-contrast: var(--swal-on-accent);
 
   /* MEDIDO: --swal-on-accent sobre --swal-accent -> 16.03:1 (WCAG 2.2).
-     `--swal-accent-contrast` ya es exactamente este par, asi que el alias
-     cuesta una linea y no duplica el valor.
+     `--swal-accent-contrast` es un alias de --swal-on-accent (declarado arriba:
+     un solo valor que mantener).
 
      Por que un par fijo basta y no hace falta un token calculado: barriendo
      el cubo sRGB, el peor caso para un par negro/blanco casi puro esta en
@@ -109,7 +109,6 @@
      —icono, etiqueta o borde sobre el acento— el margen de 3:1 de WCAG
      1.4.11 se cumple con holgura en todo el cubo. Ver tests/on-accent.test.js,
      que falla si alguien cambia --swal-accent sin re-medir. */
-  --swal-on-accent: var(--swal-accent-contrast);
 
   /* Semanticos: los unicos que conservan color, porque deben distinguir estado
      (pagado / pendiente / error) sin depender del tono del tema.
@@ -241,7 +240,6 @@
   /* MEDIDO: --swal-on-accent sobre --swal-accent -> 16.64:1 (WCAG 2.2). El
      mismo par que la otra tema claro; ver el comentario largo en el tema
      oscuro para por que un par fijo basta. */
-  --swal-on-accent: var(--swal-accent-contrast);
 
   /* Semanticos MEDIDOS con la formula de WCAG 2.2, en DOS superficies: el
      canvas #FAF9F5 y la tarjeta (blanco al 90% sobre el ≈ #FEFEFE).
@@ -341,7 +339,6 @@
   /* MEDIDO: --swal-on-accent sobre --swal-accent -> 16.64:1 (WCAG 2.2). El
      mismo par que la otra tema claro; ver el comentario largo en el tema
      oscuro para por que un par fijo basta. */
-  --swal-on-accent: var(--swal-accent-contrast);
 
   /* Semanticos MEDIDOS con la formula de WCAG 2.2, en DOS superficies: el
      canvas #FAF9F5 y la tarjeta (blanco al 90% sobre el ≈ #FEFEFE).
