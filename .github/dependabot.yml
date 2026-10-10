@@ -1,0 +1,84 @@
+# Grouped monthly Dependabot configuration (SWAL wave pi-1, S7).
+# One pull request per ecosystem per month instead of one PR per bump.
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    # One grouped PR per ecosystem instead of one per bump.
+    open-pull-requests-limit: 2
+    labels:
+      - "dependencies"
+    groups:
+      # Version updates: everything into a single PR.
+      all-dependencies:
+        applies-to: version-updates
+        patterns:
+          - "*"
+      # Security updates keep their own single PR so an
+      # advisory patch is never buried in a monthly batch.
+      security-dependencies:
+        applies-to: security-updates
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/demo/astro-islands"
+    schedule:
+      interval: "monthly"
+    # One grouped PR per ecosystem instead of one per bump.
+    open-pull-requests-limit: 2
+    labels:
+      - "dependencies"
+    groups:
+      # Version updates: everything into a single PR.
+      all-dependencies:
+        applies-to: version-updates
+        patterns:
+          - "*"
+      # Security updates keep their own single PR so an
+      # advisory patch is never buried in a monthly batch.
+      security-dependencies:
+        applies-to: security-updates
+        patterns:
+          - "*"
+  - package-ecosystem: "pub"
+    directory: "/flutter"
+    schedule:
+      interval: "monthly"
+    # One grouped PR per ecosystem instead of one per bump.
+    open-pull-requests-limit: 2
+    labels:
+      - "dependencies"
+    groups:
+      # Version updates: everything into a single PR.
+      all-dependencies:
+        applies-to: version-updates
+        patterns:
+          - "*"
+      # Security updates keep their own single PR so an
+      # advisory patch is never buried in a monthly batch.
+      security-dependencies:
+        applies-to: security-updates
+        patterns:
+          - "*"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    # One grouped PR per ecosystem instead of one per bump.
+    open-pull-requests-limit: 2
+    labels:
+      - "dependencies"
+    groups:
+      # Version updates: everything into a single PR.
+      all-dependencies:
+        applies-to: version-updates
+        patterns:
+          - "*"
+      # Security updates keep their own single PR so an
+      # advisory patch is never buried in a monthly batch.
+      security-dependencies:
+        applies-to: security-updates
+        patterns:
+          - "*"
