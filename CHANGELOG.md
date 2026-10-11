@@ -13,6 +13,37 @@ extrajo del dashboard de synapse-trading el 2026-07-30 y llega a npm como
 
 Nada pendiente.
 
+## [0.2.1] — 2026-10-11
+
+Package contract and maintenance release. No runtime changes.
+
+### Changed
+
+- **Single package manager: pnpm.** CI installs with pnpm, so
+  `package-lock.json` was deleted; `pnpm-lock.yaml` is the only lockfile.
+- **Dependencies refreshed (minor/patch only).** `pnpm audit` reports
+  zero high-severity vulnerabilities. No major bump was needed (see below),
+  so the published tarball has no breaking changes.
+- **`exports` map now declares `types` for every entry.** JS entries ship
+  generated `.d.ts` (from JSDoc via `tsc --declaration`); the root and the
+- `./components/*.svelte` pattern resolve to `Component` declarations;
+  every CSS subpath resolves to a shared `css.d.ts`; `./prefs` keeps its
+  hand-written types. `peerDependencies` stay `svelte ^5.0.0` (the only
+  runtime import in `src/`); no `astro` peer is needed (docs-only usage).
+- `tsconfig.json` now also includes `src/**/*.d.ts` so `pnpm typecheck`
+  validates the shipped declarations.
+- `jsdom` pin `30.1.1` → `30.1.2`.
+
+### Considered but rejected (majors)
+
+- `eslint` 9 → 10, `@eslint/js` 9 → 10: audit already clean on 9.39.x;
+  v10 was released days ago and linter-plugin compat is unverified.
+- `vite` 6 → 8, `@sveltejs/vite-plugin-svelte` 5 → 7: chained major
+  migration, no audit pressure; left for a dedicated spike.
+- `vitest` 4 → 5: tests are green on 4.1.x (191/191); the bump is left to
+  the open Dependabot PR instead of duplicating it here.
+- `typescript` 5 → 7: TS 7 is a native-port major; far too early.
+
 ## [0.2.0] — 2026-10-03
 
 Primera publicacion en npm. Sin cambios de API respecto a 0.1.0; el salto es

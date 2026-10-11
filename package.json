@@ -1,6 +1,6 @@
 {
   "name": "@swal/ui",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": false,
   "description": "SWAL Design System — Edge-Hive theme, Svelte 5 components (zero-dependency, scoped CSS)",
   "type": "module",
@@ -20,38 +20,106 @@
   "svelte": "./src/components/index.js",
   "exports": {
     ".": {
+      "types": "./src/components/index.d.ts",
       "svelte": "./src/components/index.js",
       "default": "./src/components/index.js"
     },
-    "./antigravity.css": "./src/tokens/antigravity.css",
-    "./backup": "./src/lib/backup.js",
-    "./bone-taller.css": "./src/tokens/bone-taller.css",
-    "./colors": "./src/tokens/colors.css",
+    "./antigravity.css": {
+      "types": "./src/tokens/css.d.ts",
+      "default": "./src/tokens/antigravity.css"
+    },
+    "./backup": {
+      "types": "./src/lib/backup.d.ts",
+      "default": "./src/lib/backup.js"
+    },
+    "./bone-taller.css": {
+      "types": "./src/tokens/css.d.ts",
+      "default": "./src/tokens/bone-taller.css"
+    },
+    "./colors": {
+      "types": "./src/tokens/css.d.ts",
+      "default": "./src/tokens/colors.css"
+    },
     "./components/*.svelte": {
+      "types": "./src/components/component.d.ts",
       "svelte": "./src/components/*.svelte"
     },
-    "./fonts.css": "./src/tokens/fonts.css",
-    "./icons": "./src/lib/icons.js",
-    "./motion": "./src/lib/motion.js",
-    "./nav": "./src/lib/nav.js",
+    "./fonts.css": {
+      "types": "./src/tokens/css.d.ts",
+      "default": "./src/tokens/fonts.css"
+    },
+    "./icons": {
+      "types": "./src/lib/icons.d.ts",
+      "default": "./src/lib/icons.js"
+    },
+    "./motion": {
+      "types": "./src/lib/motion.d.ts",
+      "default": "./src/lib/motion.js"
+    },
+    "./nav": {
+      "types": "./src/lib/nav.d.ts",
+      "default": "./src/lib/nav.js"
+    },
     "./prefs": {
       "types": "./src/lib/prefs/index.d.ts",
       "default": "./src/lib/prefs/index.js"
     },
-    "./storage": "./src/lib/storage.js",
-    "./taller.css": "./src/tokens/taller.css",
-    "./theme-boot": "./src/lib/theme-boot.js",
-    "./theme-mode": "./src/lib/themeMode.js",
-    "./themes.css": "./src/themes.css",
-    "./tikpro.css": "./src/tokens/tikpro.css",
-    "./toast": "./src/lib/toast.svelte.js",
-    "./tokens": "./src/tokens/theme.css",
-    "./tokens.css": "./src/tokens/theme.css",
-    "./tokens/antigravity.css": "./src/tokens/antigravity.css",
-    "./tokens/bone-taller.css": "./src/tokens/bone-taller.css",
-    "./tokens/fonts.css": "./src/tokens/fonts.css",
-    "./tokens/taller.css": "./src/tokens/taller.css",
-    "./ui.css": "./dist/ui.css"
+    "./storage": {
+      "types": "./src/lib/storage.d.ts",
+      "default": "./src/lib/storage.js"
+    },
+    "./taller.css": {
+      "types": "./src/tokens/css.d.ts",
+      "default": "./src/tokens/taller.css"
+    },
+    "./theme-boot": {
+      "types": "./src/lib/theme-boot.d.ts",
+      "default": "./src/lib/theme-boot.js"
+    },
+    "./theme-mode": {
+      "types": "./src/lib/themeMode.d.ts",
+      "default": "./src/lib/themeMode.js"
+    },
+    "./themes.css": {
+      "types": "./src/tokens/css.d.ts",
+      "default": "./src/themes.css"
+    },
+    "./tikpro.css": {
+      "types": "./src/tokens/css.d.ts",
+      "default": "./src/tokens/tikpro.css"
+    },
+    "./toast": {
+      "types": "./src/lib/toast.d.ts",
+      "default": "./src/lib/toast.svelte.js"
+    },
+    "./tokens": {
+      "types": "./src/tokens/css.d.ts",
+      "default": "./src/tokens/theme.css"
+    },
+    "./tokens.css": {
+      "types": "./src/tokens/css.d.ts",
+      "default": "./src/tokens/theme.css"
+    },
+    "./tokens/antigravity.css": {
+      "types": "./src/tokens/css.d.ts",
+      "default": "./src/tokens/antigravity.css"
+    },
+    "./tokens/bone-taller.css": {
+      "types": "./src/tokens/css.d.ts",
+      "default": "./src/tokens/bone-taller.css"
+    },
+    "./tokens/fonts.css": {
+      "types": "./src/tokens/css.d.ts",
+      "default": "./src/tokens/fonts.css"
+    },
+    "./tokens/taller.css": {
+      "types": "./src/tokens/css.d.ts",
+      "default": "./src/tokens/taller.css"
+    },
+    "./ui.css": {
+      "types": "./src/tokens/css.d.ts",
+      "default": "./dist/ui.css"
+    }
   },
   "files": [
     "src/components/",
@@ -94,14 +162,14 @@
     "svelte": "^5.0.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.9.0",
-    "@sveltejs/vite-plugin-svelte": "^5.0.0",
-    "eslint": "^9.9.0",
-    "svelte": "^5.0.0",
+    "@eslint/js": "^9.39.5",
+    "@sveltejs/vite-plugin-svelte": "^5.1.1",
+    "eslint": "^9.39.5",
+    "jsdom": "30.1.2",
+    "svelte": "^5.57.2",
     "typescript": "^5.9.3",
-    "vite": "^6.0.0",
-    "vitest": "^4.1.10",
-    "jsdom": "30.1.1"
+    "vite": "^6.4.4",
+    "vitest": "^4.1.11"
   },
   "homepage": "https://github.com/iberi22/swal-ui",
   "bugs": {
