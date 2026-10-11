@@ -33,12 +33,12 @@
   .sm { font-size: 11px; padding: 2px 8px; }
   .md { font-size: var(--swal-font-size-xs); padding: 4px 10px; }
 
-  /* Cada variante sale de su token semantico. Antes llevaban los literales de
-     Edge-Hive pensados solo para oscuro (ambar y cian fijos): en tema claro el
-     ambar daba ~1.7:1 sobre papel. La "tinta" se mezcla un 20% hacia
-     --swal-text, que en oscuro la aclara y en claro la oscurece: asi el texto
-     pequeno pasa AA sobre su propio tinte en los dos temas. MEDIDO sobre la
-     tarjeta: aviso claro 5.68:1, aviso oscuro 9.34:1, info claro 6.21:1. */
+  /* Each variant comes from its semantic token. They used to carry the
+     Edge-Hive literals designed for dark only (fixed amber and cyan): on a light theme
+     amber gave ~1.7:1 on paper. The "ink" is mixed 20% toward
+     --swal-text, which lightens it on dark and darkens it on light: this way small
+     text passes AA over its own tint on both themes. MEASURED on the
+     card: light warning 5.68:1, dark warning 9.34:1, light info 6.21:1. */
   .success,
   .warning,
   .danger,

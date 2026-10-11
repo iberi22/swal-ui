@@ -1,6 +1,6 @@
 <script>
-  // Portado de edge-hive-admin/context/ToastContext.tsx
-  // Requiere importar el store: se usa junto a `toast` de '@swal/ui/toast'.
+  // Ported from edge-hive-admin/context/ToastContext.tsx
+  // Requires importing the store: used together with `toast` from '@swal/ui/toast'.
   import { toasts, toast } from '../lib/toast.svelte.js';
   import { fly } from 'svelte/transition';
 
@@ -32,15 +32,15 @@
           {#if t.title}<strong>{t.title}</strong>{/if}
           <span class="message">{t.message}</span>
         </span>
-        <span class="close" aria-label="Cerrar notificación">
+        <span class="close" aria-hidden="true">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
         </span>
       </button>
 
-      <!-- Scanline decorativa -->
+      <!-- Decorative scanline -->
       <span class="scanline" aria-hidden="true"></span>
 
-      <!-- Barra de progreso de auto-dismiss -->
+      <!-- Auto-dismiss progress bar -->
       {#if t.type !== 'loading'}
         <span class="progress-track" aria-hidden="true">
           <span

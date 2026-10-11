@@ -6,9 +6,9 @@
     loading = false,
     fullWidth = false,
     type = 'button',
-    // Con href el boton se pinta como <a>. Envolver un <Button> en un <a> mete
-    // un control interactivo dentro de otro: HTML invalido y dos paradas de
-    // tabulador para el mismo destino.
+    // With href the button renders as <a>. Wrapping a <Button> in an <a> nests
+    // one interactive control inside another: invalid HTML and two tab stops
+    // for the same destination.
     href = undefined,
     onclick,
     children,

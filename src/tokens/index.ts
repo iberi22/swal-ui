@@ -1,10 +1,10 @@
 /**
- * SWAL Design Tokens — Identidad visual del ecosistema
+ * SWAL Design Tokens — ecosystem visual identity
  *
- * Extraídos de edge-hive/edge-hive-admin (SouthWest AI Labs identity)
- * Paleta: "Hive Dark" — fondo slate profundo + acentos naranja/cyan neon
+ * Extracted from edge-hive/edge-hive-admin (SouthWest AI Labs identity)
+ * Palette: "Hive Dark" — deep slate background + neon orange/cyan accents
  *
- * Uso en Tailwind:
+ * Tailwind usage:
  *   tailwind.config: presets: [require('@swal/ui/tokens/tailwind')]
  *   CSS: @import '@swal/ui/styles.css'  (define CSS variables)
  */

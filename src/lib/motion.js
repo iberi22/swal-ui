@@ -1,15 +1,15 @@
 /**
- * SWAL Motion — Utilidades de animación
+ * SWAL Motion — animation utilities
  *
- * Enfoque: CSS-first, GPU composited, sin dependencias.
- * Son transition functions de Svelte (para transition:/in:/out:),
- * no actions. Uso:
+ * Approach: CSS-first, GPU composited, no dependencies.
+ * These are Svelte transition functions (for transition:/in:/out:),
+ * not actions. Usage:
  *
  *   <div transition:swalFade={{ duration: 200 }}>
  *   <div transition:swalSlide={{ direction: 'up', distance: 8 }}>
  *
- * NOTA: en Astro, las transiciones solo corren en islas hidratadas.
- * Para HTML estático usa las clases CSS (.swal-enter, etc.).
+ * NOTE: in Astro, transitions only run in hydrated islands.
+ * For static HTML use the CSS classes (.swal-enter, etc.).
  */
 
 export function swalFade(node, { duration = 200, delay = 0 } = {}) {

@@ -34,7 +34,7 @@
 {#if open}
   <div class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onclick={() => open = false} role="presentation">
     <div class="w-full max-w-[900px] max-h-[620px] rounded-[16px] overflow-hidden bg-[var(--swal-bg)] border border-[var(--swal-border-light)] shadow-2xl flex text-[var(--swal-text)]" onclick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
-      <!-- Sidebar — clon 1:1 captura 21:18 -->
+      <!-- Sidebar — 1:1 clone of screenshot 21:18 -->
       <aside class="w-[200px] shrink-0 bg-[var(--swal-void)] border-r border-white/10 p-3 flex flex-col gap-1 text-sm overflow-y-auto swal-scrollbar">
         <div class="text-[11px] tracking-widest text-white/40 px-2 py-1">Settings</div>
         <div class="px-2 py-1.5 rounded-lg bg-white/10 text-white font-medium">General</div>
@@ -49,18 +49,18 @@
         <div class="px-2 py-1 text-white/30 text-xs">Show all</div>
         <div class="mt-auto pt-4 text-xs text-white/30 px-2">Shortcuts<br/>Provide Feedback</div>
       </aside>
-      <!-- Content — clon filas captura -->
+      <!-- Content — screenshot row clone -->
       <div class="flex-1 overflow-y-auto p-6 bg-[var(--swal-bg)] swal-scrollbar">
         <div class="flex justify-between items-start mb-6">
           <div>
             <h2 class="text-lg font-bold">General</h2>
             <p class="text-xs text-white/40">Configure agent execution, queued message delivery, and permissions.</p>
           </div>
-          <button onclick={() => open = false} class="w-7 h-7 rounded-lg hover:bg-white/10 flex items-center justify-center text-white/60">✕</button>
+          <button onclick={() => open = false} aria-label="Close settings" class="w-7 h-7 rounded-lg hover:bg-white/10 flex items-center justify-center text-white/60">✕</button>
         </div>
 
         <div class="space-y-6">
-          <!-- Appearance — tema dual + color personalizable -->
+          <!-- Appearance — dual theme + customizable color -->
           <div>
             <h3 class="text-sm font-bold mb-3">Appearance — Tema Antigravity</h3>
             <div class="rounded-xl border border-white/10 overflow-hidden bg-[var(--swal-surface)]">
@@ -100,7 +100,7 @@
             </div>
           </div>
 
-          <!-- Execution — clon exacto de captura -->
+          <!-- Execution — exact screenshot clone -->
           <div>
             <h3 class="text-xs font-bold text-white/80 mb-2">Execution</h3>
             <div class="rounded-xl border border-white/10 overflow-hidden bg-[var(--swal-surface)]">

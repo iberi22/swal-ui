@@ -1,9 +1,9 @@
 <script>
   import { getIcon } from '../lib/icons.js';
 
-  // name: clave del registro (ICONS / registerIcons). paths: array de `d`
-  // propio, tiene prioridad. label: si se da, el icono es significativo y se
-  // expone a lectores de pantalla; sin label es decorativo (aria-hidden).
+  // name: registry key (ICONS / registerIcons). paths: own array of `d`
+  // attributes, takes priority. label: when given, the icon is meaningful and
+  // exposed to screen readers; without label it is decorative (aria-hidden).
   let { name = '', paths = undefined, size = 20, strokeWidth = 1.75, label = undefined, ...rest } = $props();
 
   let d = $derived(paths ?? getIcon(name) ?? []);

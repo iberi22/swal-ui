@@ -1,5 +1,5 @@
 <script>
-  // Portado de edge-hive-admin/components/Terminal.tsx
+  // Ported from edge-hive-admin/components/Terminal.tsx
   //
   // logs: [{ id, timestamp, level: 'ERROR'|'WARN'|'DEBUG'|'INFO', service, message }]
   let {
@@ -13,7 +13,7 @@
 
   let bodyEl = $state(null);
 
-  // Auto-scroll al fondo cuando llegan logs nuevos
+  // Auto-scroll to the bottom when new logs arrive
   $effect(() => {
     if (!autoScroll) return;
     logs.length;
@@ -50,7 +50,7 @@
       </div>
     {/each}
 
-    <!-- Cursor parpadeante -->
+    <!-- Blinking cursor -->
     <div class="cursor-line">
       <span class="prompt">{prompt}</span>
       <span class="cursor"></span>

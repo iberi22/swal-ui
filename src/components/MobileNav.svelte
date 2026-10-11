@@ -3,9 +3,9 @@
   import Icon from './Icon.svelte';
   import { isNavActive, findCurrentNav } from '../lib/nav.js';
 
-  // items: [{ href, label, icon?, exact? }]. icon es un nombre del registro de
-  // iconos (ver lib/icons.js). lead: snippet opcional (marca) que ocupa el lugar
-  // de "seccion actual" en la barra movil y cabecera del menu en escritorio.
+  // items: [{ href, label, icon?, exact? }]. icon is a name from the icon
+  // registry (see lib/icons.js). lead: optional snippet (brand) taking the place
+  // of "current section" in the mobile bar and desktop menu header.
   let {
     items = [],
     currentPath = '/',
@@ -18,10 +18,10 @@
     ...rest
   } = $props();
 
-  // Sin JS (html sin clase `js`) el CSS muestra el menu entero y esconde el
-  // boton, asi que ningun destino queda inaccesible. Con `html.js` (puesto antes
-  // de pintar por el script de arranque, o aqui al montar como respaldo) el menu
-  // arranca plegado en movil sin salto de layout.
+  // Without JS (html without the `js` class) the CSS shows the full menu and hides
+  // the button, so no destination is unreachable. With `html.js` (set before
+  // paint by the boot script, or here on mount as a fallback) the menu
+  // starts collapsed on mobile with no layout shift.
   let toggleEl = $state();
   onMount(() => {
     document.documentElement.classList.add('js');
@@ -87,7 +87,7 @@
 <style>
   .nav { display: flex; flex-direction: column; gap: 0.125rem; padding: 0 0.5rem; }
 
-  /* Escritorio: la barra solo existe si hay marca (lead) y sin boton. */
+  /* Desktop: the bar only exists with branding (lead) and no toggle. */
   .nav-bar { display: none; }
   .nav-bar.has-lead { display: flex; align-items: center; padding: 0 1rem 0.75rem; }
   .nav-bar.has-lead .nav-toggle { display: none; }
@@ -168,8 +168,8 @@
     .nav-toggle .when-open { display: none; }
     [data-nav='open'] .nav-toggle .when-open { display: block; }
     [data-nav='open'] .nav-toggle .when-closed { display: none; }
-    /* Sin JS (html sin `.js`) el boton no haria nada: no se pinta y el menu
-       queda abierto. Con `html.js` el boton se ve y el menu parte plegado. */
+    /* Without JS (html without `.js`) the button would do nothing: it is not painted and the menu
+       stays open. With `html.js` the button shows and the menu starts collapsed. */
     .nav-toggle,
     .nav-bar.has-lead .nav-toggle { display: none; }
     :global(html.js) .nav-toggle,

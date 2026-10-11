@@ -1,13 +1,14 @@
 <script>
-  // tabs: [{ id, label }]
+  // tabs: [{ id, label }]; label: optional accessible name for the tab list
   let {
     tabs = [],
     active = $bindable(''),
+    label,
     children,
   } = $props();
 </script>
 
-<div class="swal-tabs" role="tablist">
+<div class="swal-tabs" role="tablist" aria-label={label}>
   {#each tabs as tab}
     <button
       role="tab"

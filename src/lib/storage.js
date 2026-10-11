@@ -1,15 +1,15 @@
 /**
- * SWAL storage — helpers genericos de persistencia offline-first.
- * Sin dependencias; todo con deteccion de features (SSR-safe).
+ * SWAL storage — generic offline-first persistence helpers.
+ * No dependencies; everything with feature detection (SSR-safe).
  */
 
-/** @returns {any} navigator.storage o null */
+/** @returns {any} navigator.storage or null */
 function storageManager() {
   return typeof navigator !== 'undefined' && navigator.storage ? navigator.storage : null;
 }
 
 /**
- * Pide al navegador que no desaloje los datos del origen.
+ * Ask the browser not to evict this origin's data.
  * @returns {Promise<'granted'|'denied'|'unsupported'>}
  */
 export async function requestPersistence() {
@@ -23,7 +23,7 @@ export async function requestPersistence() {
 }
 
 /**
- * Estado actual del almacenamiento del origen.
+ * Current storage state of the origin.
  * @returns {Promise<{persisted: boolean, usageBytes: number, quotaBytes: number, ratio: number}>}
  */
 export async function getStorageStatus() {
@@ -34,21 +34,21 @@ export async function getStorageStatus() {
   if (s) {
     try {
       if (typeof s.persisted === 'function') persisted = !!(await s.persisted());
-    } catch { /* ignorar */ }
+    } catch { /* ignore */ }
     try {
       if (typeof s.estimate === 'function') {
         const e = (await s.estimate()) || {};
         usageBytes = e.usage || 0;
         quotaBytes = e.quota || 0;
       }
-    } catch { /* ignorar */ }
+    } catch { /* ignore */ }
   }
   const ratio = quotaBytes > 0 ? Math.min(usageBytes / quotaBytes, 1) : 0;
   return { persisted, usageBytes, quotaBytes, ratio };
 }
 
 /**
- * Detecta errores de cuota excedida (IndexedDB / localStorage / Cache API).
+ * Detects quota-exceeded errors (IndexedDB / localStorage / Cache API).
  * @param {any} err
  * @returns {boolean}
  */
