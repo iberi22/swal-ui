@@ -12,5 +12,5 @@
     "esModuleInterop": true,
     "skipLibCheck": true
   },
-  "include": ["src/tokens/index.ts"]
+  "include": ["src/tokens/index.ts", "src/**/*.d.ts"]
 }
