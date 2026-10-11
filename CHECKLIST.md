@@ -10,20 +10,20 @@ Every item includes the exact verification command. The checks below reflect the
 
 | Category | Gate Item | Verifying Command | Live Status | Notes |
 | :--- | :--- | :--- | :---: | :--- |
-| **Legal** | Apache-2.0 License & NOTICE | `test -f LICENSE && test -f NOTICE && /run/current-system/sw/bin/grep -q "Apache License, Version 2.0" LICENSE NOTICE` | `[x]` | Apache-2.0 adopted across repository and copyright notices intact. |
+| **Legal** | Apache-2.0 License & NOTICE | `test -f LICENSE && test -f NOTICE && grep -q "Apache License, Version 2.0" LICENSE NOTICE` | `[x]` | Apache-2.0 adopted across repository and copyright notices intact. |
 | **Docs** | English README Documentation | `test -f README.md && test -s README.md` | `[x]` | Comprehensive guide with installation, component table, and token guide. |
 | **Exports** | Exports Map & TypeScript Types | `node -e 'const p = require("./package.json"); if (!p.exports || !p.types) process.exit(1);'` | `[ ]` | Exports map has 24 subpaths, but root `types` field / `index.d.ts` is missing (scheduled for v0.3). |
 | **Bundling** | Tree-Shaking & SideEffects | `node -e 'const p = require("./package.json"); if (!Array.isArray(p.sideEffects) || !p.sideEffects.includes("*.css")) process.exit(1);'` | `[x]` | Scoped CSS flagged as `*.css` and `**/*.css` in `sideEffects`. |
 | **Dependencies** | Peer Dependencies (`svelte`) | `node -e 'const p = require("./package.json"); if (!p.peerDependencies?.svelte) process.exit(1);'` | `[x]` | `svelte: ^5.0.0` declared as peer dependency; 0 runtime dependencies. |
-| **Hygiene** | Clean Tarball (`npm pack`) | `npm pack --dry-run 2>&1 \| /run/current-system/sw/bin/grep -E "(code_graph\|xavier_memory\|\.db)"` | `[x]` | Clean 89.0 kB tarball (65 files). Internal database files (`code_graph.db*`, `xavier_memory.db*`) excluded from pack and untracked in git. |
+| **Hygiene** | Clean Tarball (`npm pack`) | `npm pack --dry-run 2>&1 \| grep -E "(code_graph\|xavier_memory\|\.db)"` | `[x]` | Clean 89.0 kB tarball (65 files). Internal database files (`code_graph.db*`, `xavier_memory.db*`) excluded from pack and untracked in git. |
 | **CI** | GitHub Actions Workflows Green | `gh run list -R iberi22/swal-ui -L 3 --json conclusion -q '.[].conclusion'` | `[x]` | All recent CI workflows passed (`success`). |
 | **Testing** | Automated Test Suite Passing | `pnpm test` | `[x]` | 19 test files passed, 191 unit & DOM tests passing. |
 | **Testing** | Code Coverage Tooling | `node -e 'const p = require("./package.json"); if (!p.scripts?.coverage) process.exit(1);'` | `[ ]` | Test suite passing 100%, but coverage threshold script not yet configured in `package.json` (scheduled for v0.3). |
 | **A11y** | WCAG 2.2 Contrast & Themes Audit | `pnpm run themes:audit` | `[x]` | Bone theme passes AAA on text and AA on interactive elements in light and dark modes. |
 | **Changelog** | Changelog Up to Date | `test -f CHANGELOG.md && test -s CHANGELOG.md` | `[x]` | Follows Keep a Changelog; documents versions 0.1.0 and 0.2.0. |
-| **Provenance** | npm Provenance Attestation | `/run/current-system/sw/bin/grep -rn "provenance" .github/workflows/` | `[ ]` | CI does not yet feature automated OIDC publishing step with `--provenance` (scheduled for v1.0). |
+| **Provenance** | npm Provenance Attestation | `grep -rn "provenance" .github/workflows/` | `[ ]` | CI does not yet feature automated OIDC publishing step with `--provenance` (scheduled for v1.0). |
 | **Language** | English-Only Documentation | Repository audit of docs and templates | `[x]` | All public docs, contributing guidelines, templates, and specs in English. (Historical v0.2.0 changelog has bilingual notes). |
-| **Security** | Zero Secret Leaks | `/run/current-system/sw/bin/grep -rEn "ghp_[A-Za-z0-9]{36}\|github_pat_[A-Za-z0-9]{82}\|AKIA[0-9A-Z]{16}\|AIza[0-9A-Za-z\\-_]{35}" src/` | `[x]` | Scanned source files; 0 secrets or sensitive tokens committed. |
+| **Security** | Zero Secret Leaks | `grep -rEn "ghp_[A-Za-z0-9]{36}\|github_pat_[A-Za-z0-9]{82}\|AKIA[0-9A-Z]{16}\|AIza[0-9A-Za-z\\-_]{35}" src/` | `[x]` | Scanned source files; 0 secrets or sensitive tokens committed. |
 | **Security** | Dependabot Automated Scanning | `test -f .github/dependabot.yml` | `[ ]` | Not yet merged on `main` (currently active in open PR #27 `chore(deps): group Dependabot...`). |
 
 ---
@@ -33,7 +33,7 @@ Every item includes the exact verification command. The checks below reflect the
 ### 1. Legal & Licensing
 ```bash
 # Verify LICENSE and NOTICE existence and Apache 2.0 license declaration
-test -f LICENSE && test -f NOTICE && /run/current-system/sw/bin/grep -q "Apache License, Version 2.0" LICENSE NOTICE
+test -f LICENSE && test -f NOTICE && grep -q "Apache License, Version 2.0" LICENSE NOTICE
 # Exit code: 0 (PASSED)
 ```
 
@@ -69,7 +69,7 @@ node -e 'const p = require("./package.json"); if (!p.peerDependencies?.svelte) p
 ### 6. Package Tarball Cleanliness
 ```bash
 # Verify tarball contents exclude SQLite databases and development memory stores
-npm pack --dry-run 2>&1 | /run/current-system/sw/bin/grep -E "(code_graph|xavier_memory|\.db)"
+npm pack --dry-run 2>&1 | grep -E "(code_graph|xavier_memory|\.db)"
 # Output: empty (No database files included)
 
 # Verify git tracking state of internal database files
@@ -105,7 +105,7 @@ pnpm run themes:audit
 ### 10. Secret Scanning
 ```bash
 # Search for API keys, personal tokens, and secrets
-/run/current-system/sw/bin/grep -rEn "ghp_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9]{82}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z\\-_]{35}" src/ || echo "CLEAN"
+grep -rEn "ghp_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9]{82}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z\\-_]{35}" src/ || echo "CLEAN"
 # Output: CLEAN
 # Exit code: 0 (PASSED)
 ```
