@@ -1,768 +1,751 @@
-# @swal/ui — Guía de uso
+# @swal/ui — Usage Manual
 
-> Design system unificado del ecosistema SWAL.
-> Tema: **Edge-Hive** — portado fielmente desde `edge-hive-admin`.
-> **Svelte 5 (runes) · Cero dependencias · CSS scoped** — no requiere Tailwind.
+> Unified design system of the SouthWest AI Labs (SWAL) ecosystem.
+> Default Theme: **Bone** (Alabaster Paper / Mineral Charcoal).
+> **Svelte 5 (Runes) · Zero Runtime Dependencies · Scoped CSS** — Tailwind optional.
 
 ---
 
-## Instalación
+## Installation
+
+Install `@swal/ui` via npm or pnpm:
 
 ```bash
-# Workspace npm/pnpm
+# Using npm
 npm install @swal/ui
+
+# Using pnpm
+pnpm add @swal/ui
 ```
+
+Within a pnpm workspace:
 
 ```json
-{ "dependencies": { "@swal/ui": "workspace:*" } }
+{
+  "dependencies": {
+    "@swal/ui": "workspace:*"
+  }
+}
 ```
 
-Importar tokens **una sola vez** en el entry point (`main.ts`, `layout.astro`, `+layout.svelte`):
+### Global Stylesheet Setup
+
+Import tokens and component styles in your application entry point (`main.ts`, `Layout.astro`, or `+layout.svelte`):
 
 ```css
-@import '@swal/ui/tokens'; /* theme.css (incluye colors.css) */
+@import '@swal/ui/themes.css'; /* Tokens: --swal-*, Bone theme, utilities */
+@import '@swal/ui/ui.css';     /* Scoped component rules (.swal-btn, .swal-card, etc.) */
 ```
+
+> **Important:** Both imports are required. `themes.css` declares custom properties and theme definitions, while `ui.css` contains the styling rules for all exported components.
 
 ---
 
 ## Design Tokens
 
-Variables CSS en `:root`:
+Core CSS custom properties declared in `:root`:
 
-| Token | Default | Descripción |
-|-------|---------|-------------|
-| `--swal-bg` | `#020617` | Fondo principal (slate-950) |
-| `--swal-surface` | `rgba(15,23,42,0.8)` | Superficie de tarjetas |
-| `--swal-surface-hover` | `rgba(30,41,59,0.6)` | Hover de superficies |
-| `--swal-surface-active` | `rgba(51,65,85,0.4)` | Estado activo / skeletons |
-| `--swal-elevated` | `#0f172a` | Elementos elevados (modals) |
-| `--swal-elevated-850` | `#151e2e` | slate-850 del origen |
-| `--swal-overlay` | `rgba(2,6,23,0.8)` | Overlay de modales |
-| `--swal-void` | `#000` | Negro terminal (hive-void) |
-| `--swal-border` | `rgba(255,255,255,0.08)` | Borde estándar |
-| `--swal-border-light` | `rgba(255,255,255,0.12)` | Borde marcado |
-| `--swal-accent` | `#06b6d4` | Acento cyan (hive-cyan, datos) |
-| `--swal-accent-hover` | `#22d3ee` | Hover del acento |
-| `--swal-accent-muted` | `rgba(6,182,212,0.12)` | Fondo sutil cyan |
-| `--swal-accent-orange` | `#f97316` | Acento orange (hive-orange, sistema/nav) |
-| `--swal-accent-orange-muted` | `rgba(249,115,22,0.12)` | Fondo sutil orange |
-| `--swal-success` / `--swal-warning` / `--swal-danger` / `--swal-info` | `#10b981` / `#f59e0b` / `#ef4444` / `#06b6d4` | Semánticos |
-| `--swal-text` | `#f1f5f9` | Texto primario |
-| `--swal-text-secondary` | `#94a3b8` | Texto secundario |
-| `--swal-text-muted` | `#64748b` | Texto muted |
-| `--swal-font` | `Inter, system-ui, sans-serif` | Fuente UI |
-| `--swal-font-mono` | `Fira Code, JetBrains Mono, monospace` | Fuente datos/terminal |
-| `--swal-shadow-neon-cyan` | `0 0 15px …, 0 0 30px …` | Neon cyan (valores del origen) |
-| `--swal-shadow-neon-orange` | igual en orange | Neon orange |
-| `--swal-radius` / `-sm` / `-lg` | `8px` / `4px` / `12px` | Radios |
-| `--swal-transition-fast` / `-slow` | `150ms` / `300ms` | Transiciones |
-| `--swal-ease-out` | `cubic-bezier(0.16,1,0.3,1)` | Ease del `.animate-in` original |
+| Token | Default Dark | Description |
+|---|---|---|
+| `--swal-bg` | `#121211` | Primary background canvas (Mineral Charcoal) |
+| `--swal-surface` | `rgba(28, 25, 23, 0.85)` | Card and surface container fill |
+| `--swal-surface-hover` | `rgba(41, 37, 36, 0.7)` | Surface hover state |
+| `--swal-surface-active` | `rgba(68, 64, 60, 0.5)` | Active state / pressed surface |
+| `--swal-elevated` | `#1c1917` | Elevated elements (modals, dropdowns) |
+| `--swal-overlay` | `rgba(0, 0, 0, 0.75)` | Modal and backdrop blur overlay |
+| `--swal-border` | `rgba(255, 255, 255, 0.08)` | Standard component border |
+| `--swal-border-light` | `rgba(255, 255, 255, 0.14)` | Highlighted / active border |
+| `--swal-accent` | `#ff6a13` / `#d97706` | Primary action accent color |
+| `--swal-accent-contrast`| `#1c1917` | High-contrast text on accent surfaces |
+| `--swal-accent-muted` | `rgba(255, 106, 19, 0.12)` | Subtle accent tinted background |
+| `--swal-success` | `#10b981` | Success state indicator |
+| `--swal-warning` | `#f59e0b` | Warning state indicator |
+| `--swal-danger` | `#ef4444` | Destructive action and error indicator |
+| `--swal-text` | `#f5f5f4` | High-contrast primary readable text |
+| `--swal-text-secondary` | `#a8a29e` | Secondary body text and labels |
+| `--swal-text-muted` | `#78716c` | Subdued metadata and disabled text |
+| `--swal-font` | `Inter, system-ui, sans-serif` | Default typography stack |
+| `--swal-font-mono` | `Fira Code, JetBrains Mono, monospace` | Monospace code and terminal font |
+| `--swal-radius` / `-sm` / `-lg` | `8px` / `4px` / `12px` | Corner radii |
+| `--swal-transition-fast` / `-slow` | `150ms` / `300ms` | Standard animation durations |
 
-### Clases utilitarias
+### Utility Classes
 
-| Clase | Descripción |
-|-------|-------------|
-| `.swal-grid-bg` | Grid background estilo edge-hive |
-| `.swal-glass` | Glass morphism (⚠️ costoso en móvil: solo superficies pequeñas) |
-| `.swal-scrollbar` | Scrollbar industrial 4px (webkit + Firefox) |
-| `.swal-neon-cyan` / `.swal-neon-orange` | Text-shadow neon |
-| `.swal-scanline` | Efecto scanline |
-| `.swal-safe-area` | Padding `env(safe-area-inset-*)` para PWA móvil |
-| `.swal-dvh` | `min-height: 100dvh` (fix viewport móvil) |
-| `.swal-touch` | `touch-action: manipulation` + sin tap-highlight |
-| `.swal-enter` / `.swal-enter-scale` | Entrada fade / scale |
-| `.swal-animate-in` | Duración+easing base (combinar con keyframes) |
-| `.swal-marquee` / `.swal-flicker` / `.swal-glitch` | Keyframes del origen (ticker, CRT) |
-| `.swal-ping` / `.swal-pulse` / `.swal-spin` | Animaciones de estado |
-| `.swal-bg` `.swal-surface` `.swal-elevated` `.swal-text` `.swal-accent` `.swal-success` … | Colores (ver `colors.css`) |
+The library provides shared utility classes for consistent interfaces:
 
-Todas las animaciones respetan `prefers-reduced-motion`.
+- `.swal-glass`: Translucent surface with `backdrop-filter: blur(12px)` and stone border.
+- `.swal-mesh-bg`: Ambient gradient canvas background.
+- `.swal-meta`: Monospaced typography for metrics, metadata, keyboard shortcuts, and IDs.
+- `.swal-chamfer` / `.swal-chamfer-sm` / `.swal-chamfer-lg`: Clipped corners for blueprint aesthetics.
+- `.swal-card-frame` + `.swal-card-inner`: 1px bordered blueprint card container.
+- `.swal-scrollbar`: Industrial custom scrollbar matching theme surface tokens.
+- `.swal-crt`: Subtle CRT scanline animation overlay for terminal screens.
 
 ---
 
-## Componentes
-
-```svelte
-import { Button, Card, Badge, Modal, Table, Tabs, Input, Skeleton,
-         StatusBadge, LoadingState, Terminal, CommandPalette, Toaster } from '@swal/ui';
-```
-
-API **Svelte 5**: eventos como props (`onclick`, `onclose`), contenido como snippet (`children`), y `bind:` en props `$bindable`.
+## Component Guide
 
 ### `<Button>`
 
-| Prop | Tipo | Default | Descripción |
-|------|------|---------|-------------|
-| `variant` | `'primary'\|'orange'\|'secondary'\|'ghost'\|'danger'` | `'primary'` | Estilo |
-| `size` | `'sm'\|'md'\|'lg'` | `'md'` | Tamaño |
-| `disabled` / `loading` / `fullWidth` | `boolean` | `false` | Estados |
-| `onclick` | `function` | — | Click handler |
+Button primitive with variant styling, glowing focus effects, and loading indicators.
 
 ```svelte
-<Button variant="primary" onclick={save}>Guardar</Button>
-<Button variant="orange" loading={deploying}>Deploy</Button>
-<Button variant="danger" size="sm">Eliminar</Button>
+<script>
+  import { Button } from '@swal/ui';
+</script>
+
+<Button variant="primary" onclick={() => alert('Clicked')}>
+  Primary Action
+</Button>
+
+<Button variant="secondary" size="sm">
+  Secondary
+</Button>
+
+<Button variant="danger" loading={false}>
+  Delete Item
+</Button>
+
+<Button variant="ghost" glow>
+  Glowing Ghost
+</Button>
 ```
+
+Props:
+- `variant`: `'primary' | 'secondary' | 'ghost' | 'danger'` (default: `'secondary'`)
+- `size`: `'sm' | 'md' | 'lg'` (default: `'md'`)
+- `loading`: `boolean` (default: `false`)
+- `disabled`: `boolean` (default: `false`)
+- `glow`: `boolean` (default: `false`)
+- `type`: `'button' | 'submit' | 'reset'` (default: `'button'`)
+
+---
 
 ### `<Card>`
 
-| Prop | Tipo | Default |
-|------|------|---------|
-| `variant` | `'default'\|'surface'\|'elevated'\|'glass'` | `'default'` |
-| `padding` | `'none'\|'sm'\|'md'\|'lg'` | `'md'` |
-| `hoverable` | `boolean` | `false` |
-| `onclick` | `function` | — (si se pasa, renderiza `<button>` accesible) |
+Structural container with glassmorphism and elevation support.
+
+```svelte
+<script>
+  import { Card } from '@swal/ui';
+</script>
+
+<Card variant="elevated" hover>
+  <h3>System Metrics</h3>
+  <p>Cluster load is within normal thresholds.</p>
+</Card>
+```
+
+Props:
+- `variant`: `'default' | 'elevated' | 'glass'` (default: `'default'`)
+- `hover`: `boolean` — Enables hover elevation and border transition (default: `false`)
+- `padding`: `'none' | 'sm' | 'md' | 'lg'` (default: `'md'`)
+
+---
 
 ### `<Badge>`
 
-| Prop | Tipo | Default |
-|------|------|---------|
-| `variant` | `'success'\|'warning'\|'danger'\|'info'\|'orange'\|'neutral'` | `'neutral'` |
-| `size` | `'sm'\|'md'` | `'sm'` |
-| `pulse` | `boolean` | `false` |
-| `dot` | `boolean` | `true` salvo neutral |
-
-### `<StatusBadge>` *(portado de edge-hive-admin)*
-
-Dot de estado con anillo ping expansivo.
-
-| Prop | Tipo | Default |
-|------|------|---------|
-| `status` | `'healthy'\|'warning'\|'error'\|'offline'` | `'offline'` |
-| `pulse` | `boolean` | `true` (anillo ping; no aplica a `offline`) |
+Compact label for entity states, tags, or counts.
 
 ```svelte
-<StatusBadge status="healthy" />
+<script>
+  import { Badge } from '@swal/ui';
+</script>
+
+<Badge variant="success">Active</Badge>
+<Badge variant="warning" dot>Syncing</Badge>
+<Badge variant="danger">Failed</Badge>
 ```
 
-### `<Modal>` *(portado fiel: scroll-lock, blur, gradientes)*
+Props:
+- `variant`: `'default' | 'accent' | 'success' | 'warning' | 'danger'` (default: `'default'`)
+- `dot`: `boolean` — Renders a pulsing status indicator dot (default: `false`)
+- `size`: `'sm' | 'md'` (default: `'md'`)
 
-| Prop | Tipo | Default |
-|------|------|---------|
-| `open` | `boolean` (`bind:open`) | `false` |
-| `title` | `string` | `''` |
-| `size` | `'sm'\|'md'\|'lg'` | `'md'` |
-| `icon` | `snippet` | — |
-| `onclose` | `function` | — |
+---
 
-Cierra con Escape, backdrop o botón X. Bloquea el scroll del body mientras está abierto. Body scrolleable (`max-height: 80vh`) con `.swal-scrollbar`.
+### `<StatusBadge>`
+
+Node and cluster operational health badge.
 
 ```svelte
-<Modal bind:open={show} title="Confirmar" size="sm">
-  <p>¿Seguro?</p>
-  <Button variant="danger" onclick={confirm}>Confirmar</Button>
+<script>
+  import { StatusBadge } from '@swal/ui';
+</script>
+
+<StatusBadge status="healthy" label="Node 01" />
+<StatusBadge status="warning" label="High Latency" pulse />
+<StatusBadge status="error" label="Unreachable" />
+<StatusBadge status="offline" label="Standby" />
+```
+
+Props:
+- `status`: `'healthy' | 'warning' | 'error' | 'offline'` (required)
+- `label`: `string` (optional)
+- `pulse`: `boolean` (default: `false`)
+
+---
+
+### `<Modal>`
+
+Accessible dialog modal featuring focus trapping, backdrop blur, and body scroll lock.
+
+```svelte
+<script>
+  import { Modal, Button } from '@swal/ui';
+
+  let open = $state(false);
+</script>
+
+<Button onclick={() => (open = true)}>Open Settings</Button>
+
+<Modal bind:open title="Configuration" size="md">
+  <p>Modify your cluster preferences here.</p>
+  {#snippet footer()}
+    <Button variant="ghost" onclick={() => (open = false)}>Cancel</Button>
+    <Button variant="primary" onclick={() => (open = false)}>Save</Button>
+  {/snippet}
 </Modal>
 ```
 
-### Toasts: `<Toaster>` + `toast` *(portado de ToastContext)*
+---
+
+### Toasts: `<Toaster>` & `toast`
+
+Runes-native toast notifications.
 
 ```svelte
 <script>
-  import { Toaster } from '@swal/ui';
+  import { Toaster, Button } from '@swal/ui';
   import { toast } from '@swal/ui/toast';
+
+  function trigger() {
+    toast.success('Configuration saved successfully');
+    // toast.error('Connection timeout');
+    // toast.warning('High memory utilization');
+    // toast.info('New release available');
+  }
 </script>
 
-<!-- Una sola vez, en el layout raíz -->
-<Toaster />
+<!-- Place once in your root layout -->
+<Toaster position="top-right" />
+
+<Button onclick={trigger}>Show Toast</Button>
 ```
 
-```js
-toast.success('Guardado', 'OK');            // auto-dismiss 5s
-toast.error('Falló la conexión');
-toast.warning('Uso de disco al 90%');
-toast.info('Sincronizando…');
-const id = toast.loading('Desplegando…');   // sin auto-dismiss
-toast.dismiss(id);                          // cierre manual
-```
+---
 
-Incluye iconos por tipo, scanline decorativa y barra de progreso de auto-dismiss (como el original).
+### `<CommandPalette>`
 
-### `<CommandPalette>` *(portado, generalizado)*
-
-| Prop | Tipo | Default |
-|------|------|---------|
-| `open` | `boolean` (`bind:open`) | `false` |
-| `items` | `[{ id, label, hint?, action() }]` | `[]` |
-| `placeholder` | `string` | `'Type a command or search...'` |
-| `footer` | `string` | `'SWAL Command'` |
-
-Navegación con ↑↓ / Enter / Escape, filtro en vivo, foco automático. El atajo ⌘K lo implementa la app:
+Keyboard-first command palette dialog with quick actions and filtering.
 
 ```svelte
 <script>
-  let paletteOpen = $state(false);
-  const items = [
-    { id: 'dash', label: 'Go to Dashboard', action: () => goto('/') },
-    { id: 'deploy', label: 'Deploy', hint: '⌘D', action: deploy },
+  import { CommandPalette } from '@swal/ui';
+
+  let open = $state(false);
+
+  const actions = [
+    { id: '1', title: 'Deploy Cluster', section: 'Actions', shortcut: '⌘D', run: () => console.log('Deploy') },
+    { id: '2', title: 'Open Settings', section: 'Navigation', shortcut: '⌘,', run: () => console.log('Settings') }
   ];
 </script>
 
-<svelte:window onkeydown={(e) => {
-  if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); paletteOpen = !paletteOpen; }
-}} />
-
-<CommandPalette bind:open={paletteOpen} {items} />
+<CommandPalette bind:open items={actions} placeholder="Type a command..." />
 ```
 
-### `<Terminal>` *(portado)*
+---
 
-| Prop | Tipo | Default |
-|------|------|---------|
-| `logs` | `[{ id, timestamp, level, service, message }]` | `[]` |
-| `title` | `string` | `'STD_OUT >> SWAL_RUNTIME'` |
-| `prompt` | `string` | `'root@swal:~$'` |
-| `height` | `string` | `'24rem'` |
-| `autoScroll` | `boolean` | `true` |
-| `maxHeight` | `string \| null` | `null` |
+### `<Terminal>`
 
-### `<LogViewer>` *(portado de edge-hive-admin)*
-
-| Prop | Tipo | Default |
-|------|------|---------|
-| `lines` | `string[] \| [{ level, timestamp, message }]` | `[]` |
-| `filterLevel` | `'debug'\|'info'\|'warn'\|'error'` | `'debug'` |
-| `autoScroll` | `boolean` | `true` |
-| `maxHeight` | `string` (CSS) | `'300px'` |
-| `title` | `string` | `'Real-Time Log Stream'` |
-
-Acepta líneas crudas (`'[INFO] msg'` — detecta el nivel por contenido) o entradas
-estructuradas (`{ level, timestamp, message }`). Filtra por nivel mínimo, colores
-edge-hive (`error`→danger, `warn`→warning, `info`→success, `debug`→muted), fuente
-mono y scrollbar industrial.
+Developer terminal console with command execution and log output.
 
 ```svelte
-<LogViewer lines={logs} filterLevel="warn" maxHeight="400px" />
+<script>
+  import { Terminal } from '@swal/ui';
+
+  let logs = $state([
+    { timestamp: '12:00:01', text: 'Initializing node...', level: 'info' },
+    { timestamp: '12:00:02', text: 'Connected to mesh network', level: 'success' }
+  ]);
+</script>
+
+<Terminal {logs} title="SWAL Edge Node" onCommand={(cmd) => console.log(cmd)} />
 ```
 
-### `<ConfigEditor>` *(portado de edge-hive-admin, generalizado)*
+---
 
-| Prop | Tipo | Default |
-|------|------|---------|
-| `config` | `Record<string, any>` | `{}` |
-| `schema` | `[{ key, label, type, options? }]` | `[]` (infiere tipos) |
-| `title` | `string` | `'Configuration'` |
-| `onchange` | `(config) => void` | — (emite en cada edición) |
-| `onsave` | `(config) => void` | — (botón Save; fallback: `onchange`) |
+### `<LogViewer>`
 
-`type`: `'string' | 'number' | 'boolean' | 'select'` (con `options: string[] | {value,label}[]`).
-Si `schema` está vacío, el tipo se infiere del valor actual de cada clave.
-El borrador interno solo se re-sincroniza cuando el padre cambia `config` de verdad
-(comparación JSON), sin pisar ediciones en curso.
+High-volume log viewer with level filtering, timestamp toggles, and autoscroll.
 
 ```svelte
-<ConfigEditor
-  config={cfg}
-  schema={[
-    { key: 'port', label: 'Port', type: 'number' },
-    { key: 'mode', label: 'Mode', type: 'select', options: ['live', 'paper'] },
-  ]}
-  onchange={(next) => (cfg = next)}
-/>
+<script>
+  import { LogViewer } from '@swal/ui';
+
+  let lines = $state([
+    { timestamp: '2026-10-11T00:00:00Z', level: 'info', message: 'Daemon started' },
+    { timestamp: '2026-10-11T00:00:01Z', level: 'warn', message: 'Peer reconnecting' }
+  ]);
+</script>
+
+<LogViewer {lines} autoscroll filterLevel="all" />
 ```
 
-Colores por nivel (`ERROR/WARN/DEBUG/INFO`), auto-scroll suave al fondo (`autoScroll=false` lo desactiva), cursor parpadeante.
-Con `maxHeight` (p. ej. `'60vh'`) el body crece con el contenido hasta ese tope (anula `height`).
+---
 
-### `<LoadingState>` *(portado)*
+### `<ConfigEditor>`
 
-| Prop | Tipo | Default |
-|------|------|---------|
-| `message` | `string` | `'Loading...'` |
-| `height` | `string` | `'16rem'` |
-| `error` | `string \| null` | `null` |
-| `onretry` | `(() => void) \| null` | `null` |
+Interactive configuration key-value form with raw JSON validation.
 
-Con `error` muestra icono ✗ + mensaje en rojo en vez del spinner; `onretry` añade un botón "↻ Retry".
+```svelte
+<script>
+  import { ConfigEditor } from '@swal/ui';
+
+  let config = $state({
+    clusterId: 'swal-01',
+    maxPeers: 32,
+    telemetry: true
+  });
+</script>
+
+<ConfigEditor value={config} onchange={(updated) => (config = updated)} />
+```
+
+---
+
+### `<LoadingState>`
+
+Asynchronous loading indicator and skeleton wrapper.
+
+```svelte
+<script>
+  import { LoadingState } from '@swal/ui';
+</script>
+
+<LoadingState message="Connecting to peer mesh..." />
+```
+
+---
 
 ### `<Table>`
 
-`columns: [{ key, label, width?, align? }]`, `rows: [{ key: value }]`, `variant: 'default'|'compact'`.
-
-Snippets opcionales para contenido custom:
-- `{#snippet cell(row, col)}` — render por celda (badges, valores coloreados, etc.)
-- `{#snippet header(col)}` — render por header (botones sortable, tooltips, etc.)
-
-```svelte
-<Table {columns} {rows}>
-  {#snippet header(col)}
-    <button onclick={() => sort(col.key)}>{col.label} ▲</button>
-  {/snippet}
-  {#snippet cell(row, col)}
-    {#if col.key === 'status'}
-      <Badge variant="success">{row.status}</Badge>
-    {:else}
-      {row[col.key]}
-    {/if}
-  {/snippet}
-</Table>
-```
-
-### `<Tabs>`
-
-`tabs: [{ id, label }]`, `bind:active`. Roles ARIA `tablist`/`tab` incluidos.
-
-### `<Input>`
-
-`bind:value`, `label`, `type`, `placeholder`, `error`. Label/error asociados con `for`/`aria-describedby`.
-
-### `<Skeleton>`
-
-`variant: 'text'|'card'|'circle'`, `width`, `height`.
-
-### `<DashboardLayout>`
-
-Sidebar template component optimized for Svelte 5.
-
-| Prop | Tipo | Default | Descripción |
-|------|------|---------|-------------|
-| `sidebarOpen` | `boolean` (`bind:sidebarOpen`) | `true` | Sidebar open/collapsed status |
-| `brand` | `snippet` | — | Snippet for custom header brand logo/text |
-| `sidebarNav` | `snippet` | — | Snippet containing navigation link elements |
-| `sidebarFooter` | `snippet` | — | Snippet for sidebar footer content |
-| `headerActions` | `snippet` | — | Snippet for header items (e.g. status bar, search bar) |
-
-```svelte
-<DashboardLayout>
-  {#snippet brand()}
-    <span class="logo">My App</span>
-  {/snippet}
-  {#snippet sidebarNav()}
-    <a href="/dashboard">Overview</a>
-  {/snippet}
-  <div class="content">Main content goes here</div>
-</DashboardLayout>
-```
-
-### App shell (`Icon`, `MobileNav`, `AppShell`) *(extraido del rediseno de Fize, sin marca ni rutas)*
-
-Todas las apps del ecosistema de salud usan este mismo shell: columna lateral en escritorio, barra superior con menu desplegable (rejilla 2 columnas, objetivos de 44px, Escape cierra) en movil. Sin JS el menu queda abierto y el boton oculto. **Requisito**: incluir en el `<head>` el script de arranque (`themeBootScript()` / `THEME_BOOT_SCRIPT` de `@swal/ui/theme-boot`, o solo `NAV_BOOT_SCRIPT`), que pone `class="js"` en `<html>` antes de pintar; sin el, el menu movil se ve abierto hasta hidratar (el componente anade `js` al montar como respaldo, con salto de layout). Con Escape el foco vuelve al boton.
-
-**`<Icon>`**: `name` (clave del registro), `paths` (array de `d`, prioridad sobre `name`), `size=20`, `strokeWidth=1.75`, `label` (si se da, `role="img"`; sin label es decorativo). Un nombre desconocido pinta un svg vacio. Registro extensible:
-
-```js
-import { registerIcons, ICONS } from '@swal/ui/icons';
-registerIcons({ dumbbell: ['M14.4 14.4 9.6 9.6', 'M18.657 21.485a2 2 0 1 1-2.829-2.828'] });
-```
-
-Iconos incluidos: home, table, clipboard, chef, package, utensils, book, receipt, device, wifi, qr, login, menu, close, user, heart, activity, calendar, chart, sliders, check.
-
-**`<MobileNav>`**: `items` (`[{ href, label, icon?, exact? }]`), `currentPath`, `bind:open` (false), `menuLabel='Menu'`, `navLabel='Principal'`, `id='swal-nav'`, `onnavigate(item)`, snippet `lead` (marca; sin el, la barra movil muestra la seccion actual).
-
-**`<AppShell>`**: `items`, `currentPath`, `showNav=true`, `bind:menuOpen`, `menuLabel`, `navLabel`; snippets `brand`, `navFooter`, `topbar`, `children`.
+Responsive table with sortable columns and zebra row striping.
 
 ```svelte
 <script>
-  import { AppShell } from '@swal/ui';
-  let { path } = $props();
-  const items = [
-    { href: '/', label: 'Inicio', icon: 'home' },
-    { href: '/app/sessions', label: 'Sesiones', icon: 'calendar' },
+  import { Table } from '@swal/ui';
+
+  const columns = [
+    { key: 'id', label: 'Node ID', sortable: true },
+    { key: 'role', label: 'Role' },
+    { key: 'status', label: 'Status' }
+  ];
+
+  const rows = [
+    { id: 'node-alpha', role: 'validator', status: 'online' },
+    { id: 'node-beta', role: 'relay', status: 'syncing' }
   ];
 </script>
-<AppShell {items} currentPath={path}>
-  {#snippet brand()}<strong>Mi app</strong>{/snippet}
-  {#snippet topbar()}<button>Perfil</button>{/snippet}
-  <h1>Contenido</h1>
-</AppShell>
+
+<Table {columns} data={rows} striped />
 ```
 
-`isNavActive(item, path)` / `findCurrentNav(items, path)` (`@swal/ui/nav`): coincidencia por segmento ("/app" no activa "/app2"; "/" solo exacto).
+---
 
-### Arranque de tema sin destello (`@swal/ui/theme-boot`)
+### `<Tabs>`
 
-`themeBootScript({ themeKey='swal-theme', fontKey='swal-font', themes=['light','dark'] })` devuelve el JS (IIFE) para el `<head>`; `THEME_BOOT_SCRIPT` es el valor por defecto. Tambien marca `<html class="js">` (ver MobileNav). No fija tema: sin eleccion guardada el CSS sigue a `prefers-color-scheme`; solo aplica `data-theme` / `data-font` guardados. `setTheme('light'|'dark'|'system')` cambia y persiste en runtime.
-
-```astro
-<script is:inline set:html={THEME_BOOT_SCRIPT}></script>
-```
-
-Tema como CSS: `import themeCss from '@swal/ui/tokens.css?inline'` (alias de `src/tokens/theme.css`).
-
-### Deteccion de deriva en copias vendorizadas
-
-```bash
-node node_modules/@swal/ui/scripts/check-vendored-drift.mjs <ruta-copia> [--canonical <ruta>] [--ignore <subcadena>]
-```
-
-Compara `src/` y el `tokens.css` de la raiz contra el canonico; lista distintos/faltantes/sobrantes. Exit 0 sin deriva, 1 con deriva, 2 uso incorrecto.
-
-### `<GlobalTicker>`
-
-Token-driven status / market marquee ticker bar.
-
-| Prop | Tipo | Default | Descripción |
-|------|------|---------|-------------|
-| `items` | `Array<string \| {text, type}>` | `[]` | Items to tick across the screen. Types: `'info'\|'warning'\|'error'\|'success'\|'orange'` |
-| `speed` | `'slow'\|'normal'\|'fast'` | `'normal'` | Ticker sliding speed |
-| `paused` | `boolean` | `false` | Pause ticker |
-| `interactive` | `boolean` | `true` | Pauses on hover, has custom styling |
-| `onclick` | `function` | — | Interactive click handler |
+Accessible tab switcher with keyboard navigation.
 
 ```svelte
-<GlobalTicker
-  items={[
-    { text: 'SYSTEM OK: ALL NODES LIVE', type: 'success' },
-    { text: 'ALERT: HN-05 DELAY', type: 'warning' }
-  ]}
-/>
+<script>
+  import { Tabs } from '@swal/ui';
+
+  let activeTab = $state('overview');
+
+  const items = [
+    { id: 'overview', label: 'Overview' },
+    { id: 'metrics', label: 'Metrics' },
+    { id: 'logs', label: 'Logs' }
+  ];
+</script>
+
+<Tabs {items} bind:selected={activeTab} />
 ```
 
-### `<Landing>`
+---
 
-Full-featured landing page template styled using SWAL design system tokens.
+### `<Input>`
 
-| Prop | Tipo | Default | Descripción |
-|------|------|---------|-------------|
-| `title` | `string` | `'SWAL Ecosystem'` | Landing hero title |
-| `subtitle` | `string` | — | Hero description text |
-| `heroButtonText` | `string` | `'Initialize Node'` | Text for primary hero button |
-| `onHeroClick` | `function` | — | Actions handler for hero buttons |
-| `features` | `Array<{title, description, icon?}>` | `[]` | Feature item list |
-| `stats` | `Array<{value, label, trend?}>` | `[]` | Quick stats display list |
-| `navLinks` | `Array<{href, text}>` | `[]` | Links for landing header |
-| `footerText` | `string` | — | Footer copyrights text |
+Text input supporting labels, validation messages, and icons.
 
 ```svelte
-<Landing
-  title="Decentralized Intelligence"
-  stats={[{ value: '320k', label: 'Nodes' }]}
+<script>
+  import { Input } from '@swal/ui';
+
+  let query = $state('');
+</script>
+
+<Input
+  bind:value={query}
+  label="Search Nodes"
+  placeholder="Enter node ID or IP..."
+  error=""
 />
 ```
 
 ---
 
-## Motion (transiciones Svelte)
+### `<Skeleton>`
+
+Placeholder skeleton loader.
+
+```svelte
+<script>
+  import { Skeleton } from '@swal/ui';
+</script>
+
+<Skeleton width="100%" height="24px" />
+<Skeleton width="60%" height="16px" />
+```
+
+---
+
+### `<DashboardLayout>`
+
+Multi-column layout structure with header, sidebar, and content area.
+
+```svelte
+<script>
+  import { DashboardLayout } from '@swal/ui';
+</script>
+
+<DashboardLayout>
+  {#snippet sidebar()}
+    <nav>Sidebar Navigation</nav>
+  {/snippet}
+
+  <main>Dashboard Content</main>
+</DashboardLayout>
+```
+
+---
+
+### App Shell (`Icon`, `MobileNav`, `AppShell`)
+
+Composable, unbranded application shell extracted from production SWAL apps.
+
+```svelte
+<script>
+  import { AppShell, Icon, MobileNav } from '@swal/ui';
+
+  const navItems = [
+    { href: '/', label: 'Overview', icon: 'home' },
+    { href: '/nodes', label: 'Nodes', icon: 'server' },
+    { href: '/settings', label: 'Settings', icon: 'settings' }
+  ];
+</script>
+
+<AppShell brand="SWAL Mesh" {navItems}>
+  <h1>Cluster Overview</h1>
+</AppShell>
+```
+
+---
+
+### `<GlobalTicker>`
+
+Real-time metric ticker ribbon for telemetry streams.
+
+```svelte
+<script>
+  import { GlobalTicker } from '@swal/ui';
+
+  const items = [
+    { label: 'BLOCK', value: '#1,489,203' },
+    { label: 'TPS', value: '4,280' },
+    { label: 'PEERS', value: '184' }
+  ];
+</script>
+
+<GlobalTicker {items} />
+```
+
+---
+
+### `<Landing>`
+
+Showcase landing page template with hero section, feature grid, and CTA banner.
+
+```svelte
+<script>
+  import { Landing } from '@swal/ui';
+</script>
+
+<Landing
+  title="Autonomous Agent Infrastructure"
+  subtitle="Sovereign AI workflows, decentralized edge mesh, and zero-dependency design system."
+/>
+```
+
+---
+
+### `<QRCode>`
+
+Zero-dependency SVG QR code visualizer with accessible labelling.
+
+```svelte
+<script>
+  import { QRCode } from '@swal/ui';
+</script>
+
+<QRCode value="https://swal.ai" size={160} title="SWAL Portal QR Code" />
+```
+
+---
+
+## Motion Transitions
+
+Svelte transitions customized for the Bone design system:
 
 ```svelte
 <script>
   import { swalFade, swalSlide } from '@swal/ui/motion';
+
+  let visible = $state(true);
 </script>
 
-<div transition:swalFade={{ duration: 200 }}>…</div>
-<div transition:swalSlide={{ direction: 'up', distance: 8 }}>…</div>
+{#if visible}
+  <div transition:swalFade={{ duration: 200 }}>
+    Fade Transition
+  </div>
+  <div transition:swalSlide={{ duration: 300 }}>
+    Slide Transition
+  </div>
+{/if}
 ```
-
-> En Astro, las transiciones solo corren en islas hidratadas (`client:*`).
-> Para HTML estático usa las clases CSS `.swal-enter` / `.swal-enter-scale`.
 
 ---
 
-## Uso con Astro (Astro Islands)
+## Astro Islands Integration
 
-Todos los componentes de `@swal/ui` son 100% compatibles con **Astro Islands** y seguros para Renderizado en el Servidor (SSR). Dado que **ninguno de los componentes utiliza objetos específicos del navegador (como `window` o `document`) en el nivel superior (top-level) de los módulos**, se pueden importar y renderizar sin problemas tanto en el lado del servidor como en el cliente.
+`@swal/ui` components are fully compatible with Astro islands and support server-side rendering (SSR).
 
-### Directivas de Hidratación (`client:*`)
-
-Puedes decidir cuándo y cómo hidratar cada componente dependiendo del nivel de interactividad requerido:
-
-1. **Hidratación Inmediata (`client:load`):** Úsala para elementos interactivos cruciales que deben responder de inmediato.
-2. **Hidratación al Entrar en Pantalla (`client:visible`):** Ideal para componentes pesados o secundarios que están fuera del viewport inicial.
-3. **Renderizado Estático (Sin Directiva):** Si el componente solo muestra datos estáticos (por ejemplo, un `<Badge>` o un `<Card>` simple), no le agregues directivas. Se renderizará como HTML estático puro, lo que significa **cero JavaScript cargado en el cliente** para ese componente.
-
-### Ejemplo Completo de Uso de Islas
-
-En un archivo `.astro` (por ejemplo, `src/pages/index.astro`):
+### Hydration Directives
 
 ```astro
 ---
-// Importar los estilos/tokens de SWAL una sola vez en el layout o página raíz
-import '@swal/ui/tokens';
-
-// Importar los componentes svelte deseados
-import {
-  Badge,
-  Button,
-  Card,
-  StatusBadge,
-  Terminal,
-  Toaster
-} from '@swal/ui';
-
-const logs = [
-  { id: '1', timestamp: '12:00:00', level: 'info', service: 'system', message: 'Node online.' }
-];
+import { Button, StatusBadge, Modal } from '@swal/ui';
 ---
 
-<html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <title>SWAL + Astro Islands</title>
-  </head>
-  <body class="swal-dvh swal-safe-area swal-touch">
-    <!-- El Toaster maneja estados globales, se hidrata de inmediato -->
-    <Toaster client:load />
+<!-- Static SSR render (zero client JavaScript) -->
+<StatusBadge status="healthy" label="Cluster 01" />
 
-    <main style="padding: 2rem;">
-      <!-- Card sin interactividad: Renderizado como HTML estático (0 KB JS) -->
-      <Card variant="elevated">
-        <h2>Servidores Activos</h2>
+<!-- Hydrated immediately on page load -->
+<Button client:load variant="primary">Immediate Action</Button>
 
-        <!-- StatusBadge es reactivo (anillo de ping), se hidrata al ser visible -->
-        <StatusBadge status="healthy" client:visible />
-
-        <!-- Badge sin interactividad: Renderizado estático -->
-        <Badge variant="success">ONLINE</Badge>
-      </Card>
-
-      <div style="margin-top: 2rem;">
-        <!-- Terminal interactiva: Hidratada cuando sea visible -->
-        <Terminal logs={logs} title="Consola Edge Node" client:visible />
-      </div>
-
-      <!-- Button con interacción: Hidratado al cargar -->
-      <Button variant="orange" client:load onclick={() => alert('¡Hola desde la Isla Svelte 5!')}>
-        Acción Rápida
-      </Button>
-    </main>
-  </body>
-</html>
+<!-- Hydrated when scrolled into viewport -->
+<Modal client:visible title="Delayed Dialog">
+  <p>Content loaded on demand.</p>
+</Modal>
 ```
 
-### Tabla de Compatibilidad de Islas
+### Island Compatibility Guidelines
 
-Todos los 15 componentes son totalmente compatibles como islas en Astro:
+- All components are SSR-safe: browser globals (`window`, `document`, `localStorage`) are never called at the script top level.
+- Always import `@swal/ui/themes.css` and `@swal/ui/ui.css` in your Astro root layout (`Layout.astro`).
 
-| Componente | SSR-Safe | ¿Requiere Hidratación? | Directiva sugerida |
-|------------|----------|------------------------|--------------------|
-| `Badge` | Sí | No (estático por defecto) | Ninguna |
-| `Button` | Sí | Opcional (si tiene `onclick`) | `client:load` / `client:visible` |
-| `Card` | Sí | No (estático por defecto) | Ninguna |
-| `CommandPalette` | Sí | Sí | `client:load` |
-| `ConfigEditor` | Sí | Sí | `client:load` / `client:visible` |
-| `Input` | Sí | Sí | `client:load` / `client:visible` |
-| `LoadingState` | Sí | No (estático por defecto) | Ninguna |
-| `LogViewer` | Sí | Sí | `client:load` / `client:visible` |
-| `Modal` | Sí | Sí | `client:load` |
-| `Skeleton` | Sí | No (estático por defecto) | Ninguna |
-| `StatusBadge` | Sí | Sí (por el efecto ping reactivo) | `client:visible` |
-| `Table` | Sí | No (salvo si usas snippets interactivos) | Ninguna / `client:load` |
-| `Tabs` | Sí | Sí | `client:load` |
-| `Terminal` | Sí | Sí | `client:load` / `client:visible` |
-| `Toaster` | Sí | Sí (gestiona notificaciones dinámicas) | `client:load` |
-
-Para ver un ejemplo completo en funcionamiento con todos los componentes descritos montados como islas de Astro, consulta la carpeta `demo/astro-islands/`.
+---
 
 ## Theming
 
-```css
-:root {
-  --swal-accent: #10b981;        /* emerald */
-  --swal-accent-hover: #34d399;
-  --swal-accent-muted: rgba(16,185,129,0.12);
-}
-```
+### Bone Theme (Default)
 
-### Presets de Tipografía (`data-font`)
-
-Para personalizar o alternar tipografías sin tocar los estilos base ni los colores, `@swal/ui` incluye presets opt-in en `@swal/ui/tokens/fonts.css` (o `@swal/ui/fonts.css`) activables mediante el atributo `data-font` en `:root` (`<html>`):
-
-```css
-@import '@swal/ui/tokens';
-@import '@swal/ui/tokens/fonts.css';
-```
+The default theme is **Bone** (Alabaster Paper / Mineral Charcoal). No special attribute is required, but it can be explicitly set:
 
 ```html
-<!-- En tu <html> o elemento raíz -->
-<html data-font="jetbrains">
+<html data-theme="dark"> <!-- or "light" -->
 ```
 
-#### Presets válidos
+### Bone Taller Accent Layer
 
-| Valor `data-font` | `--swal-font` | `--swal-font-mono` | Descripción |
-|-------------------|---------------|--------------------|-------------|
-| `inter` *(default)* | `'Inter', system-ui, -apple-system, sans-serif` | `'Fira Code', 'JetBrains Mono', monospace` | Pila estándar de SWAL / Edge-Hive |
-| `jetbrains` | `'JetBrains Mono', 'Fira Code', ui-monospace, monospace` | `'JetBrains Mono', 'Fira Code', ui-monospace, monospace` | Look monoespaciado / terminal para todo el texto |
-| `system` | `system-ui, -apple-system, BlinkMacSystemFont, ...` | `ui-monospace, SFMono-Regular, Menlo, ...` | Pila nativa del sistema operativo (cero dependencias de red) |
-| `fira` | `'Fira Sans', system-ui, -apple-system, sans-serif` | `'Fira Code', monospace` | Estética técnica moderna |
-
-#### Persistencia automática en `ConfigFloatingWindow`
-
-El componente `<ConfigFloatingWindow />` incluye un selector de tipografía en su sección **Appearance**, que:
-1. Aplica inmediatamente `document.documentElement.dataset.font = valor`.
-2. Persiste la selección en `localStorage` bajo la clave `'swal-font'`.
-3. Restaura automáticamente la fuente guardada durante el `onMount`.
-
----
-
-## Offline-first: persistencia y respaldo
-
-Toda app SWAL guarda datos solo en el dispositivo. El core ofrece helpers y componentes genericos (sin logica de app).
-
-- `requestPersistence()` -> `'granted' | 'denied' | 'unsupported'` (`navigator.storage.persist`).
-- `getStorageStatus()` -> `{ persisted, usageBytes, quotaBytes, ratio }`.
-- `isQuotaError(err)` detecta `QuotaExceededError`; `formatBytes(n)` formatea tamanos.
-- Formato de respaldo: `{ format: 'swal-backup/v1', appId, createdAt, schemaVersion, stores: { nombre: any[] } }`.
-- `createBackup({ appId, schemaVersion, collect })`, `downloadBackup(backup, filename?)`,
-  `readBackupFile(file, { appId?, maxBytes? })` (valida formato/appId, limite 50 MB por defecto),
-  `restoreBackup(backup, { apply, onConflict: 'replace' | 'merge' })`.
-- `<StorageStatus warnAt={0.8} />`: badge de persistencia, barra de uso, aviso >80% y boton para pedir persistencia.
-- `<BackupPanel {appId} {schemaVersion} {collect} {apply} onConflict onRestored />`: exportar, importar (input o arrastrar), dialogo de confirmacion con conteo por store y toasts (requiere `<Toaster />`).
-
-Ejemplo con IndexedDB (app con stores `notes` y `tags`):
-
-```svelte
-<script>
-  import { StorageStatus, BackupPanel, Toaster } from '@swal/ui';
-  import { db } from './db.js'; // wrapper propio de IndexedDB
-
-  const STORES = ['notes', 'tags'];
-  const collect = async () =>
-    Object.fromEntries(await Promise.all(STORES.map(async (s) => [s, await db.getAll(s)])));
-  const apply = async (store, records, mode) => {
-    if (mode === 'replace') await db.clear(store);
-    for (const r of records) await db.put(store, r); // put = upsert (merge)
-  };
-</script>
-
-<Toaster />
-<StorageStatus />
-<BackupPanel appId="mi-app" schemaVersion={3} {collect} {apply} onRestored={() => location.reload()} />
-```
-
-En tu capa de escritura, captura `isQuotaError(err)` para avisar al usuario y sugerir exportar un respaldo.
-
-## Package Exports
-
-| Export | Contenido |
-|--------|-----------|
-| `@swal/ui` | Todos los componentes |
-| `@swal/ui/components/*.svelte` | Componente individual |
-| `@swal/ui/tokens` | theme.css + colors.css |
-| `@swal/ui/tokens/fonts.css` | Presets de tipografía (`data-font`) |
-| `@swal/ui/fonts.css` | Alias directo de presets tipográficos |
-| `@swal/ui/antigravity.css` / `@swal/ui/tokens/antigravity.css` | Tema Antigravity dual (dark/hueso light) |
-| `@swal/ui/taller.css` / `@swal/ui/tokens/taller.css` | Tema Taller dual (plano tecnico claro / garaje oscuro) |
-| `@swal/ui/bone-taller.css` / `@swal/ui/tokens/bone-taller.css` | Capa Bone Taller: Bone + acento naranja de Taller (`data-accent="taller"`) |
-| `@swal/ui/theme-mode` | `themeModeScript()`, `getThemeMode()`, `setThemeMode()` — claro/oscuro/sistema sin parpadeo |
-| `@swal/ui/prefs` | `createPrefsStore()`, `resolvePrefs()`, `prefsBootstrapScript()` — menus y paneles activables por el usuario |
-| `@swal/ui/tikpro.css` | Tema Sci-Fi TikPro |
-| `@swal/ui/tokens.css` | Alias de theme.css (para `?inline`) |
-| `@swal/ui/icons` | `ICONS`, `registerIcons`, `getIcon` |
-| `@swal/ui/nav` | `isNavActive`, `findCurrentNav` |
-| `@swal/ui/theme-boot` | `themeBootScript`, `THEME_BOOT_SCRIPT`, `NAV_BOOT_SCRIPT`, `setTheme` |
-| `@swal/ui/motion` | swalFade, swalSlide |
-| `@swal/ui/toast` | store `toast` + `toasts` |
-| `@swal/ui/storage` | `requestPersistence`, `getStorageStatus`, `isQuotaError`, `formatBytes` |
-| `@swal/ui/backup` | `createBackup`, `downloadBackup`, `readBackupFile`, `restoreBackup`, `validateBackup` |
-
-## Tema Taller (plano tecnico)
-
-Hoja de plano clara, tinta casi negra, lineas de plano, UN acento naranja senal y esquinas
-cortadas. Primera app: gara-g (garage 3D y consola de flotas).
-
-```css
-@import '@swal/ui/tokens';
-@import '@swal/ui/taller.css';
-```
-
-```astro
----
-import { themeModeScript } from '@swal/ui/theme-mode';
----
-<html data-theme="taller">
-  <head><script is:inline set:html={themeModeScript()} /></head>
-```
-
-- `data-theme="taller"` (claro, default) / `"taller-dark"`; el modo del usuario va en
-  `localStorage['swal:theme-mode']` = `light | dark | system`. Cambiarlo: `setThemeMode('dark')`
-  (o `window.swalTheme.set`); escuchar `swal:themechange` en `document`.
-- El naranja `--swal-accent` es para rellenos; el texto naranja usa `--swal-accent-text` y el texto
-  sobre naranja `--swal-accent-contrast`. Contrastes medidos en el encabezado de `taller.css`.
-- Utilidades: `.swal-chamfer-sm | .swal-chamfer | .swal-chamfer-lg`, `.swal-card-frame` +
-  `.swal-card-inner` (borde de 1px con esquinas cortadas), `.swal-blueprint-bg`, `.swal-kicker`,
-  `.swal-tick`, `.swal-scrollbar`.
-
-## Tema Bone Taller (Bone + naranja Taller)
-
-El tema Bone tal cual (Papel Alabastro / Carbon Mineral, un solo tono de piedra, glass tactil)
-con el naranja senal de Taller `#FF6A13` como UNICO acento: accion primaria, anillo de foco,
-seleccion y navegacion activa. Es una capa sobre `theme.css`: no repite ningun neutro.
+Combines Bone neutrals with the Taller signal orange (`#FF6A13`) accent:
 
 ```css
 @import '@swal/ui/tokens';
 @import '@swal/ui/bone-taller.css';
 ```
 
-```astro
----
-import { themeModeScript } from '@swal/ui/theme-mode';
----
+```html
 <html data-accent="taller" data-theme="light">
-  <head><script is:inline set:html={themeModeScript({ light: 'light', dark: 'dark', themeColor: { light: '#FAF9F5', dark: '#121211' } })} /></head>
 ```
 
-- El modo va en `data-theme` (`light` | `dark` | sin atributo = sistema), igual que Bone.
-- Tokens nuevos: `--swal-accent-text` (naranja legible como texto: `#B44709` claro, `#FF8A45`
-  oscuro), `--swal-focus-ring` y `--swal-selection`. El texto sobre naranja es `--swal-on-accent`
-  = piedra `#1C1917` en los dos modos (marfil daria 2.72:1). Contrastes medidos en el encabezado
-  de `bone-taller.css`.
-- Es la fuente del paquete Flutter `swal_ui` (`flutter/`): `pnpm gen:flutter` regenera
-  `flutter/lib/src/tokens.g.dart` y `tests/flutter-tokens.test.js` falla si queda desactualizado.
-  El generador exige que el naranja de esta capa sea el mismo que el de `taller.css`.
+### Taller Blueprint Theme
 
-## Paquete Flutter (`flutter/`)
+A technical drawing aesthetic featuring architectural grid lines, chamfered corners, and signal orange highlights:
 
-`swal_ui` es el mismo design system en Flutter (Material 3, sin dependencias): `SwalTheme.light()`
-/ `.dark()`, `SwalThemeMode`, `SwalPalette`, `SwalTokens`, y los widgets `SwalPage`, `SwalCard`,
-`SwalButton`, `SwalTextField`, `SwalSectionHeader`, `SwalEmptyState`, `SwalBrandMark`,
-`SwalStatusBadge`. Instalacion, API y tabla de tokens en [`flutter/README.md`](./flutter/README.md).
-
-```yaml
-dependencies:
-  swal_ui:
-    git: { url: https://github.com/iberi22/swal-ui, path: flutter, ref: <tag-o-sha> }
+```css
+@import '@swal/ui/tokens';
+@import '@swal/ui/taller.css';
 ```
 
-## Preferencias de interfaz (`@swal/ui/prefs`)
+```html
+<html data-theme="taller"> <!-- or "taller-dark" -->
+```
 
-Menus y paneles que el usuario activa, oculta y ajusta, declarados con un esquema. Tipos en
-`src/lib/prefs/types.d.ts`. Primer consumidor: GARA-G (`lib/prefs.config.ts`).
+### Typography Presets (`data-font`)
+
+Four opt-in typography presets configured via `data-font`:
+
+| Preset | Heading / UI Font | Monospace Font | Description |
+|---|---|---|---|
+| `inter` | Inter, system-ui | Fira Code, monospace | Default SWAL typography |
+| `jetbrains` | JetBrains Mono, monospace | JetBrains Mono, monospace | Technical all-monospace aesthetic |
+| `system` | system-ui, -apple-system | ui-monospace, SFMono | Native OS fonts (zero external font downloads) |
+| `fira` | Fira Sans, sans-serif | Fira Code, monospace | Technical editorial typography |
+
+Activate via HTML attribute:
+
+```html
+<html data-font="jetbrains">
+```
+
+Or via direct CSS import:
+
+```css
+@import '@swal/ui/fonts.css';
+```
+
+---
+
+## Offline-First: Storage & Backup
+
+APIs and components for resilient offline web applications.
+
+```svelte
+<script>
+  import { StorageStatus, BackupPanel, Toaster } from '@swal/ui';
+  import { requestPersistence, getStorageStatus, isQuotaError } from '@swal/ui/storage';
+  import { createBackup, restoreBackup } from '@swal/ui/backup';
+
+  const collect = async () => ({
+    notes: [/* IndexedDB records */]
+  });
+
+  const apply = async (store, records, mode) => {
+    // restore records into local database
+  };
+</script>
+
+<Toaster />
+<StorageStatus />
+<BackupPanel
+  appId="my-app"
+  schemaVersion={1}
+  {collect}
+  {apply}
+  onRestored={() => location.reload()}
+/>
+```
+
+Exported Storage Utilities:
+- `requestPersistence()`: Requests durable browser storage quota.
+- `getStorageStatus()`: Returns `{ quota, usage, percentage, persisted }`.
+- `isQuotaError(error)`: Detects browser quota exhaustion errors.
+- `formatBytes(bytes)`: Formats byte numbers into human-readable strings.
+
+Exported Backup Utilities:
+- `createBackup({ appId, version, data })`: Generates a structured JSON backup payload.
+- `downloadBackup(payload, filename)`: Triggers browser file download.
+- `readBackupFile(file)`: Parses and validates uploaded backup files.
+- `validateBackup(payload, schema)`: Verifies backup integrity.
+
+---
+
+## User Preferences (`@swal/ui/prefs`)
+
+Modular user preferences engine with customizable panels and zero-flash head bootstrapping.
 
 ```ts
 import { createPrefsStore, prefsBootstrapScript, isPanelEnabled, panelOption } from '@swal/ui/prefs';
 
 const schema = {
   version: 1,
-  modules: [{ id: 'dashboard', label: 'Dashboard', group: 'Inicio', default: true, required: true },
-            { id: 'fuel', label: 'Combustible', group: 'Operacion', default: true }],
-  panels: [{ id: 'callouts', label: 'Llamadas', scope: 'Garage', default: true,
-             options: [{ id: 'max', label: 'Maximo', type: 'number', default: 6, min: 1, max: 12 }] }],
-  presets: [{ id: 'personal', label: 'Mi vehiculo', modules: { fuel: false } }],
+  modules: [
+    { id: 'dashboard', label: 'Dashboard', group: 'General', default: true, required: true },
+    { id: 'telemetry', label: 'Telemetry', group: 'Advanced', default: false }
+  ],
+  panels: [
+    {
+      id: 'notifications',
+      label: 'Notifications',
+      scope: 'Global',
+      default: true,
+      options: [{ id: 'frequency', label: 'Frequency', type: 'number', default: 5, min: 1, max: 60 }]
+    }
+  ],
+  presets: [
+    { id: 'minimal', label: 'Minimal Mode', modules: { telemetry: false } }
+  ]
 };
+
 const store = createPrefsStore({ schema, endpoint: '/api/prefs', storageKey: 'app:prefs' });
-await store.load();                       // GET { prefs } — servidor = fuente de verdad
-panelOption(store.get(), 'callouts', 'max', 6);
-await store.save({ ...store.get(), onboarded: true });   // PUT { prefs }
 ```
 
-- `resolvePrefs(schema, stored)` valida todo lo guardado: descarta claves desconocidas, vuelve al
-  default si el tipo no cuadra, acota numeros y deja siempre activos los `required`. Cambiar
-  `version` vuelve a pedir onboarding sin perder las elecciones.
-- En el `<head>`, `<script is:inline set:html={prefsBootstrapScript({ storageKey: 'app:prefs' })} />`
-  oculta sin parpadeo cualquier `[data-pref-module="id"]` o `[data-pref-panel="id"]` apagado y se
-  re-aplica con `swal:prefschange` y `astro:after-swap`.
-- El endpoint es de la app: guarda `{ prefs }` por usuario y responde `{ prefs }` resueltas.
+Components:
+- `<OnboardingWizard {schema} value={prefs} onfinish={(p) => store.save(p)} />`
+- `<PrefsEditor {schema} value={prefs} onchange={(p) => (prefs = p)} />`
+- `<ThemeModeSwitch />`
 
-### Componentes: onboarding, ajustes y tema
+---
 
-```svelte
-<script>
-  import { OnboardingWizard, PrefsEditor, ThemeModeSwitch } from '@swal/ui';
-  let prefs = $state(store.get());   // schema y store como arriba
-</script>
+## Vendored Drift Detection
 
-<!-- Asistente de bienvenida (perfil, menu, paneles, listo); emite solo al terminar con onboarded:true -->
-<OnboardingWizard {schema} value={prefs} title="Bienvenido"
-  onfinish={(p) => store.save(p)} onskip={() => {}} />
+Consuming apps that vendor component copies can detect drift using the included CLI binary:
 
-<!-- Editor de ajustes; no muta value, emite un objeto nuevo. sections: 'modules' | 'panels' -->
-<PrefsEditor {schema} value={prefs} onchange={(p) => (prefs = p)} sections={['modules', 'panels']} />
-
-<!-- Claro / Oscuro / Sistema (requiere themeModeScript() en el <head>; escucha swal:themechange) -->
-<ThemeModeSwitch />
+```bash
+npx swal-check-vendored-drift path/to/local/copy
 ```
+
+---
+
+## Flutter Companion Package (`flutter/`)
+
+The design system is available for Flutter as the Dart package `swal_ui`. See [`flutter/README.md`](./flutter/README.md) for widgets, `ThemeData`, and installation instructions.
+
+---
+
+## Package Exports Summary
+
+| Export Path | Contents |
+|---|---|
+| `@swal/ui` | All 27 Svelte 5 components and core library helpers |
+| `@swal/ui/components/*.svelte` | Individual component entry points |
+| `@swal/ui/tokens` / `@swal/ui/tokens.css` | Bone theme custom properties (`theme.css`) |
+| `@swal/ui/colors` | Raw color palette variables (`colors.css`) |
+| `@swal/ui/fonts.css` / `@swal/ui/tokens/fonts.css` | Typography presets (`data-font`) |
+| `@swal/ui/themes.css` | Master stylesheet importing all token layers |
+| `@swal/ui/ui.css` | Compiled component styling rules |
+| `@swal/ui/bone-taller.css` | Bone Taller accent layer (`data-accent="taller"`) |
+| `@swal/ui/taller.css` | Taller blueprint dual theme |
+| `@swal/ui/antigravity.css` | Antigravity dual theme |
+| `@swal/ui/tikpro.css` | TikPro high-contrast sci-fi telemetry theme |
+| `@swal/ui/theme-mode` | Theme mode helpers: `getThemeMode()`, `setThemeMode()`, `themeModeScript()` |
+| `@swal/ui/theme-boot` | Zero-flash bootstrapping scripts (`themeBootScript`) |
+| `@swal/ui/prefs` | Schema-driven preference store and helpers |
+| `@swal/ui/motion` | Transitions: `swalFade`, `swalSlide` |
+| `@swal/ui/toast` | Reactive toast notification store (`toast`) |
+| `@swal/ui/storage` | Storage persistence and quota monitor helpers |
+| `@swal/ui/backup` | Offline backup export and restoration utilities |
+| `@swal/ui/icons` | Icon registry: `ICONS`, `registerIcons`, `getIcon` |
+| `@swal/ui/nav` | Navigation helpers: `isNavActive`, `findCurrentNav` |
+
+---
 
 ## License
 
-SWAL Ecosystem — Apache-2.0.
+Licensed under the **Apache License 2.0** — see [LICENSE](./LICENSE).
 
+---
+
+*SouthWest AI Labs (SWAL) · Bone Theme & Svelte 5 UI Component Library*
