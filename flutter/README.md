@@ -1,17 +1,12 @@
 # swal_ui (Flutter)
 
-Design system de SWAL para Flutter. Tema **Bone Taller**: los neutros de piedra
-del tema Bone de la web (Papel Alabastro `#FAF9F5` / Carbon Mineral `#121211`,
-jerarquia por opacidad, glass tactil) con el naranja de Taller `#FF6A13` como
-**unico** acento: accion primaria, anillo de foco, seleccion y navegacion activa.
-El resto es piedra; los unicos otros colores son semanticos (exito, aviso, error, info).
+SWAL design system for Flutter. **Bone Taller** theme: stone neutrals from the web Bone theme (Alabaster Paper `#FAF9F5` / Mineral Carbon `#121211`, opacity-based hierarchy, tactile glass) with Taller orange `#FF6A13` as the **only** accent: primary action, focus ring, selection, and active navigation. The rest is stone; the only other colors are semantic (success, warning, danger, info).
 
-Material 3 normal (`ThemeData`), sin dependencias aparte de Flutter. Requiere
-Flutter >= 3.32 / Dart >= 3.8.
+Standard Material 3 (`ThemeData`), zero dependencies beyond Flutter. Requires Flutter >= 3.32 / Dart >= 3.8.
 
-## Instalar
+## Installation
 
-No esta en pub.dev: se usa como dependencia git, fijada a un commit o tag.
+This package is not published on pub.dev. Consume it as a git dependency pinned to a tag or commit SHA:
 
 ```yaml
 dependencies:
@@ -19,10 +14,10 @@ dependencies:
     git:
       url: https://github.com/iberi22/swal-ui
       path: flutter
-      ref: <tag-o-sha>   # p. ej. el SHA del commit que quieras fijar
+      ref: <tag-or-sha>   # e.g. the commit SHA or tag you want to pin
 ```
 
-## Uso
+## Usage
 
 ```dart
 import 'package:swal_ui/swal_ui.dart';
@@ -35,97 +30,91 @@ MaterialApp(
     appBar: AppBar(title: const SwalBrandMark(product: 'Fize')),
     body: SwalPage(
       child: Column(children: [
-        const SwalSectionHeader(kicker: 'Facturacion', title: 'Facturas'),
-        SwalCard(child: Text('Hola')),
-        SwalButton.primary(label: 'Pagar', onPressed: () {}),
+        const SwalSectionHeader(kicker: 'Billing', title: 'Invoices'),
+        SwalCard(child: Text('Hello')),
+        SwalButton.primary(label: 'Pay', onPressed: () {}),
       ]),
     ),
   ),
 );
 ```
 
-| API | Que es |
-|-----|--------|
-| `SwalTheme.light()` / `.dark()` / `.of(brightness)` / `.fromPalette(p)` | `ThemeData` M3 completo: ColorScheme, escala tipografica, botones Filled/Outlined/Text/Icon, InputDecoration, Card, Dialog, SnackBar, AppBar plana, Divider, Chip, ListTile, NavigationBar/Rail/Drawer, TabBar, Checkbox/Radio/Switch, Tooltip, Menu. `bundledFonts: false` usa las fuentes del sistema. |
-| `SwalThemeMode` | `light` / `dark` / `system`; `.themeMode`, `.resolve()`, `.next`, `parse()`. Los valores y la clave (`swal:theme-mode`) son los de `@swal/ui/theme-mode` en la web. |
-| `SwalPalette` | `ThemeExtension` con todos los tokens de color (`SwalPalette.of(context).accentText`) y sombras. `over()` compone un color translucido sobre el canvas. |
-| `SwalTypography` | `ThemeExtension` con `mono` (JetBrains Mono, solo datos) y `kicker` (rotulo mono en mayusculas). |
-| `SwalTokens` | Espacio 4/8/12/16/24/32/48, radios, duraciones y curvas, breakpoints (compact < 600, medium < 1024, expanded), `pageMaxWidth`. |
-| `SwalBreakpoint` | `fromWidth(w)` y `pagePadding` (16 / 24 / 32). |
-| `SwalContrast` | `ratio()` y `composite()` WCAG 2.2, para comprobar colores propios. |
-| `SwalPage` | Contenido centrado con ancho maximo y relleno responsive; scroll opcional. |
-| `SwalCard` | Glass tactil: superficie translucida + borde 1px + sombra difusa; `blur`, `elevated`, `selected`, `onTap`. |
-| `SwalButton` | `.primary` (naranja) / `.secondary` (piedra) / `.ghost` / `.danger`; `icon`, `loading`, `expand`, `size`. |
-| `SwalTextField` | Etiqueta encima, ayuda / error debajo, `mono` para datos. |
-| `SwalSectionHeader` | Rotulo + titulo + subtitulo + accion a la derecha. |
-| `SwalEmptyState` | Icono, titulo, mensaje y accion. |
-| `SwalBrandMark` | Senal naranja + wordmark "SWAL" + nombre del producto. |
-| `SwalStatusBadge` | `SwalStatus.success / warning / danger / info / neutral`: el unico color fuera del acento. |
+| API | Description |
+|-----|-------------|
+| `SwalTheme.light()` / `.dark()` / `.of(brightness)` / `.fromPalette(p)` | Full M3 `ThemeData`: ColorScheme, typographic scale, Filled/Outlined/Text/Icon buttons, InputDecoration, Card, Dialog, SnackBar, flat AppBar, Divider, Chip, ListTile, NavigationBar/Rail/Drawer, TabBar, Checkbox/Radio/Switch, Tooltip, Menu. `bundledFonts: false` uses system fonts. |
+| `SwalThemeMode` | `light` / `dark` / `system`; `.themeMode`, `.resolve()`, `.next`, `parse()`. Storage key (`swal:theme-mode`) and values match `@swal/ui/theme-mode` on the web. |
+| `SwalPalette` | `ThemeExtension` with all color tokens (`SwalPalette.of(context).accentText`) and shadows. `over()` composites a translucent color over the canvas. |
+| `SwalTypography` | `ThemeExtension` with `mono` (JetBrains Mono, data only) and `kicker` (uppercase monospace label). |
+| `SwalTokens` | Spacing scale (4, 8, 12, 16, 24, 32, 48), corner radii, durations and curves, breakpoints (compact < 600, medium < 1024, expanded), `pageMaxWidth`. |
+| `SwalBreakpoint` | `fromWidth(w)` and `pagePadding` (16 / 24 / 32). |
+| `SwalContrast` | WCAG 2.2 `ratio()` and `composite()`, for checking custom colors. |
+| `SwalPage` | Centered content with maximum width and responsive padding; optional scrolling. |
+| `SwalCard` | Tactile glass: translucent surface + 1px border + diffuse shadow; `blur`, `elevated`, `selected`, `onTap`. |
+| `SwalButton` | `.primary` (orange) / `.secondary` (stone) / `.ghost` / `.danger`; `icon`, `loading`, `expand`, `size`. |
+| `SwalTextField` | Label positioned above field, helper / error below, `mono` for data. |
+| `SwalSectionHeader` | Label + title + subtitle + right-aligned trailing action. |
+| `SwalEmptyState` | Icon, title, message, and action button. |
+| `SwalBrandMark` | Orange tick mark + "SWAL" wordmark + product name. |
+| `SwalStatusBadge` | `SwalStatus.success / warning / danger / info / neutral`: the only color outside the accent. |
 
-Reglas del tema (las mismas que en la web):
+Theme rules (identical to the web):
 
-- El naranja de **relleno** (`accent`) no es legible como texto sobre papel (2.72:1).
-  Texto o icono naranja → `accentText`; texto sobre naranja → `onAccent` (piedra `#1C1917`).
-- Una sola accion primaria por pantalla. Lo demas, `secondary` o `ghost`.
-- `textFaint` es decorativo (no pasa AA); para metadatos usa `textMuted`.
+- Fill orange (`accent`) is not legible as text over paper (2.72:1). Orange text or icon &rarr; `accentText`; text over orange &rarr; `onAccent` (stone `#1C1917`).
+- Exactly one primary action per screen. All other actions should use `secondary` or `ghost`.
+- `textFaint` is decorative (does not pass AA); use `textMuted` for metadata.
 
-## Tokens: generados desde la web
+## Tokens: Generated from the Web
 
-`lib/src/tokens.g.dart` **no se edita a mano**. Lo escribe
-`scripts/gen-flutter-tokens.mjs` (raiz del repo) a partir de:
+`lib/src/tokens.g.dart` **is not edited by hand**. It is generated by `scripts/gen-flutter-tokens.mjs` (repository root) from:
 
-- `src/tokens/theme.css` — tema Bone: neutros, semanticos, sombras, radios, espacio, tiempos.
-- `src/tokens/bone-taller.css` — la capa de acento naranja (la combinacion se define AQUI, una vez).
-- `src/tokens/taller.css` — solo se compara: el generador falla si el naranja de
-  `bone-taller.css` deja de ser el de Taller.
+- `src/tokens/theme.css` &mdash; Bone theme: neutrals, semantics, shadows, radii, spacing, timings.
+- `src/tokens/bone-taller.css` &mdash; orange accent layer (the combination is defined HERE once).
+- `src/tokens/taller.css` &mdash; comparison reference: the generator fails if the orange in `bone-taller.css` diverges from Taller.
 
 ```bash
-pnpm gen:flutter                                   # regenerar
-node scripts/gen-flutter-tokens.mjs --check        # exit 1 si esta desactualizado
+pnpm gen:flutter                                   # regenerate
+node scripts/gen-flutter-tokens.mjs --check        # exit 1 if out of date
 ```
 
-`pnpm test` incluye `tests/flutter-tokens.test.js`, que falla si alguien cambia un
-token CSS y no regenera el archivo Dart.
+`pnpm test` includes `tests/flutter-tokens.test.js`, which fails if someone changes a CSS token without regenerating the Dart file.
 
-### Mapeo de tokens
+### Token Mapping
 
-| Token CSS | Campo Dart | Claro | Oscuro |
-|-----------|-----------|-------|--------|
+| CSS Token | Dart Field | Light | Dark |
+|-----------|------------|-------|------|
 | `--swal-bg` | `bg` | `#FAF9F5` | `#121211` |
 | `--swal-surface` | `surface` | `rgba(255,255,255,.9)` | `rgba(28,25,23,.85)` |
 | `--swal-elevated` | `elevated` | `rgba(255,255,255,.95)` | `rgba(28,27,25,.92)` |
 | `--swal-border` | `border` | `rgba(231,229,228,.8)` | `rgba(68,64,60,.5)` |
 | `--swal-text` | `text` | `#1C1917` | `#F5F5F4` |
-| `--swal-text-secondary` | `textSecondary` | `#1C1917` al 78 % | `#F5F5F4` al 74 % |
-| `--swal-text-muted` | `textMuted` | `#1C1917` al 65 % | `#F5F5F4` al 55 % |
+| `--swal-text-secondary` | `textSecondary` | `#1C1917` at 78% | `#F5F5F4` at 74% |
+| `--swal-text-muted` | `textMuted` | `#1C1917` at 65% | `#F5F5F4` at 55% |
 | `--swal-accent` | `accent` | `#FF6A13` | `#FF6A13` |
 | `--swal-accent-hover` | `accentHover` | `#E85A06` | `#FF8A45` |
-| `--swal-accent-muted` | `accentMuted` | `#FF6A13` al 12 % | `#FF6A13` al 16 % |
+| `--swal-accent-muted` | `accentMuted` | `#FF6A13` at 12% | `#FF6A13` at 16% |
 | `--swal-accent-text` | `accentText` | `#B44709` | `#FF8A45` |
 | `--swal-on-accent` | `onAccent` | `#1C1917` | `#1C1917` |
 | `--swal-focus-ring` | `focusRing` | `#B44709` | `#FF6A13` |
-| `--swal-selection` | `selection` | `#FF6A13` al 24 % | `#FF6A13` al 32 % |
+| `--swal-selection` | `selection` | `#FF6A13` at 24% | `#FF6A13` at 32% |
 | `--swal-success / warning / danger / info` | `success` ... | `#047857` `#B45309` `#DC2626` `#0369A1` | `#34D399` `#FBBF24` `#FB7185` `#7DD3FC` |
 | `--swal-shadow(-sm/-lg)` | `shadow` ... | `BoxShadow` | `BoxShadow` |
-| `--swal-radius-*`, `--swal-space-*`, `--swal-transition*` | `SwalTokenValues.*` → `SwalTokens.*` | — | — |
+| `--swal-radius-*`, `--swal-space-*`, `--swal-transition*` | `SwalTokenValues.*` &rarr; `SwalTokens.*` | &mdash; | &mdash; |
 
-La lista completa con valores esta en `lib/src/tokens.g.dart` (cada linea lleva su token CSS).
+The full list with values is located in `lib/src/tokens.g.dart` (each line includes its corresponding CSS token).
 
-## Fuentes
+## Fonts
 
-Inter (400/500/600/700) y JetBrains Mono (400/600), SIL Open Font License 1.1
-(`fonts/OFL-*.txt`). Son instancias estaticas de las fuentes variables originales,
-recortadas a latin + latin extendido A, puntuacion y simbolos (~450 KB en total).
-Con `SwalTheme.light(bundledFonts: false)` se usan las fuentes del sistema.
+Inter (400/500/600/700) and JetBrains Mono (400/600), SIL Open Font License 1.1 (`fonts/OFL-*.txt`). These are static instances of the original variable fonts, subsetted to Latin + Latin Extended-A, punctuation, and symbols (~450 KB total).
+Using `SwalTheme.light(bundledFonts: false)` falls back to system fonts.
 
-## Galeria
+## Gallery
 
 ```bash
 cd flutter/example
 flutter run -d linux
 ```
 
-## Desarrollo
+## Development
 
 ```bash
 cd flutter

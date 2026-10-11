@@ -1,6 +1,6 @@
 # swal_ui_example
 
-Galeria minima de `swal_ui`: todos los widgets en claro, oscuro y sistema.
+Minimal gallery for `swal_ui`: showcases all widgets across light, dark, and system theme modes.
 
 ```bash
 cd flutter/example
