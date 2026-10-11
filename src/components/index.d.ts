@@ -28,6 +28,7 @@ export declare const OnboardingWizard: Component;
 export declare const ThemeModeSwitch: Component;
 export declare const Icon: Component;
 export declare const MobileNav: Component;
+export declare const ConsentBanner: Component;
 export declare const AppShell: Component;
 export declare const StorageStatus: Component;
 export declare const BackupPanel: Component;
