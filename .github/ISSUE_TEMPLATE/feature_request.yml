@@ -1,0 +1,56 @@
+name: "Feature Request"
+description: "Suggest an idea, enhancement, or new component for @swal/ui"
+title: "[FEAT]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Suggest a new component, layout, token set, or capability for `@swal/ui`.
+  - type: input
+    id: title-summary
+    attributes:
+      label: "Proposal Summary"
+      description: "Short summary of the requested feature or component."
+      placeholder: "e.g., Breadcrumb navigation component with Bone tokens"
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: "Motivation & Context"
+      description: "What problem does this solve, and which SWAL applications or workflows benefit?"
+      placeholder: "Explain why this belongs in the core @swal/ui library rather than a single app..."
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: "Proposed Solution & API Design"
+      description: "Describe the proposed component API, props, events, slots/snippets, and token bindings."
+      placeholder: |
+        Props:
+        - items: Array<{ label: string, href: string }>
+        - separator?: Snippet | string
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: "Alternatives Considered"
+      description: "Any alternative designs or workarounds considered?"
+    validations:
+      required: false
+  - type: checkboxes
+    id: principles
+    attributes:
+      label: "Design Principles Alignment"
+      options:
+        - label: "Conforms to Svelte 5 runes ($props, $state, etc.)."
+          required: true
+        - label: "Requires zero runtime dependencies."
+          required: true
+        - label: "Adheres to Bone theme tokens (no hardcoded colors)."
+          required: true
+        - label: "Compatible with Astro SSR and hydration."
+          required: true
