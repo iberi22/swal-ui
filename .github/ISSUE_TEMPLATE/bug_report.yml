@@ -1,0 +1,59 @@
+name: "Bug Report"
+description: "File a bug report for an unexpected behavior or defect in @swal/ui"
+title: "[BUG]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting an issue in `@swal/ui`. Please provide enough context so we can reproduce and diagnose the problem.
+  - type: input
+    id: component
+    attributes:
+      label: "Component or Module"
+      description: "Which component or token file is affected? (e.g. Button.svelte, Modal.svelte, src/tokens/theme.css)"
+      placeholder: "e.g., Modal"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: "Description"
+      description: "A clear and concise description of the bug."
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: "Reproduction Steps"
+      description: "Steps to reproduce the behavior."
+      placeholder: |
+        1. Import `Modal` from `@swal/ui` in Svelte 5 / Astro
+        2. Set prop `open={true}`
+        3. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: "Expected Behavior"
+      description: "What did you expect to happen?"
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: "Environment"
+      description: "Operating system, Node version, browser, Svelte/Astro versions."
+      placeholder: "e.g., Node 22, Svelte 5.0.0, Astro 5, Chrome 130 on Linux"
+    validations:
+      required: false
+  - type: checkboxes
+    id: checklists
+    attributes:
+      label: "Checklist"
+      options:
+        - label: "I have confirmed this bug exists on the latest `@swal/ui` version."
+          required: true
+        - label: "I have checked existing issues to ensure this is not a duplicate."
+          required: true
