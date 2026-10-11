@@ -1,10 +1,10 @@
 <script>
-  // Portado de edge-hive-admin/components/LogViewer.tsx
+  // Ported from edge-hive-admin/components/LogViewer.tsx
   //
   // lines: string[] | Array<{ level, timestamp, message }>
-  // filterLevel: 'debug' | 'info' | 'warn' | 'error' — nivel mínimo visible
-  // autoScroll: boolean — scroll al fondo cuando llegan logs nuevos
-  // maxHeight: string — altura máxima del área de logs (CSS, ej. '300px')
+  // filterLevel: 'debug' | 'info' | 'warn' | 'error' — minimum visible level
+  // autoScroll: boolean — scroll to the bottom when new logs arrive
+  // maxHeight: string — maximum height of the log area (CSS, e.g. '300px')
   let {
     lines = [],
     filterLevel = 'debug',
@@ -17,7 +17,7 @@
 
   let bodyEl = $state(null);
 
-  // Normaliza cada línea (string cruda o LogEntry) a { id, level, text, ts, isEntry }
+  // Normalize each line (raw string or LogEntry) to { id, level, text, ts, isEntry }
   function normalize(line, i) {
     if (typeof line === 'string') {
       const upper = line.toUpperCase();
@@ -43,7 +43,7 @@
     return lines.map(normalize).filter((l) => (LEVEL_ORDER[l.level] ?? 0) >= min);
   });
 
-  // Auto-scroll al fondo cuando llegan líneas nuevas
+  // Auto-scroll to the bottom when new lines arrive
   $effect(() => {
     const n = visibleLines.length;
     n;

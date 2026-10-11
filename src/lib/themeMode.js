@@ -1,16 +1,16 @@
 /**
- * themeMode.js — Modo claro / oscuro / sistema para los temas duales de @swal/ui.
+ * themeMode.js — light / dark / system mode for the dual themes of @swal/ui.
  *
- * Un tema dual son dos valores de `data-theme` en <html> (ej. "taller" / "taller-dark",
- * "antigravity-light" / "antigravity"). La preferencia del usuario se guarda en localStorage
- * (`swal:theme-mode` = 'light' | 'dark' | 'system') y se resuelve al valor de data-theme.
+ * A dual theme is two `data-theme` values on <html> (e.g. "taller" / "taller-dark",
+ * "antigravity-light" / "antigravity"). The user preference is stored in localStorage
+ * (`swal:theme-mode` = 'light' | 'dark' | 'system') and resolved to the data-theme value.
  *
- * Para que no parpadee, el script tiene que correr en el <head> ANTES del primer pintado:
- * `themeModeScript()` devuelve ese script como texto para inyectarlo en linea, por ejemplo en
- * Astro `<script is:inline set:html={themeModeScript()} />` o en SvelteKit `%sveltekit.head%`.
- * Una vez cargado deja `window.swalTheme` ({ get, set, resolved }) y emite el evento
- * `swal:themechange` ({ mode, resolved }) en `document`. Se reaplica en `astro:after-swap`
- * (ClientRouter de Astro reemplaza los atributos de <html> en cada navegacion).
+ * To avoid flashing, the script must run in the <head> BEFORE first paint:
+ * `themeModeScript()` returns that script as text for inline injection, e.g. in
+ * Astro `<script is:inline set:html={themeModeScript()} />` or SvelteKit `%sveltekit.head%`.
+ * Once loaded it leaves `window.swalTheme` ({ get, set, resolved }) and emits the
+ * `swal:themechange` ({ mode, resolved }) event on `document`. It re-applies on `astro:after-swap`
+ * (Astro ClientRouter replaces the <html> attributes on each navigation).
  */
 
 export const THEME_MODE_KEY = 'swal:theme-mode';
@@ -19,7 +19,7 @@ export const THEME_MODES = ['light', 'dark', 'system'];
 /**
  * @param {{ light?: string, dark?: string, defaultMode?: 'light'|'dark'|'system', storageKey?: string,
  *           themeColor?: { light: string, dark: string } }} [opts]
- * @returns {string} script en linea (JavaScript plano) para el <head>
+ * @returns {string} inline script (plain JavaScript) for the <head>
  */
 export function themeModeScript(opts = {}) {
   const cfg = {

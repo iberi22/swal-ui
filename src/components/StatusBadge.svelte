@@ -1,5 +1,5 @@
 <script>
-  // Portado de edge-hive-admin/components/StatusBadge.tsx
+  // Ported from edge-hive-admin/components/StatusBadge.tsx
   let {
     status = 'offline', // 'healthy' | 'warning' | 'error' | 'offline'
     pulse = true,

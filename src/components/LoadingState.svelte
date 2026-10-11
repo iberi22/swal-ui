@@ -1,7 +1,7 @@
 <script>
-  // Portado de edge-hive-admin/components/LoadingState.tsx
-  // error: cuando se setea, muestra estado de error (icono ✗ + mensaje) en vez del spinner.
-  // onretry: callback opcional que renderiza un botón "Retry" (usar junto con error).
+  // Ported from edge-hive-admin/components/LoadingState.tsx
+  // error: when set, shows an error state (✗ icon + message) instead of the spinner.
+  // onretry: optional callback that renders a "Retry" button (use together with error).
   let {
     message = 'Loading...',
     height = '16rem',

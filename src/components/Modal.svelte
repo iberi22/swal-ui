@@ -1,12 +1,12 @@
 <script>
   import { fade, scale } from 'svelte/transition';
 
-  // Portado fielmente de edge-hive-admin/components/Modal.tsx
+  // Ported faithfully from edge-hive-admin/components/Modal.tsx
   let {
     open = $bindable(false),
     title = '',
     size = 'md', // 'sm' | 'md' | 'lg'
-    icon,        // snippet opcional para el header
+    icon,        // optional snippet for the header
     onclose,
     children,
   } = $props();
@@ -20,7 +20,18 @@
     if (e.key === 'Escape' && open) close();
   }
 
-  // Lock del scroll del body mientras el modal está abierto (como el original)
+  // Move keyboard focus into the dialog when it opens (a11y: keyboard users
+  // land inside the modal instead of staying behind the backdrop).
+  let dialogEl = $state();
+  $effect(() => {
+    if (open) {
+      // Wait one macrotask so the dialog node exists after {#if open}.
+      const t = setTimeout(() => dialogEl?.focus({ preventScroll: true }), 0);
+      return () => clearTimeout(t);
+    }
+  });
+
+  // Body scroll lock while the modal is open (as the original)
   $effect(() => {
     if (open) {
       const prev = document.body.style.overflow;
@@ -37,8 +48,10 @@
     <!-- Backdrop -->
     <button class="backdrop" onclick={close} aria-label="Cerrar modal" tabindex="-1"></button>
 
-    <!-- Contenido -->
+    <!-- Content -->
     <div
+      bind:this={dialogEl}
+      tabindex="-1"
       class="modal {size}"
       role="dialog"
       aria-modal="true"
@@ -65,7 +78,7 @@
         {@render children?.()}
       </div>
 
-      <!-- Gradientes decorativos (como el original) -->
+      <!-- Decorative gradients (as the original) -->
       <div class="edge top" aria-hidden="true"></div>
       <div class="edge bottom" aria-hidden="true"></div>
     </div>

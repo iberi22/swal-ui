@@ -1,4 +1,4 @@
-// Primitivos
+// Primitives
 export { default as Button } from './Button.svelte';
 export { default as Card } from './Card.svelte';
 export { default as Badge } from './Badge.svelte';
@@ -8,7 +8,7 @@ export { default as Tabs } from './Tabs.svelte';
 export { default as Skeleton } from './Skeleton.svelte';
 export { default as Modal } from './Modal.svelte';
 
-// Edge-Hive (portados de edge-hive-admin)
+// Edge-Hive (ported from edge-hive-admin)
 export { default as StatusBadge } from './StatusBadge.svelte';
 export { default as LoadingState } from './LoadingState.svelte';
 export { default as Terminal } from './Terminal.svelte';
@@ -23,12 +23,12 @@ export { default as GlobalTicker } from './GlobalTicker.svelte';
 export { default as Landing } from './Landing.svelte';
 export { default as QRCode } from './QRCode.svelte';
 
-// Preferencias y tema
+// Preferences and theme
 export { default as PrefsEditor } from './PrefsEditor.svelte';
 export { default as OnboardingWizard } from './OnboardingWizard.svelte';
 export { default as ThemeModeSwitch } from './ThemeModeSwitch.svelte';
 
-// App shell generico (extraido del rediseno de Fize)
+// Generic app shell (extracted from the Fize redesign)
 export { default as Icon } from './Icon.svelte';
 export { default as MobileNav } from './MobileNav.svelte';
 export { default as AppShell } from './AppShell.svelte';
@@ -36,8 +36,11 @@ export { ICONS, registerIcons, getIcon } from '../lib/icons.js';
 export { isNavActive, findCurrentNav } from '../lib/nav.js';
 export { THEME_BOOT_SCRIPT, themeBootScript, setTheme } from '../lib/theme-boot.js';
 
-// Offline-first: estado de almacenamiento y respaldo/restauracion
+// Offline-first: storage status and backup/restore
 export { default as StorageStatus } from './StorageStatus.svelte';
 export { default as BackupPanel } from './BackupPanel.svelte';
+
+// Privacy: cookie/consent banner (replaces per-app re-implementations)
+export { default as ConsentBanner } from './ConsentBanner.svelte';
 export { requestPersistence, getStorageStatus, isQuotaError, formatBytes } from '../lib/storage.js';
 export { createBackup, downloadBackup, readBackupFile, restoreBackup, validateBackup } from '../lib/backup.js';

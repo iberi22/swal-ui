@@ -3,7 +3,7 @@
   import { toast } from '../lib/toast.svelte.js';
 
   /**
-   * Props (callbacks de la app):
+   * Props (app callbacks):
    *  - appId, schemaVersion
    *  - collect(): Promise<{ [store]: any[] }>
    *  - apply(name, records, mode): Promise<void>

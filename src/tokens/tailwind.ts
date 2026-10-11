@@ -1,7 +1,7 @@
 /**
- * SWAL Tailwind Preset — para apps que usan Tailwind vía config
+ * SWAL Tailwind Preset — for apps using Tailwind via config
  *
- * Uso:
+ * Usage:
  *   tailwind.config.js
  *   module.exports = {
  *     presets: [require('@swal/ui/tokens/tailwind')],

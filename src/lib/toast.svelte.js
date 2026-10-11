@@ -1,17 +1,17 @@
 /**
- * SWAL Toast — store global de notificaciones.
- * Portado de edge-hive-admin/context/ToastContext.tsx.
+ * SWAL Toast — global notification store.
+ * Ported from edge-hive-admin/context/ToastContext.tsx.
  *
- * Uso:
+ * Usage:
  *   import { toast } from '@swal/ui/toast';
  *   import { Toaster } from '@swal/ui';
  *
- *   // En el layout raíz (una sola vez):
+ *   // In the root layout (once):
  *   <Toaster />
  *
- *   // En cualquier parte:
- *   toast.success('Guardado');
- *   const id = toast.loading('Desplegando...');
+ *   // Anywhere:
+ *   toast.success('Saved');
+ *   const id = toast.loading('Deploying...');
  *   toast.dismiss(id);
  */
 

@@ -46,8 +46,8 @@ function createPrefsStore(opts) {
           emit();
         }
       } catch {
-        // Servidor sin respuesta: se sigue con lo que haya en localStorage,
-        // que es exactamente para lo que existe readLocal(). No es un error.
+        // Server without response: carry on with whatever is in localStorage,
+        // which is exactly what readLocal() is for. Not an error.
       }
       return current;
     },

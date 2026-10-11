@@ -1,15 +1,15 @@
 <script>
   import MobileNav from './MobileNav.svelte';
 
-  // Shell generico de app: columna lateral (escritorio) / barra superior con
-  // menu desplegable (movil), zona de contenido y barra superior opcional.
-  // Sin marca ni rutas propias: todo entra por props y snippets.
+  // Generic app shell: sidebar column (desktop) / top bar with
+  // dropdown menu (mobile), content area and optional top action bar.
+  // No branding or own routes: everything comes in via props and snippets.
   //   items:       [{ href, label, icon?, exact? }]
-  //   currentPath: ruta actual (para marcar el item activo)
-  //   brand:       snippet con logo/nombre
-  //   navFooter:   snippet al pie de la barra lateral (perfil, estado, ticker)
-  //   topbar:      snippet de acciones sobre el contenido
-  //   children:    contenido
+  //   currentPath: current path (to mark the active item)
+  //   brand:       snippet with logo/name
+  //   navFooter:   snippet at the foot of the sidebar (profile, status, ticker)
+  //   topbar:      snippet with actions above the content
+  //   children:    content
   let {
     items = [],
     currentPath = '/',
@@ -62,9 +62,9 @@
     font-family: var(--swal-font, ui-sans-serif, system-ui, sans-serif);
   }
 
-  /* El fondo usa --swal-surface: toma la translucidez del tema y el texto
-     mantiene el contraste que el propio tema garantiza (con un rgba fijo el
-     menu salia a 1.09:1 en Fize). */
+  /* The background uses --swal-surface: it picks up the theme translucency and the text
+     keeps the contrast the theme itself guarantees (with a fixed rgba the
+     menu rendered at 1.09:1 in Fize). */
   .sidebar {
     width: 200px;
     flex-shrink: 0;

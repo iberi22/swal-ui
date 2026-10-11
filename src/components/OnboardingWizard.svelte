@@ -1,7 +1,7 @@
 <script>
   /**
-   * OnboardingWizard — Asistente de bienvenida generico: perfil → menu → paneles → listo.
-   * Parte de `value`, edita una copia local y solo emite al terminar (onfinish) con
+   * OnboardingWizard — generic welcome assistant: profile → menu → panels → done.
+   * Starts from `value`, edits a local copy and only emits on finish (onfinish) with
    * onboarded:true. Usa solo var(--swal-*) y las utilidades .swal-*.
    */
   import PrefsEditor from './PrefsEditor.svelte';
@@ -21,7 +21,7 @@
   const TOTAL = 4;
   let step = $state(1);
   let busy = $state(false);
-  // Copia local: el asistente no toca `value` hasta el final.
+  // Local copy: the wizard does not touch `value` until the end.
   // svelte-ignore state_referenced_locally
   let draft = $state(structuredClone($state.snapshot(value)));
 

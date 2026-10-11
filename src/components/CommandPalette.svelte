@@ -1,8 +1,8 @@
 <script>
   import { fade, scale } from 'svelte/transition';
 
-  // Portado de edge-hive-admin/components/CommandPalette.tsx,
-  // generalizado: los items los provee la app (sin vistas hardcodeadas).
+  // Ported from edge-hive-admin/components/CommandPalette.tsx,
+  // generalized: the app provides the items (no hardcoded views).
   //
   // items: [{ id, label, hint?, action: () => void }]
   let {
@@ -21,7 +21,7 @@
     items.filter((it) => it.label.toLowerCase().includes(query.toLowerCase()))
   );
 
-  // Reset al abrir + foco al input (como el original)
+  // Reset on open + focus the input (as the original)
   $effect(() => {
     if (open) {
       query = '';
@@ -31,7 +31,7 @@
   });
 
   $effect(() => {
-    query; // reset de selección al cambiar el filtro
+    query; // reset selection when the filter changes
     selectedIndex = 0;
   });
 

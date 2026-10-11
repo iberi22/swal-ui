@@ -1,9 +1,9 @@
 <script>
   /**
-   * PrefsEditor — Editor generico de preferencias a partir de un PrefsSchema.
-   * Modulos agrupados (interruptores) y paneles por pantalla (interruptor + opciones).
-   * Puro: nunca muta `value`, emite un objeto nuevo por `onchange`.
-   * Usa solo var(--swal-*) y las utilidades .swal-*.
+   * PrefsEditor — generic preferences editor built from a PrefsSchema.
+   * Grouped modules (switches) and per-screen panels (switch + options).
+   * Pure: never mutates `value`, emits a new object via `onchange`.
+   * Uses only var(--swal-*) and the .swal-* utilities.
    */
   import { moduleGroups, panelScopes } from '../lib/prefs/index.js';
 

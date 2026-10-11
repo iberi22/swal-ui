@@ -1,13 +1,13 @@
 <script>
-  // Portado de edge-hive-admin/components/ConfigEditor.tsx
+  // Ported from edge-hive-admin/components/ConfigEditor.tsx
   //
-  // Formulario schema-driven sobre un Record<string, any>.
+  // Schema-driven form over a Record<string, any>.
   //
-  // config: Record<string, any> — valores actuales (iniciales)
+  // config: Record<string, any> — current (initial) values
   // schema: [{ key, label, type: 'string'|'number'|'boolean'|'select', options? }]
-  //         Si está vacío, se infiere el tipo de cada clave de config.
-  // onchange(newConfig) — emitido en cada edición (on:change)
-  // onsave(newConfig)   — opcional, al pulsar Save (fallback: onchange)
+  //         When empty, the type of each config key is inferred.
+  // onchange(newConfig) — emitted on every edit (on:change)
+  // onsave(newConfig)   — optional, on Save press (fallback: onchange)
   let {
     config = {},
     schema = [],
@@ -16,14 +16,14 @@
     onsave,
   } = $props();
 
-  // Borrador inicializado UNA vez desde config; la re-sincronización la
-  // maneja el $effect de abajo (comparación JSON, sin pisar ediciones).
+  // Draft initialized ONCE from config; re-sync is handled by the $effect
+  // below (JSON comparison, without clobbering edits).
   // svelte-ignore state_referenced_locally
   let draft = $state({ ...config });
   let syncedJson = '';
 
-  // Solo re-sincroniza el borrador cuando el padre cambia config de verdad
-  // (comparación JSON), sin pisar ediciones en curso del usuario.
+  // Only re-sync the draft when the parent really changes config
+  // (JSON comparison), without clobbering the user's in-progress edits.
   $effect(() => {
     const cur = JSON.stringify(config);
     if (cur !== syncedJson) {
@@ -49,7 +49,7 @@
     return 'string';
   }
 
-  // Campos: los del schema (en orden) + claves de config no cubiertas
+  // Fields: the ones from the schema (in order) + uncovered config keys
   const fields = $derived.by(() => {
     const schemaKeys = new Set(schema.map((f) => f.key));
     const extra = Object.keys(config)
