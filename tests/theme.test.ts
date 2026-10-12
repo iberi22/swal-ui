@@ -2,9 +2,9 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-// El core esta FUERA del cwd de vitest (que es src-astro), asi que se resuelve
-// desde process.cwd(). No usar __dirname ni import.meta.dirname: este runtime no
-// expone ninguno de los dos (fallo real, no hipotetico).
+// Los fuentes se resuelven desde process.cwd(): vitest corre desde la raiz del
+// paquete. No usar __dirname ni import.meta.dirname: este runtime no expone
+// ninguno de los dos (fallo real, no hipotetico).
 const CORE = resolve(process.cwd());
 const read = (p: string) => readFileSync(resolve(CORE, p), 'utf-8');
 
@@ -12,9 +12,9 @@ const read = (p: string) => readFileSync(resolve(CORE, p), 'utf-8');
  * Tema "Bone" del core @swal/ui — hueso claro / grafito oscuro.
  *
  * Tres cosas que este archivo fija porque son el contrato del tema:
- *   1. tokens.css (raiz) y src/tokens/theme.css son byte-identicos. La app carga
- *      el primero por URL y no puede resolver @import, asi que hay que copiarlos.
- *      Llegan a divergir y la app muestra un tema que el core no tiene.
+ *   1. El export `tokens.css` y src/tokens/theme.css son byte-identicos: el
+ *      alias de package.json sirve el mismo contenido que el fuente, asi que
+ *      los consumidores ven un solo tema aunque lo carguen por distintas rutas.
  *   2. El tema NO usa la paleta Edge-Hive (cyan + orange). Es de un solo tono.
  *   3. Los tokens semanticos estan definidos en AMBOS temas: un componente
  *      escrito con --swal-text no puede romperse al cambiar de tema.
@@ -131,9 +131,9 @@ describe('tema Bone — un solo tono', () => {
   it('los semanticos son los de la paleta propuesta, con dos ajustes medidos', () => {
     // La paleta sugeria #059669 (emerald-600) para exito y #e11d48 (rose-600)
     // para alerta. Medidos sobre el canvas claro (#FAF9F5) dan 3.74:1 y
-    // 4.46:1 — el primero solo AA-large y el segundo por debajo de AA. En Fi'ze
-    // "Pagado" y los errores salen en texto pequeno, asi que se corrigen a tonos
-    // que si pasan AA sin cambiar el color a simple vista.
+    // 4.46:1 — el primero solo AA-large y el segundo por debajo de AA. Estos
+    // tokens se usan en texto pequeno (estados, errores), asi que se corrigen
+    // a tonos que si pasan AA sin cambiar el color a simple vista.
     expect(light['--swal-success']).toBe('#047857');
     expect(light['--swal-danger']).toBe('#dc2626');
     expect(light['--swal-warning']).toBe('#b45309');
