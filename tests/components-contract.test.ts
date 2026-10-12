@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-// Mismo criterio que theme.test.ts: el core esta fuera del cwd de vitest
-// (src-astro), asi que se resuelve desde process.cwd().
+// Mismo criterio que theme.test.ts: los fuentes se resuelven desde
+// process.cwd(), la raiz del paquete donde corre vitest.
 const CORE = resolve(process.cwd());
 const read = (p: string) => readFileSync(resolve(CORE, p), 'utf-8');
 const soloCss = (src: string) =>
@@ -25,7 +25,7 @@ describe('Button — primer plano sobre relleno solido', () => {
 
   it('no pinta texto con un literal de color', () => {
     // `color: #fff` sobre --swal-accent era blanco sobre marfil en oscuro
-    // (1.09:1): los dos CTA de la landing no se leian.
+    // (1.09:1): los CTA no se leian.
     expect(css).not.toMatch(/color:\s*#fff\b/i);
     expect(css).not.toMatch(/color:\s*(#[0-9a-f]{3,8}|white|black)\s*;/i);
   });
@@ -92,7 +92,7 @@ describe('GlobalTicker — cinta de estado', () => {
     expect(rm).toMatch(/\.ticker-clone\s*\{\s*display:\s*none/);
   });
 
-  it('no fuerza mayusculas: la marca se escribe la app, no FI’ZE', () => {
+  it('respeta la caja del texto: no fuerza mayusculas en los avisos', () => {
     expect(css).not.toMatch(/text-transform:\s*uppercase/);
   });
 });
