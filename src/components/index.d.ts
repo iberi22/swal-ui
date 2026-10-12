@@ -32,3 +32,5 @@ export declare const ConsentBanner: Component;
 export declare const AppShell: Component;
 export declare const StorageStatus: Component;
 export declare const BackupPanel: Component;
+export declare const OfflineBanner: Component;
+export declare const InstallPrompt: Component;
