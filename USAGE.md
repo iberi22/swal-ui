@@ -744,7 +744,7 @@ The design system is available for Flutter as the Dart package `swal_ui`. See [`
 
 | Export Path | Contents |
 |---|---|
-| `@swal/ui` | All 29 Svelte 5 components and core library helpers |
+| `@swal/ui` | All 30 Svelte 5 components and core library helpers |
 | `@swal/ui/components/*.svelte` | Individual component entry points |
 | `@swal/ui/tokens` / `@swal/ui/tokens.css` | Bone theme custom properties (`theme.css`) |
 | `@swal/ui/colors` | Raw color palette variables (`colors.css`) |
