@@ -44,10 +44,13 @@ describe('OfflineBanner', () => {
     offline();
     const banner = document.querySelector('[data-testid=swal-offline]');
     expect(banner).not.toBeNull();
-    expect(banner.getAttribute('role')).toBe('status');
-    expect(banner.getAttribute('aria-live')).toBe('polite');
+    const region = banner.closest('[role=status]');
+    expect(region).not.toBeNull();
+    expect(region.getAttribute('aria-live')).toBe('polite');
     online();
     expect(document.querySelector('[data-testid=swal-offline]')).toBeNull();
+    // the live region stays mounted so the next outage is announced
+    expect(document.querySelector('[role=status][aria-live=polite]')).not.toBeNull();
   });
 
   it('dismiss hides until the next offline event, then calls ondismiss', () => {

@@ -46,20 +46,19 @@
   });
 </script>
 
-{#if !online && !dismissed}
-  <div
-    class="swal-offline"
-    role="status"
-    aria-live="polite"
-    data-testid="swal-offline"
-  >
-    <span class="offline-dot" aria-hidden="true"></span>
-    <p class="offline-text">{message}</p>
-    <button type="button" class="offline-dismiss" onclick={dismiss} aria-label={dismissLabel}>
-      ✕
-    </button>
-  </div>
-{/if}
+<!-- The live region is always mounted so screen readers announce the message
+     when it appears; only its content toggles. -->
+<div class="swal-offline-region" role="status" aria-live="polite">
+  {#if !online && !dismissed}
+    <div class="swal-offline" data-testid="swal-offline">
+      <span class="offline-dot" aria-hidden="true"></span>
+      <p class="offline-text">{message}</p>
+      <button type="button" class="offline-dismiss" onclick={dismiss} aria-label={dismissLabel}>
+        ✕
+      </button>
+    </div>
+  {/if}
+</div>
 
 <style>
   .swal-offline {
