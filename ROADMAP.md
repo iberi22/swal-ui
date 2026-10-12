@@ -22,12 +22,12 @@ Official roadmap and engineering milestones for `@swal/ui`, the core design syst
 
 As of version `0.2.0`, the library exhibits the following measured metrics:
 
-- **Component Count**: 28 Svelte components located under `src/components/`:
+- **Component Count**: 31 Svelte component files under `src/components/` (30 exported via `src/components/index.js`; `ConfigFloatingWindow.svelte` is internal-only):
   - *Primitives*: `Button`, `Card`, `Badge`, `Input`, `Table`, `Tabs`, `Skeleton`, `Modal`
   - *System & Edge-Hive*: `StatusBadge`, `LoadingState`, `Terminal`, `CommandPalette`, `Toaster`, `LogViewer`, `ConfigEditor`
   - *Layout & Shell*: `AppShell`, `MobileNav`, `DashboardLayout`, `GlobalTicker`, `Landing`, `Icon`
-  - *Preferences & Offline*: `PrefsEditor`, `OnboardingWizard`, `ThemeModeSwitch`, `StorageStatus`, `BackupPanel`, `ConfigFloatingWindow`, `QRCode`
-- **Test Suite**: 19 test suites, 191 automated unit and DOM tests passing via Vitest (`pnpm test`).
+  - *Preferences & Offline*: `PrefsEditor`, `OnboardingWizard`, `ThemeModeSwitch`, `StorageStatus`, `BackupPanel`, `ConfigFloatingWindow`, `QRCode`, `OfflineBanner`, `InstallPrompt`, `ConsentBanner`
+- **Test Suite**: 22 test files, 208 automated unit and DOM tests passing via Vitest (`pnpm test`).
 - **Package Distribution (`npm pack --dry-run`)**:
   - Compressed Tarball: **89.0 kB**
   - Unpacked Total Size: **311.7 kB**
@@ -59,10 +59,10 @@ As of version `0.2.0`, the library exhibits the following measured metrics:
 #### Concrete Deliverables
 - [ ] **Root and Subpath TypeScript Declarations**:
   - Ship comprehensive `.d.ts` declaration files for `.` (`src/components/index.d.ts`), `./toast`, `./tokens`, `./nav`, `./storage`, and `./backup`.
-  - Export prop interfaces for all 28 components (`ButtonProps`, `ModalProps`, `CardProps`, etc.).
+  - Export prop interfaces for all 30 components (`ButtonProps`, `ModalProps`, `CardProps`, etc.).
   - Remove requirement for consumer-side `declare module '@swal/ui'` overrides in `apps/pisastyle` and `apps/swal-training`.
 - [ ] **Astro Islands Compatibility Test Suite**:
-  - Automated test runner validating server rendering and hydration for all 28 components in an Astro harness (resolving Issue #10: `UI-ASTRO-01`).
+  - Automated test runner validating server rendering and hydration for all 30 components in an Astro harness (resolving Issue #10: `UI-ASTRO-01`).
   - Zero browser-only globals (`window`, `document`, `navigator`) executed during SSR module import.
 - [ ] **WCAG 2.2 Level AA Accessibility Hardening**:
   - Focus trap and `aria-modal="true"` validation in `Modal` and `CommandPalette`.
@@ -75,7 +75,7 @@ As of version `0.2.0`, the library exhibits the following measured metrics:
 #### Exit Criteria
 - `tsc --noEmit` and `pnpm test` pass with 100% type coverage across package exports.
 - Zero consumer apps require manual ambient typing for `@swal/ui` imports.
-- Automated SSR test matrix renders all 28 components without runtime errors.
+- Automated SSR test matrix renders all 30 components without runtime errors.
 - Automated axe audit returns 0 violations on default states.
 
 ---

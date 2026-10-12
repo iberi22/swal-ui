@@ -20,6 +20,27 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm run lint
+
+      - name: Check (theme contract)
+        run: pnpm run check
+
+      - name: Test
+        run: pnpm test
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Verify package contents
+        run: |
+          npm pack --dry-run 2>&1 | tee pack.log
+          for f in dist/ui.css dist/ui.js src/components/index.js; do
+            grep -q "$f" pack.log || { echo "MISSING from pack: $f"; exit 1; }
+          done
+          echo "pack OK: dist and declared exports present"

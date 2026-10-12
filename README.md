@@ -99,7 +99,7 @@ import { Button, StatusBadge, Card } from '@swal/ui';
 
 ## Components
 
-`@swal/ui` exports 27 reusable Svelte 5 components under `src/components/index.js`:
+`@swal/ui` exports 30 reusable Svelte 5 components under `src/components/index.js`:
 
 | Component | Source File | Description / Purpose |
 |---|---|---|
@@ -109,16 +109,19 @@ import { Button, StatusBadge, Card } from '@swal/ui';
 | `Button` | `Button.svelte` | Versatile button component supporting `primary`, `secondary`, `ghost`, and `danger` variants. |
 | `Card` | `Card.svelte` | Elevated content container supporting `default`, `elevated`, and `interactive` card variants. |
 | `CommandPalette` | `CommandPalette.svelte` | Keyboard-accessible command dialog (Ctrl+K / Cmd+K) with fuzzy search filtering. |
+| `ConsentBanner` | `ConsentBanner.svelte` | Cookie/privacy consent banner persisting the visitor decision in `localStorage`, SSR-safe. |
 | `ConfigEditor` | `ConfigEditor.svelte` | Interactive form editor with real-time JSON synchronization and validation. |
 | `DashboardLayout` | `DashboardLayout.svelte` | Responsive multi-column dashboard grid layout for operations and telemetry panels. |
 | `GlobalTicker` | `GlobalTicker.svelte` | High-visibility metric and telemetry stream ticker ribbon. |
 | `Icon` | `Icon.svelte` | Lightweight inline SVG icon renderer integrated with the package icon registry. |
 | `Input` | `Input.svelte` | Accessible text input with label support, validation states, and prefix/suffix slots. |
+| `InstallPrompt` | `InstallPrompt.svelte` | PWA install call-to-action capturing `beforeinstallprompt`, SSR-safe. |
 | `Landing` | `Landing.svelte` | Full-width marketing hero and product showcase landing template. |
 | `LoadingState` | `LoadingState.svelte` | Skeleton placeholder and spinning loader indicator for asynchronous content. |
 | `LogViewer` | `LogViewer.svelte` | Virtualized real-time log viewer console with level filtering and search. |
 | `MobileNav` | `MobileNav.svelte` | Touch-optimized bottom navigation bar and slide-out drawer for mobile devices. |
 | `Modal` | `Modal.svelte` | Dialog modal with backdrop blur, focus trapping, and background scroll locking. |
+| `OfflineBanner` | `OfflineBanner.svelte` | Connectivity banner shown while the browser is offline, dismissible per outage. |
 | `OnboardingWizard` | `OnboardingWizard.svelte` | Multi-step interactive onboarding flow for user preferences and setup. |
 | `PrefsEditor` | `PrefsEditor.svelte` | Schema-driven preferences and panel configuration editor. |
 | `QRCode` | `QRCode.svelte` | Zero-dependency SVG QR code visualizer with accessible labelling. |
