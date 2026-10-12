@@ -660,6 +660,31 @@ Exported Backup Utilities:
 - `readBackupFile(file)`: Parses and validates uploaded backup files.
 - `validateBackup(payload, schema)`: Verifies backup integrity.
 
+## Offline-First: Connectivity & Install
+
+`<OfflineBanner>` shows while the browser is offline (`navigator.onLine === false` /
+`offline` event; `aria-live="polite"`), hides on reconnect, and is dismissible
+(dismiss lasts until the next `offline` event).
+`<InstallPrompt>` captures `beforeinstallprompt`, shows an install CTA, hides after
+install/accept/dismiss, and persists the dismissal in `localStorage`
+(`swal-pwa-install-dismissed` by default). Both render nothing during SSR, so they
+are safe in Astro server islands.
+
+```svelte
+<script>
+  import { OfflineBanner, InstallPrompt } from '@swal/ui';
+</script>
+
+<OfflineBanner
+  message="You are offline. Changes are saved on this device."
+  ondismiss={() => console.log('offline notice dismissed')}
+/>
+<InstallPrompt
+  title="Install this app"
+  oninstall={() => console.log('PWA installed')}
+/>
+```
+
 ---
 
 ## User Preferences (`@swal/ui/prefs`)
@@ -719,7 +744,7 @@ The design system is available for Flutter as the Dart package `swal_ui`. See [`
 
 | Export Path | Contents |
 |---|---|
-| `@swal/ui` | All 27 Svelte 5 components and core library helpers |
+| `@swal/ui` | All 29 Svelte 5 components and core library helpers |
 | `@swal/ui/components/*.svelte` | Individual component entry points |
 | `@swal/ui/tokens` / `@swal/ui/tokens.css` | Bone theme custom properties (`theme.css`) |
 | `@swal/ui/colors` | Raw color palette variables (`colors.css`) |

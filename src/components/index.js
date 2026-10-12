@@ -39,6 +39,8 @@ export { THEME_BOOT_SCRIPT, themeBootScript, setTheme } from '../lib/theme-boot.
 // Offline-first: storage status and backup/restore
 export { default as StorageStatus } from './StorageStatus.svelte';
 export { default as BackupPanel } from './BackupPanel.svelte';
+export { default as OfflineBanner } from './OfflineBanner.svelte';
+export { default as InstallPrompt } from './InstallPrompt.svelte';
 
 // Privacy: cookie/consent banner (replaces per-app re-implementations)
 export { default as ConsentBanner } from './ConsentBanner.svelte';
