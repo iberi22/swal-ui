@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "astro": "^7.2.0",
-    "@astrojs/svelte": "^7.0.0",
+    "@astrojs/svelte": "^9.0.1",
     "svelte": "^5.0.0",
     "@swal/ui": "file:../../"
   }
