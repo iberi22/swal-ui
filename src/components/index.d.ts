@@ -9,6 +9,7 @@ export declare const Card: Component;
 export declare const Badge: Component;
 export declare const Input: Component;
 export declare const Table: Component;
+export declare const EmptyState: Component;
 export declare const Tabs: Component;
 export declare const Skeleton: Component;
 export declare const Modal: Component;
