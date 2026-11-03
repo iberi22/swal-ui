@@ -223,7 +223,7 @@ The design system also ships for Flutter under [`flutter/`](./flutter/README.md)
 dependencies:
   swal_ui:
     git:
-      url: https://github.com/iberi22/swal-ui
+      url: https://github.com/southwest-ai-labs/swal-ui
       path: flutter
       ref: <tag-or-commit>
 ```

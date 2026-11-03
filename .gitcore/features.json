@@ -4,7 +4,25 @@
   "name": "SWAL Design System",
   "metadata": {
     "overall_progress_pct": 100,
-    "last_updated": "2026-08-17"
+    "last_updated": "2026-11-03",
+    "verified_facts": {
+      "measured_on": "origin/main 1c4faa9 (2026-11-03)",
+      "unit_tests": {
+        "files": 24,
+        "count": 219,
+        "passed": 219,
+        "failed": 0,
+        "command": "vitest run -c vite.config.js",
+        "note": "100% pass rate across component reactivity, design tokens, MagicLinkAuth, and XCB1 vault client."
+      },
+      "build_artifacts": {
+        "dist_ui_js": "113.41 kB",
+        "dist_ui_css": "56.64 kB",
+        "command": "pnpm run build",
+        "note": "Zero external runtime dependencies. Production ESM + scoped CSS."
+      },
+      "repository": "https://github.com/southwest-ai-labs/swal-ui"
+    }
   },
   "features": [
     {
@@ -13,19 +31,29 @@
       "status": "completed",
       "progress_pct": 100,
       "passes": true,
-      "last_tested": "2026-07-30",
+      "last_tested": "2026-11-03",
       "implemented_in": "src/tokens/theme.css, src/tokens/colors.css",
-      "notes": "Paleta portada de edge-hive-admin: --swal-bg #020617, --swal-elevated-850 #151e2e, --swal-accent #06b6d4 (cyan), --swal-accent-orange #f97316, glows neon, Inter+Fira Code. CSS custom properties framework-agnostic."
+      "notes": "Framework-agnostic CSS custom properties for dark cyber-industrial palette."
     },
     {
-      "id": "UI-CORE-01",
-      "name": "Core Components — Button, Card, Badge, Input, StatusBadge",
+      "id": "UI-BONE-THEME-01",
+      "name": "Bone Warm Minimalist Palette & Accessible Token System",
       "status": "completed",
       "progress_pct": 100,
       "passes": true,
-      "last_tested": "2026-07-30",
-      "implemented_in": "src/components/Button.svelte, Card.svelte, Badge.svelte, Input.svelte, StatusBadge.svelte",
-      "notes": "Svelte 5 runes, zero-dependency, CSS scoped. Port fiel de edge-hive-admin."
+      "last_tested": "2026-11-03",
+      "implemented_in": "src/tokens/bone-taller.css, src/tokens/themes.css",
+      "notes": "Alabaster Paper (#FAF9F5) and Mineral Charcoal (#121211) tokens. WCAG 2.2 AAA contrast compliance."
+    },
+    {
+      "id": "UI-CORE-01",
+      "name": "Core Components — Button, Card, Badge, Input, StatusBadge, EmptyState",
+      "status": "completed",
+      "progress_pct": 100,
+      "passes": true,
+      "last_tested": "2026-11-03",
+      "implemented_in": "src/components/Button.svelte, Card.svelte, Badge.svelte, Input.svelte, StatusBadge.svelte, EmptyState.svelte",
+      "notes": "Svelte 5 runes native ($state, $derived, $props), zero-dependency, CSS scoped."
     },
     {
       "id": "UI-ADV-01",
@@ -33,9 +61,9 @@
       "status": "completed",
       "progress_pct": 100,
       "passes": true,
-      "last_tested": "2026-07-30",
+      "last_tested": "2026-11-03",
       "implemented_in": "src/components/*.svelte",
-      "notes": "15 componentes totales. CommandPalette (Ctrl+K), Terminal con responsive, Toaster, ConfigEditor con sync JSON. Build verificado (dist/ui.css 23.8KB + ui.js 37.4KB)."
+      "notes": "Complex UI widgets: CommandPalette (Ctrl+K), virtualized/paginated Table with empty seeder, Terminal, Toaster store."
     },
     {
       "id": "UI-STYLES-01",
@@ -43,7 +71,7 @@
       "status": "completed",
       "progress_pct": 100,
       "passes": true,
-      "last_tested": "2026-07-30",
+      "last_tested": "2026-11-03",
       "implemented_in": "src/styles/global.css, src/lib/motion.js, src/lib/toast.svelte.js",
       "notes": "Efecto CRT scanline (.swal-crt), scrollbar industrial, animaciones marquee/flicker/glitch, toast store."
     },
@@ -53,9 +81,9 @@
       "status": "completed",
       "progress_pct": 100,
       "passes": true,
-      "last_tested": "2026-08-09",
+      "last_tested": "2026-11-03",
       "implemented_in": "src/components/, demo/astro-islands/src/pages/index.astro",
-      "notes": "All 18 components verified as Astro islands with SSR and client-side hydration. PR #13."
+      "notes": "All components verified as Astro islands with SSR and client-side hydration (client:load, client:visible)."
     },
     {
       "id": "UI-DASH-01",
@@ -63,9 +91,49 @@
       "status": "completed",
       "progress_pct": 100,
       "passes": true,
-      "last_tested": "2026-08-09",
-      "implemented_in": "src/lib/components/layout/DashboardLayout.svelte, src/lib/components/widgets/GlobalTicker.svelte, src/pages/Landing.svelte",
-      "notes": "DashboardLayout, GlobalTicker, and Landing page templates. PR #12."
+      "last_tested": "2026-11-03",
+      "implemented_in": "src/components/DashboardLayout.svelte, GlobalTicker.svelte, Landing.svelte",
+      "notes": "DashboardLayout, GlobalTicker, and Landing page templates."
+    },
+    {
+      "id": "UI-MAGIC-AUTH-01",
+      "name": "Universal Passwordless MagicLinkAuth Component",
+      "status": "completed",
+      "progress_pct": 100,
+      "passes": true,
+      "last_tested": "2026-11-03",
+      "implemented_in": "src/components/MagicLinkAuth.svelte, tests/MagicLinkAuth.test.js",
+      "notes": "Passwordless authentication with 6-digit numeric PIN fallback, WebCrypto HMAC verification, reactive states, zero external deps. Delivered in PR #41."
+    },
+    {
+      "id": "UI-VAULT-XCB1-01",
+      "name": "Sovereign Encrypted Vault Client (XCB1 binary format)",
+      "status": "completed",
+      "progress_pct": 100,
+      "passes": true,
+      "last_tested": "2026-11-03",
+      "implemented_in": "src/lib/vaultClient.js, src/lib/vaultClient.d.ts, tests/vaultClient.test.js",
+      "notes": "Client-side binary archive packaging (magic bytes XCB1), PBKDF2 100,000 iterations + AES-256-GCM authenticated encryption. Delivered in PR #41."
+    },
+    {
+      "id": "UI-NAV-MOBILE-01",
+      "name": "Mobile Navigation & Responsive Layout Primitives",
+      "status": "completed",
+      "progress_pct": 100,
+      "passes": true,
+      "last_tested": "2026-11-03",
+      "implemented_in": "src/components/MobileNav.svelte, src/components/AppShell.svelte",
+      "notes": "Touch-friendly bottom navigation, safe-area insets, drawer toggles, and compact mobile views for local-first PWAs."
+    },
+    {
+      "id": "UI-STORAGE-BACKUP-01",
+      "name": "StorageStatus & BackupPanel Local Diagnostics",
+      "status": "completed",
+      "progress_pct": 100,
+      "passes": true,
+      "last_tested": "2026-11-03",
+      "implemented_in": "src/components/StorageStatus.svelte, src/components/BackupPanel.svelte, src/lib/storage.js, src/lib/backup.js",
+      "notes": "IndexedDB quota/usage monitoring, export/import trigger panels with visual progress states."
     }
   ]
 }
