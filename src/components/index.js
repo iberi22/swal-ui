@@ -37,11 +37,12 @@ export { ICONS, registerIcons, getIcon } from '../lib/icons.js';
 export { isNavActive, findCurrentNav } from '../lib/nav.js';
 export { THEME_BOOT_SCRIPT, themeBootScript, setTheme } from '../lib/theme-boot.js';
 
-// Offline-first: storage status and backup/restore
+// Offline-first: storage status, backup/restore, and sovereign auth
 export { default as StorageStatus } from './StorageStatus.svelte';
 export { default as BackupPanel } from './BackupPanel.svelte';
 export { default as OfflineBanner } from './OfflineBanner.svelte';
 export { default as InstallPrompt } from './InstallPrompt.svelte';
+export { default as MagicLinkAuth } from './MagicLinkAuth.svelte';
 
 // Privacy: cookie/consent banner (replaces per-app re-implementations)
 export { default as ConsentBanner } from './ConsentBanner.svelte';

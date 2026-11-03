@@ -35,3 +35,4 @@ export declare const StorageStatus: Component;
 export declare const BackupPanel: Component;
 export declare const OfflineBanner: Component;
 export declare const InstallPrompt: Component;
+export declare const MagicLinkAuth: Component;
