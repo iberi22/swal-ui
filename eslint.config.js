@@ -37,6 +37,10 @@ export default [
         // eslint-disable deja la regla sirviendo en el resto del codigo, donde
         // si detectaria un undefined real.
         fetch: 'readonly',
+        TextEncoder: 'readonly',
+        TextDecoder: 'readonly',
+        crypto: 'readonly',
+        Uint8Array: 'readonly',
         CustomEvent: 'readonly',
         $state: 'readonly',
         $derived: 'readonly',
